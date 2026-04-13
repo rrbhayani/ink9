@@ -1,0 +1,109 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "privacy_policy_xrKFVV": {
+      "type": "privacy-policy",
+      "blocks": {
+        "text_block_bGMnwG": {
+          "type": "text_block",
+          "settings": {
+            "heading": "Introduction",
+            "body": "<p>Welcome to Ink & Toner Store. We are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. This Privacy Policy outlines how we collect, use, and disclose your personal information when you visit our website and purchase our products.</p>"
+          }
+        },
+        "list_block_cA3xXG": {
+          "type": "list_block",
+          "settings": {
+            "heading": "Collection and Use of Personal Information",
+            "intro": "<p>We collect several types of personal information to provide and improve our services to you. These categories include:</p>",
+            "items": "Contact Information: We collect your name, email address, mailing address, and phone number to communicate with you about your orders and inquiries.\nBilling Information: To process your transactions securely, we collect your credit card details and billing address.\nAccount Information: If you create an account with us, we store your username and password to manage your preferences and access.\nPreference Information: We maintain information regarding your product wish lists, order history, and marketing preferences to tailor your shopping experience."
+          }
+        },
+        "text_block_46L844": {
+          "type": "text_block",
+          "settings": {
+            "heading": "How We Use Your Information",
+            "body": "<p>Your information is used to fulfill and manage orders, communicate about orders and support, screen for fraud, and provide information or advertising consistent with your preferences.</p>"
+          }
+        },
+        "text_block_qtghWd": {
+          "type": "text_block",
+          "settings": {
+            "heading": "Sharing Your Information",
+            "body": "<p>We share your personal information with third parties to help us use it as described above (e.g., Shopify, payment processors, shipping partners). We do not sell your personal information.</p>"
+          }
+        },
+        "text_block_66ACap": {
+          "type": "text_block",
+          "settings": {
+            "heading": "Your Rights",
+            "body": "<p>If you are a European resident, you have the right to access personal information we hold about you and to ask that it be corrected, updated, or deleted.</p>"
+          }
+        },
+        "text_block_4YFKfK": {
+          "type": "text_block",
+          "settings": {
+            "heading": "Changes to This Policy",
+            "body": "<p>We may update this policy to reflect changes to our practices or for legal reasons. The \"Last updated\" date shows when it was last revised.</p>"
+          }
+        },
+        "text_block_w9J9Nb": {
+          "type": "text_block",
+          "settings": {
+            "heading": "Contact Us",
+            "body": "<p>Contact us at privacy@inkandtonerstore.com or by mail at 123 Printer Lane, Tech City, TX 12345, United States.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_block_bGMnwG",
+        "list_block_cA3xXG",
+        "text_block_46L844",
+        "text_block_qtghWd",
+        "text_block_66ACap",
+        "text_block_4YFKfK",
+        "text_block_w9J9Nb"
+      ],
+      "name": "Privacy Policy",
+      "settings": {
+        "title": "Privacy Policy",
+        "updated_label": "Last updated",
+        "updated_value": "October 26, 2023",
+        "title_color": "#0d141c",
+        "date_color": "#49739c",
+        "heading_color": "#0d141c",
+        "body_color": "#49739c",
+        "list_color": "#49739c",
+        "link_color": "#0d7ff2",
+        "hero_title_size_mobile": 36,
+        "hero_title_size_desktop": 48,
+        "date_size": 14,
+        "heading_size": 18,
+        "body_size": 16,
+        "list_size": 16,
+        "block_gap": 32,
+        "block_padding": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "privacy_policy_xrKFVV"
+  ]
+}

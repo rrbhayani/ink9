@@ -1,0 +1,147 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "shipping_policy_hJGeTP": {
+      "type": "shipping-policy",
+      "blocks": {
+        "heading_eLDbGi": {
+          "type": "heading",
+          "settings": {
+            "heading_title": "Shipping Policy",
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
+        "intro_ExrbxG": {
+          "type": "intro",
+          "settings": {
+            "intro_text": "<p>At Ink & Toner Store, we are committed to providing you with fast, reliable, and affordable shipping. This policy outlines our shipping procedures and timelines to ensure you know exactly when to expect your order. We want to make your experience as smooth as possible, from checkout to delivery.</p>",
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
+        "free_shipping_YJ7RXT": {
+          "type": "free_shipping",
+          "settings": {
+            "free_shipping_title": "Free Shipping on Orders Over $99*",
+            "free_shipping_text": "We offer free standard shipping on all qualifying orders with a subtotal of $99 or more. This offer is automatically applied at checkout for eligible items.",
+            "free_shipping_note": "*Excludes shipments to Canada, oversized items, and specific remote locations.",
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
+        "processing_Kb69yq": {
+          "type": "processing",
+          "settings": {
+            "processing_heading": "Processing and Delivery Times",
+            "processing_description": "All in-stock orders are processed for shipment the next business day. You will receive a shipping confirmation email with tracking details once your package has been dispatched.",
+            "processing_time_label": "Processing Time:",
+            "processing_time_detail": "Next business day shipping for orders placed before 5 PM EST.",
+            "delivery_label": "Estimated Delivery:",
+            "delivery_detail": "Typically 3-7 business days, depending on your location.",
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
+        "shipping_options_3387hj": {
+          "type": "shipping_options",
+          "settings": {
+            "options_heading": "Shipping Options and Fees",
+            "options_description": "Shipping costs are determined based on the shipping method selected and the destination of the order.",
+            "option_column_title": "Shipping Option",
+            "delivery_column_title": "Estimated Delivery Time",
+            "price_column_title": "Price",
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
+        "shipping_option_row_x4gxDx": {
+          "type": "shipping_option_row",
+          "settings": {
+            "name": "Standard Shipping",
+            "delivery_time": "3-7 Business Days",
+            "price": "$6.99 Flat Rate"
+          }
+        },
+        "shipping_option_row_C3Qkwg": {
+          "type": "shipping_option_row",
+          "settings": {
+            "name": "Expedited Shipping",
+            "delivery_time": "1-2 Business Days",
+            "price": "Please Contact Us"
+          }
+        },
+        "carrier_YCYK3e": {
+          "type": "carrier",
+          "name": "Courier & delays",
+          "settings": {
+            "carrier_heading": "Courier Responsibility and Delays",
+            "carrier_description": "Once a package has been handed over to the shipping courier, liability for delays or damage transfers to the courier. While we will assist in resolving any issues, we are not responsible for delays caused by weather, courier operational issues, or incorrect addresses provided at checkout.",
+            "lost_package_label": "Lost Packages:",
+            "lost_package_detail": "A package is not considered lost until 12 business days have passed since the estimated delivery date.",
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
+        "returns_tracking_r8UYQQ": {
+          "type": "returns_tracking",
+          "settings": {
+            "returns_section_title": "Returns & Exchanges - Order Tracking",
+            "order_tracking_heading": "Order Tracking",
+            "order_tracking_text": "Once your order has shipped, you will receive an email with a tracking number. Please allow 24-48 hours for the tracking information to become available in the courior system.",
+            "returns_heading": "Returns & Exchanges",
+            "returns_text": "For queries regarding returns or exchanges on items damaged during shipping, please contact us directly at",
+            "returns_email": "returns@inkandtonerstore.com",
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
+        "questions_dfhLRf": {
+          "type": "questions",
+          "settings": {
+            "questions_heading": "Questions?",
+            "questions_text": "If you have any further questions or concerns about your order's shipping, please don't hesitate to contact our customer support team.",
+            "questions_cta_link": "/",
+            "questions_cta_label": "Contact Support",
+            "padding_top": 0,
+            "padding_bottom": 2
+          }
+        }
+      },
+      "block_order": [
+        "heading_eLDbGi",
+        "intro_ExrbxG",
+        "free_shipping_YJ7RXT",
+        "processing_Kb69yq",
+        "shipping_options_3387hj",
+        "shipping_option_row_x4gxDx",
+        "shipping_option_row_C3Qkwg",
+        "carrier_YCYK3e",
+        "returns_tracking_r8UYQQ",
+        "questions_dfhLRf"
+      ],
+      "name": "Shipping policy",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "shipping_policy_hJGeTP"
+  ]
+}

@@ -1,0 +1,259 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "about_hero_8EE9zm": {
+      "type": "about-hero",
+      "name": "About Hero",
+      "settings": {
+        "title": "About Ink9 Ltd.",
+        "text": "Ink9 Ltd. is a specialized provider of premium ink and toner cartridges, offering a comprehensive product range that includes high-quality compatible options, original OEM supplies, and essential printing accessories. With a reputation built on delivering affordable, high-quality solutions, we proudly serve customers across Canada.",
+        "title_font_size_mobile": 42,
+        "title_font_size_desktop": 48,
+        "text_font_size": 16,
+        "color_scheme": "",
+        "width_type": "page",
+        "custom_width": 1200,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "about_products_XmTjAh": {
+      "type": "about-products",
+      "blocks": {
+        "product_card_fhjykw": {
+          "type": "product_card",
+          "settings": {
+            "icon": "ink_pen",
+            "title": "Compatible Toner & Drum Cartridge",
+            "description": "Choose from cost-effective compatible options or original manufacturer cartridges."
+          }
+        },
+        "product_card_CmrfgB": {
+          "type": "product_card",
+          "settings": {
+            "icon": "print",
+            "title": "Laser Toner",
+            "description": "High-performance toner cartridges for sharp, professional business documents."
+          }
+        },
+        "product_card_PXDcmi": {
+          "type": "product_card",
+          "settings": {
+            "icon": "inventory_2",
+            "title": "Printing Accessories",
+            "description": "Essential add-ons and supplies to keep your office equipment running smoothly."
+          }
+        }
+      },
+      "block_order": [
+        "product_card_fhjykw",
+        "product_card_CmrfgB",
+        "product_card_PXDcmi"
+      ],
+      "name": "About Products",
+      "settings": {
+        "title": "Our Product Range",
+        "section_title_font_size_mobile": 24,
+        "section_title_font_size_desktop": 30,
+        "product_title_font_size": 18,
+        "product_description_font_size": 14,
+        "icon_size": 36,
+        "color_scheme": "",
+        "width_type": "custom",
+        "custom_width": 1000,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "about_features_RgTYeg": {
+      "type": "about-features",
+      "blocks": {
+        "feature_card_fEEmfN": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "verified",
+            "title": "Quality Guarantee",
+            "description": "Every product is rigorously tested to meet or exceed original manufacturer standards."
+          }
+        },
+        "feature_card_h66JxK": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "sell",
+            "title": "Affordable Solutions",
+            "description": "We offer the best prices on the market without compromising on print quality."
+          }
+        },
+        "feature_card_dAAAEe": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "public",
+            "title": "North American Reach",
+            "description": "Reliable shipping and service coverage\n                    across Canada."
+          }
+        },
+        "feature_card_fDnzMf": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "support_agent",
+            "title": "Expert Support",
+            "description": "Our knowledgeable team is here to help you find the perfect product."
+          }
+        }
+      },
+      "block_order": [
+        "feature_card_fEEmfN",
+        "feature_card_h66JxK",
+        "feature_card_dAAAEe",
+        "feature_card_fDnzMf"
+      ],
+      "name": "About Features",
+      "settings": {
+        "title": "Why Choose Ink9?",
+        "section_title_font_size_mobile": 24,
+        "section_title_font_size_desktop": 30,
+        "feature_title_font_size": 18,
+        "feature_description_font_size": 14,
+        "icon_size": 30,
+        "color_scheme": "",
+        "width_type": "custom",
+        "custom_width": 1000,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "about_mission_8iDL8M": {
+      "type": "about-mission",
+      "name": "About Mission",
+      "settings": {
+        "title": "Our Mission",
+        "text": "At Ink9 Ltd., our mission is driven by a dedication to excellence in product performance and customer service. We take immense pride in the quality and reliability of our supplies, striving to be the most trusted partner for all your printing needs.",
+        "title_font_size_mobile": 24,
+        "title_font_size_desktop": 30,
+        "text_font_size": 16,
+        "color_scheme": "",
+        "width_type": "page",
+        "custom_width": 1200,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "about_promise_E8G8Dk": {
+      "type": "about-promise",
+      "name": "About Promise",
+      "settings": {
+        "icon": "workspace_premium",
+        "title": "Our Customer Promise",
+        "text": "We are committed to your complete satisfaction. We back every order with a 100% Satisfaction Guarantee—delivering pride in quality and reliability you can trust.",
+        "color_scheme": "",
+        "background_color": "#0d7ff2",
+        "background_opacity": 10,
+        "icon_color": "#0d7ff2",
+        "title_color": "#0d7ff2",
+        "text_color": "#0d141c",
+        "title_font_size_mobile": 24,
+        "title_font_size_desktop": 30,
+        "text_font_size": 18,
+        "icon_size": 48,
+        "width_type": "page",
+        "custom_width": 1200,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "about_commitment_xgYeLW": {
+      "type": "about-commitment",
+      "blocks": {
+        "commitment_item_Ni7KYM": {
+          "type": "commitment_item",
+          "settings": {
+            "icon": "check_circle",
+            "text": "Unmatched Quality"
+          }
+        },
+        "commitment_item_QftfiV": {
+          "type": "commitment_item",
+          "settings": {
+            "icon": "check_circle",
+            "text": "Customer Service Excellence"
+          }
+        },
+        "commitment_item_m6PJAf": {
+          "type": "commitment_item",
+          "settings": {
+            "icon": "check_circle",
+            "text": "Reliable Performance"
+          }
+        }
+      },
+      "block_order": [
+        "commitment_item_Ni7KYM",
+        "commitment_item_QftfiV",
+        "commitment_item_m6PJAf"
+      ],
+      "name": "About Commitment",
+      "settings": {
+        "title": "Our Commitment to You",
+        "color_scheme": "",
+        "background_color": "",
+        "background_opacity": 100,
+        "icon_color": "#0d7ff2",
+        "text_color": "#333333",
+        "section_title_font_size_mobile": 24,
+        "section_title_font_size_desktop": 30,
+        "text_font_size": 16,
+        "icon_size": 24,
+        "width_type": "page",
+        "custom_width": 1200,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "about_cta_7mRcXF": {
+      "type": "about-cta",
+      "name": "About CTA",
+      "settings": {
+        "button_text": "Shop Our Bestsellers",
+        "button_link": "",
+        "button_background_color": "#0d7ff2",
+        "button_text_color": "#ffffff",
+        "button_hover_background_color": "#0b6dd4",
+        "button_font_size": 16,
+        "button_padding_vertical": 12,
+        "button_padding_horizontal": 32,
+        "button_border_radius": 8,
+        "color_scheme": "",
+        "width_type": "page",
+        "custom_width": 1200,
+        "padding_top": 0,
+        "padding_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "about_hero_8EE9zm",
+    "about_products_XmTjAh",
+    "about_features_RgTYeg",
+    "about_mission_8iDL8M",
+    "about_promise_E8G8Dk",
+    "about_commitment_xgYeLW",
+    "about_cta_7mRcXF"
+  ]
+}

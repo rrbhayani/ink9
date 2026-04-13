@@ -1,0 +1,325 @@
+/* Upsell Product Block Styles */
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.upsell-product-section-block {
+  max-width: 130rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.upsell-product-section-block a {
+  text-decoration: none;
+}
+
+.upsell-product-card {
+  margin-top: 2.4375rem;
+  border-radius: 1.21875rem;
+  border: 1px solid rgba(13, 127, 242, 0.2);
+  background-color: rgba(13, 127, 242, 0.05);
+  padding: 1.625rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.upsell-product-decorative-circle {
+  position: absolute;
+  right: -2.4375rem;
+  top: -2.4375rem;
+  height: 8.125rem;
+  width: 8.125rem;
+  border-radius: 9999px;
+  background-color: rgba(13, 127, 242, 0.1);
+  filter: blur(3.25rem);
+}
+
+.upsell-product-content {
+  position: relative;
+  z-index: 10;
+}
+
+.upsell-product-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.21875rem;
+}
+
+.upsell-product-title {
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 0.8125rem;
+  font-size: 1.625rem;
+  margin: 0;
+}
+
+.upsell-product-title-icon {
+  color: #0d7ff2;
+  font-size: 2.03125rem;
+}
+
+.upsell-product-badge {
+  background-color: #0d7ff2;
+  color: #ffffff;
+  font-size: 1.015625rem;
+  font-weight: 700;
+  padding: 0.203125rem 0.8125rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.upsell-product-row {
+  display: flex;
+  gap: 1.625rem;
+}
+
+.upsell-product-image-link {
+  text-decoration: none;
+  flex-shrink: 0;
+  display: block;
+  transition: opacity 0.2s;
+}
+
+.upsell-product-image-link:hover {
+  opacity: 0.85;
+}
+
+.upsell-product-image-container {
+  flex-shrink: 0;
+  width: 8.125rem;
+  height: 8.125rem;
+  background-color: #ffffff;
+  border-radius: 0.8125rem;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upsell-product-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.upsell-product-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.upsell-product-name-link {
+  text-decoration: none;
+  display: block;
+  transition: opacity 0.2s;
+}
+
+.upsell-product-name-link:hover {
+  opacity: 0.85;
+}
+
+.upsell-product-name {
+  font-size: 1.421875rem;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.upsell-product-description {
+  font-size: 1.21875rem;
+  color: #64748b;
+  margin-top: 0.40625rem;
+  margin: 0;
+}
+
+.upsell-product-description-wrapper {
+  margin-top: 0.40625rem;
+}
+
+.upsell-product-price-group {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8125rem;
+  margin-top: 0.8125rem;
+}
+
+
+.upsell-product-actions {
+  display: flex;
+  align-items: flex-end;
+  gap: .8125rem;
+  margin-top: 1.21875rem;
+}
+.upsell-product-variant-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8125rem;
+  flex: 1;
+}
+
+.upsell-variant-label {
+  font-size: 1.21875rem;
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.upsell-variant-select {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.609375rem 0.8125rem;
+  font-size: 1.21875rem;
+  font-family: inherit;
+  color: #0f172a;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.8125rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230f172a' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8125rem center;
+  padding-right: 2.4375rem;
+}
+
+.upsell-variant-select:hover {
+  border-color: #0d7ff2;
+}
+
+.upsell-variant-select:focus {
+  outline: none;
+  border-color: #0d7ff2;
+  box-shadow: 0 0 0 3px rgba(13, 127, 242, 0.1);
+}
+
+.upsell-variant-select option:disabled {
+  color: #94a3b8;
+}
+
+.upsell-product-price-current {
+  font-size: 1.828125rem;
+  font-weight: 700;
+  color: #0d7ff2;
+}
+
+.upsell-product-price-original {
+  font-size: 1.21875rem;
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.upsell-product-button {
+  font-size: 1.21875rem;
+  background-color: #ffffff;
+  color: #0d7ff2;
+  border: 1px solid rgba(13, 127, 242, 0.3);
+  font-weight: 700;
+  padding: 0.609375rem 1.21875rem;
+  border-radius: 0.8125rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.40625rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.upsell-product-button svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+.upsell-product-button:hover {
+  background-color: #0d7ff2;
+  color: #ffffff;
+  border-color: #0d7ff2;
+}
+
+.upsell-product-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.upsell-product-button:disabled:hover {
+  background-color: #ffffff;
+  color: #0d7ff2;
+}
+
+@media (max-width: 640px) {
+
+  .upsell-product-image-container {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
+
+  .upsell-product-price-group {
+    margin-top: 0.65rem;
+  }
+
+  .upsell-product-price-current {
+    font-size: 1.421875rem;
+  }
+
+  .upsell-product-price-original {
+    font-size: 1.015625rem;
+  }
+
+  .upsell-product-actions {
+    gap: 0.8125rem;
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 0.8125rem;
+  }
+
+  .upsell-product-variant-selector {
+    flex-direction: column;
+    gap: 0.40625rem;
+    align-items: stretch;
+  }
+
+  .upsell-variant-label {
+    font-size: 1.015625rem;
+  }
+
+  .upsell-variant-select {
+    font-size: 1.015625rem;
+    padding: 0.5rem 0.65rem;
+    padding-right: 2rem;
+    min-width: auto;
+    width: 100%;
+  }
+
+  .upsell-product-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

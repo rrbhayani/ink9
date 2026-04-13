@@ -1,0 +1,925 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'section-related-products.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.image_shape == 'blob' %}
+  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- unless section.settings.quick_add == 'none' -%}
+  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endunless -%}
+
+{%- if section.settings.quick_add == 'standard' -%}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- if section.settings.quick_add == 'bulk' -%}
+  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- if section.settings.use_slider -%}
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+{%- endif -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  {%- if section.settings.use_slider -%}
+    .related-products-header-{{ section.id }} {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .related-products-nav-buttons-{{ section.id }} {
+      display: flex;
+      gap: 0.8125rem;
+      align-items: center;
+    }
+
+    .related-products-nav-btn-{{ section.id }} {
+      width: 4.0625rem;
+      height: 4.0625rem;
+      border-radius: 0.8125rem;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #0d7ff2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      padding: 0;
+      margin: 0;
+    }
+
+    .related-products-nav-btn-{{ section.id }}:hover:not(:disabled) {
+      background-color: #0d7ff2;
+      color: #ffffff;
+      border-color: #0d7ff2;
+    }
+
+    .related-products-nav-btn-{{ section.id }}:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .related-products-nav-btn-{{ section.id }} .material-symbols-outlined {
+      font-size: 2rem;
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .dark .related-products-nav-btn-{{ section.id }} {
+      background-color: #0f172a;
+      border-color: #1e293b;
+      color: #0d7ff2;
+    }
+
+    .dark .related-products-nav-btn-{{ section.id }}:hover:not(:disabled) {
+      background-color: #0d7ff2;
+      color: #ffffff;
+    }
+
+    .related-products-slider-wrapper-{{ section.id }} {
+      position: relative;
+    }
+
+    .related-products-slider-{{ section.id }} {
+      position: relative;
+    }
+
+    /* Show items when in grid mode (no slider needed) */
+    .related-products-slider-{{ section.id }}.grid-mode {
+      visibility: visible !important;
+      min-height: auto !important;
+      display: grid !important;
+    }
+
+    .related-products-slider-{{ section.id }}.grid-mode .slider-item {
+      display: block !important;
+      width: 100% !important;
+      padding: 0 !important;
+    }
+
+    .related-products-slider-{{ section.id }} .slick-list {
+      margin: 0 -1.5rem;
+    }
+
+    .related-products-slider-{{ section.id }} .slick-slide {
+      padding: 0 1.5rem;
+    }
+
+    .related-products-slider-{{ section.id }} .slick-prev,
+    .related-products-slider-{{ section.id }} .slick-next {
+      display: none !important;
+    }
+
+    /* Center position navigation buttons */
+    .related-products-with-center-nav-{{ section.id }} {
+      overflow: visible;
+    }
+
+    .related-products-slider-wrapper-{{ section.id }} {
+      overflow: visible;
+      position: relative;
+    }
+
+    .related-products-slider-wrapper-{{ section.id }} .related-products-nav-prev-{{ section.id }},
+    .related-products-slider-wrapper-{{ section.id }} .related-products-nav-next-{{ section.id }} {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+
+    /* Center position buttons - round background with same colors as header */
+    .related-products-slider-wrapper-{{ section.id }} .related-products-nav-btn-center-{{ section.id }} {
+      border-radius: 50% !important;
+      width: 4.0625rem;
+      height: 4.0625rem;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #0d7ff2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      padding: 0;
+      margin: 0;
+    }
+
+    .related-products-slider-wrapper-{{ section.id }} .related-products-nav-btn-center-{{ section.id }}:hover:not(:disabled) {
+      background-color: #0d7ff2;
+      color: #ffffff;
+      border-color: #0d7ff2;
+    }
+
+    .related-products-slider-wrapper-{{ section.id }} .related-products-nav-btn-center-{{ section.id }}:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .related-products-slider-wrapper-{{ section.id }} .related-products-nav-prev-{{ section.id }} {
+      left: calc(-2rem - 1.5rem);
+    }
+
+    .related-products-slider-wrapper-{{ section.id }} .related-products-nav-next-{{ section.id }} {
+      right: calc(-2rem - 1.5rem);
+    }
+
+    .related-products-slider-wrapper-{{ section.id }} .related-products-nav-btn-center-{{ section.id }} .material-symbols-outlined {
+      font-size: 2.5rem;
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .dark .related-products-slider-wrapper-{{ section.id }} .related-products-nav-btn-center-{{ section.id }} {
+      background-color: #0f172a;
+      border-color: #1e293b;
+      color: #0d7ff2;
+    }
+
+    .dark .related-products-slider-wrapper-{{ section.id }} .related-products-nav-btn-center-{{ section.id }}:hover:not(:disabled) {
+      background-color: #0d7ff2;
+      color: #ffffff;
+    }
+
+    @media screen and (min-width: 750px) {
+      .related-products-slider-wrapper-{{ section.id }} .related-products-nav-prev-{{ section.id }} {
+        left: calc(-2rem - 5rem);
+      }
+
+      .related-products-slider-wrapper-{{ section.id }} .related-products-nav-next-{{ section.id }} {
+        right: calc(-2rem - 5rem);
+      }
+    }
+
+    @media screen and (max-width: 749px) {
+      .related-products-slider-wrapper-{{ section.id }} .related-products-nav-prev-{{ section.id }} {
+        left: -1rem;
+      }
+
+      .related-products-slider-wrapper-{{ section.id }} .related-products-nav-next-{{ section.id }} {
+        right: -1rem;
+      }
+
+      .related-products-slider-wrapper-{{ section.id }} .related-products-nav-btn-center-{{ section.id }} {
+        width: 3rem !important;
+        height: 3rem !important;
+      }
+
+      .related-products-slider-wrapper-{{ section.id }} .related-products-nav-btn-center-{{ section.id }} .material-symbols-outlined {
+        font-size: 1.8rem;
+      }
+    }
+
+    .related-products-slider-{{ section.id }} .slick-dots {
+      bottom: -3rem;
+    }
+
+    .related-products-slider-{{ section.id }} .slick-dots li button:before {
+      color: rgba(var(--color-foreground), 0.5);
+      font-size: 1rem;
+    }
+
+    .related-products-slider-{{ section.id }} .slick-dots li.slick-active button:before {
+      color: rgba(var(--color-button));
+    }
+
+    @media screen and (max-width: 749px) {
+      .related-products-header-{{ section.id }} {
+        margin-bottom: 1.5rem;
+      }
+    }
+  {%- endif -%}
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <product-recommendations
+    class="related-products page-width isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}{% if section.settings.use_slider and section.settings.show_arrows == 'center' %} related-products-with-center-nav-{{ section.id }}{% endif %}"
+    data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}"
+    data-section-id="{{ section.id }}"
+    data-product-id="{{ product.id }}"
+  >
+    {% if recommendations.performed and recommendations.products_count > 0 %}
+      <div class="related-products-header-{{ section.id }}">
+        <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
+        </h2>
+        {%- if section.settings.use_slider and section.settings.show_arrows == 'header' -%}
+          <div class="related-products-nav-buttons-{{ section.id }}">
+            <button type="button" class="related-products-nav-btn-{{ section.id }} related-products-nav-prev-{{ section.id }}" aria-label="Previous products">
+              <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            <button type="button" class="related-products-nav-btn-{{ section.id }} related-products-nav-next-{{ section.id }}" aria-label="Next products">
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+      
+      {%- if section.settings.use_slider -%}
+        <div class="related-products-slider-wrapper-{{ section.id }}">
+          {%- if section.settings.show_arrows == 'center' -%}
+            <button type="button" class="related-products-nav-btn-{{ section.id }} related-products-nav-btn-center-{{ section.id }} related-products-nav-prev-{{ section.id }}" aria-label="Previous products">
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <button type="button" class="related-products-nav-btn-{{ section.id }} related-products-nav-btn-center-{{ section.id }} related-products-nav-next-{{ section.id }}" aria-label="Next products">
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+          {%- endif -%}
+          <div class="related-products-slider-{{ section.id }}" id="related-products-slider-{{ section.id }}">
+          {% assign skip_card_product_styles = false %}
+          {% for recommendation in recommendations.products %}
+            <div class="slider-item">
+              {% render 'card-product',
+                card_product: recommendation,
+                media_aspect_ratio: section.settings.image_ratio,
+                image_shape: section.settings.image_shape,
+                show_secondary_image: section.settings.show_secondary_image,
+                show_vendor: section.settings.show_vendor,
+                show_rating: section.settings.show_rating,
+                skip_styles: skip_card_product_styles,
+                section_id: section.id,
+                quick_add: section.settings.quick_add
+              %}
+            </div>
+            {%- assign skip_card_product_styles = true -%}
+          {% endfor %}
+          </div>
+        </div>
+      {%- else -%}
+        <ul
+          class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
+          role="list"
+        >
+          {% assign skip_card_product_styles = false %}
+          {% for recommendation in recommendations.products %}
+            <li class="grid__item">
+              {% render 'card-product',
+                card_product: recommendation,
+                media_aspect_ratio: section.settings.image_ratio,
+                image_shape: section.settings.image_shape,
+                show_secondary_image: section.settings.show_secondary_image,
+                show_vendor: section.settings.show_vendor,
+                show_rating: section.settings.show_rating,
+                skip_styles: skip_card_product_styles,
+                section_id: section.id,
+                quick_add: section.settings.quick_add
+              %}
+            </li>
+            {%- assign skip_card_product_styles = true -%}
+          {% endfor %}
+        </ul>
+      {%- endif -%}
+    {% endif %}
+  </product-recommendations>
+  {% if section.settings.image_shape == 'arch' %}
+    {{ 'mask-arch.svg' | inline_asset_content }}
+  {%- endif -%}
+</div>
+
+{%- if section.settings.use_slider -%}
+  <script>
+    (function() {
+      function initRelatedProductsSlider() {
+        const slider = document.getElementById('related-products-slider-{{ section.id }}');
+        if (!slider) return;
+
+        // Wait for jQuery and Slick to be available
+        if (typeof jQuery === 'undefined' || typeof jQuery.fn.slick === 'undefined') {
+          setTimeout(initRelatedProductsSlider, 100);
+          return;
+        }
+
+        const $slider = jQuery(slider);
+        
+        // Move all modals to body BEFORE slick initializes (prevents cloning issues)
+        const productRecommendations = document.querySelector('product-recommendations[data-section-id="{{ section.id }}"]');
+        if (productRecommendations) {
+          const modals = productRecommendations.querySelectorAll('quick-add-modal');
+          modals.forEach(function(modal) {
+            if (modal.parentNode && modal.parentNode !== document.body) {
+              document.body.appendChild(modal);
+            }
+          });
+        }
+
+        // Destroy existing slider if any
+        if ($slider.hasClass('slick-initialized')) {
+          $slider.slick('unslick');
+        }
+
+        // Get responsive breakpoints
+        const columnsDesktop = {{ section.settings.columns_desktop }};
+        const columnsMobile = {{ section.settings.columns_mobile }};
+        const showArrows = {% if section.settings.show_arrows %}true{% else %}false{% endif %};
+        const showDots = {% if section.settings.show_dots %}true{% else %}false{% endif %};
+        const autoplay = {% if section.settings.autoplay %}true{% else %}false{% endif %};
+        const autoplaySpeed = {{ section.settings.autoplay_speed | default: 3000 }};
+        const slidesToScrollOption = '{{ section.settings.slides_to_scroll | default: "one" }}';
+        
+        // Calculate slidesToScroll based on setting
+        const getSlidesToScroll = (columnsToShow) => {
+          return slidesToScrollOption === 'one' ? 1 : columnsToShow;
+        };
+
+        // Count number of products/slides
+        const productCount = slider.querySelectorAll('.slider-item').length;
+        
+        // Don't initialize slider if product count is less than or equal to desktop columns
+        // (all products are already visible, no need for slider)
+        if (productCount <= columnsDesktop) {
+          // Add grid-mode class to show items
+          slider.classList.add('grid-mode');
+          
+          // Hide navigation buttons since slider won't be used
+          const prevBtn = document.querySelector('.related-products-nav-prev-{{ section.id }}');
+          const nextBtn = document.querySelector('.related-products-nav-next-{{ section.id }}');
+          if (prevBtn) prevBtn.style.display = 'none';
+          if (nextBtn) nextBtn.style.display = 'none';
+          
+          // Hide dots if shown
+          if (showDots) {
+            const dotsContainer = slider.parentElement;
+            if (dotsContainer) {
+              const dots = dotsContainer.querySelector('.slick-dots');
+              if (dots) dots.style.display = 'none';
+            }
+          }
+          
+          // Show all items in a grid layout instead of slider
+          slider.style.display = 'grid';
+          slider.style.gap = '1.5rem';
+          
+          // Responsive grid columns
+          const mobileCols = parseInt(columnsMobile);
+          slider.style.gridTemplateColumns = 'repeat(' + mobileCols + ', 1fr)';
+          
+          // Desktop columns
+          const mediaQuery = window.matchMedia('(min-width: 750px)');
+          function updateGridColumns() {
+            if (mediaQuery.matches) {
+              slider.style.gridTemplateColumns = 'repeat(' + columnsDesktop + ', 1fr)';
+            } else {
+              slider.style.gridTemplateColumns = 'repeat(' + mobileCols + ', 1fr)';
+            }
+          }
+          mediaQuery.addEventListener('change', updateGridColumns);
+          updateGridColumns();
+          
+          // Make slider visible (remove hidden class if any)
+          slider.style.visibility = 'visible';
+          slider.style.minHeight = 'auto';
+          
+          // Ensure all slider items are visible
+          const sliderItems = slider.querySelectorAll('.slider-item');
+          sliderItems.forEach(function(item) {
+            item.style.display = 'block';
+          });
+          
+          return;
+        }
+
+        // Initialize Slick slider (disable default arrows, we use custom buttons)
+        $slider.slick({
+          slidesToShow: columnsDesktop,
+          slidesToScroll: getSlidesToScroll(columnsDesktop),
+          arrows: false,
+          dots: showDots,
+          autoplay: autoplay,
+          autoplaySpeed: autoplaySpeed,
+          infinite: true,
+          speed: 500,
+          responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: columnsDesktop > 3 ? 3 : columnsDesktop,
+                slidesToScroll: getSlidesToScroll(columnsDesktop > 3 ? 3 : columnsDesktop),
+                arrows: false,
+                dots: showDots
+              }
+            },
+            {
+              breakpoint: 750,
+              settings: {
+                slidesToShow: parseInt(columnsMobile),
+                slidesToScroll: getSlidesToScroll(parseInt(columnsMobile)),
+                arrows: false,
+                dots: showDots
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                dots: showDots
+              }
+            }
+          ]
+        });
+
+        // Connect custom navigation buttons
+        const prevBtn = document.querySelector('.related-products-nav-prev-{{ section.id }}');
+        const nextBtn = document.querySelector('.related-products-nav-next-{{ section.id }}');
+
+        if (prevBtn) {
+          prevBtn.addEventListener('click', function() {
+            $slider.slick('slickPrev');
+          });
+        }
+
+        if (nextBtn) {
+          nextBtn.addEventListener('click', function() {
+            $slider.slick('slickNext');
+          });
+        }
+
+        // Update button states on slide change
+        $slider.on('afterChange', function(event, slick, currentSlide) {
+          if (prevBtn && nextBtn) {
+            // For infinite slider, buttons are always enabled
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+          }
+        });
+
+        // Re-initialize quick-add after slick slider is ready
+        // Slick slider clones elements which can break event listeners on custom elements
+        function reinitQuickAdd() {
+          const sliderElement = slider;
+          if (!sliderElement) return;
+          
+          // Ensure all modals are in body (they should already be moved, but double-check)
+          const productRecommendations = document.querySelector('product-recommendations[data-section-id="{{ section.id }}"]');
+          if (productRecommendations) {
+            const modals = productRecommendations.querySelectorAll('quick-add-modal');
+            modals.forEach(function(modal) {
+              if (modal.parentNode && modal.parentNode !== document.body) {
+                document.body.appendChild(modal);
+              }
+            });
+          }
+          
+          // Use event delegation on slider container to handle quick-add button clicks
+          // This works even when slick clones elements
+          const sliderContainer = sliderElement.closest('.related-products-slider-wrapper-{{ section.id }}') || sliderElement.parentElement;
+          if (sliderContainer && !sliderContainer.hasAttribute('data-quick-add-delegated')) {
+            sliderContainer.setAttribute('data-quick-add-delegated', 'true');
+            
+            // Set up event delegation for quick-add buttons
+            sliderContainer.addEventListener('click', function(e) {
+              // Check if click is on a quick-add button or inside modal-opener
+              const modalOpener = e.target.closest('modal-opener');
+              if (!modalOpener) return;
+              
+              const quickAddButton = modalOpener.querySelector('button.quick-add__submit');
+              if (!quickAddButton) return;
+              
+              // Check if click is on the button or inside it
+              if (e.target !== quickAddButton && !quickAddButton.contains(e.target)) return;
+              
+              const modalId = modalOpener.getAttribute('data-modal');
+              if (!modalId) return;
+              
+              const modal = document.querySelector(modalId);
+              if (modal && typeof modal.show === 'function') {
+                e.preventDefault();
+                e.stopPropagation();
+                modal.show(quickAddButton);
+              }
+            });
+          }
+          
+          // Also manually re-bind modal-opener buttons as backup
+          const modalOpeners = sliderElement.querySelectorAll('modal-opener[data-modal]');
+          modalOpeners.forEach(function(opener) {
+            const button = opener.querySelector('button');
+            if (button && !button.hasAttribute('data-quick-add-bound')) {
+              button.setAttribute('data-quick-add-bound', 'true');
+              const modalId = opener.getAttribute('data-modal');
+              if (modalId) {
+                // Remove any existing listeners
+                const newButton = button.cloneNode(true);
+                button.parentNode.replaceChild(newButton, button);
+                
+                // Add new listener
+                newButton.addEventListener('click', function(e) {
+                  const modal = document.querySelector(modalId);
+                  if (modal && typeof modal.show === 'function') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    modal.show(newButton);
+                  }
+                });
+              }
+            }
+          });
+        }
+        
+        $slider.on('init reInit', function() {
+          setTimeout(reinitQuickAdd, 300);
+        });
+        
+        // Also re-initialize on slide changes (slick may clone more elements)
+        $slider.on('afterChange', function() {
+          setTimeout(reinitQuickAdd, 100);
+        });
+      }
+
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+          setTimeout(initRelatedProductsSlider, 500);
+        });
+      } else {
+        setTimeout(initRelatedProductsSlider, 500);
+      }
+
+      // Watch for product recommendations to load
+      const productRecommendations = document.querySelector('product-recommendations[data-section-id="{{ section.id }}"]');
+      if (productRecommendations) {
+        // Use MutationObserver to detect when content is added
+        const observer = new MutationObserver(function(mutations) {
+          const slider = document.getElementById('related-products-slider-{{ section.id }}');
+          if (slider && slider.children.length > 0) {
+            setTimeout(initRelatedProductsSlider, 300);
+            observer.disconnect();
+          }
+        });
+
+        observer.observe(productRecommendations, {
+          childList: true,
+          subtree: true
+        });
+
+        // Also check immediately in case content is already loaded
+        setTimeout(function() {
+          const slider = document.getElementById('related-products-slider-{{ section.id }}');
+          if (slider && slider.children.length > 0) {
+            initRelatedProductsSlider();
+          }
+        }, 1000);
+      }
+
+      // Re-initialize on section load (for product recommendations)
+      document.addEventListener('shopify:section:load', function(event) {
+        if (event.detail.sectionId === '{{ section.id }}') {
+          setTimeout(initRelatedProductsSlider, 500);
+        }
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.related-products.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.related-products.settings.paragraph__1.content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "t:sections.related-products.settings.paragraph__1.default",
+      "label": "t:sections.related-products.settings.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "hxl",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "hxxl",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.related-products.settings.products_to_show.label"
+    },
+    {
+      "type": "header",
+      "content": "Slider Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_slider",
+      "default": false,
+      "label": "Use slider",
+      "info": "Enable to display products in a slider instead of a grid"
+    },
+    {
+      "type": "select",
+      "id": "show_arrows",
+      "options": [
+        {
+          "value": "hidden",
+          "label": "Hidden"
+        },
+        {
+          "value": "header",
+          "label": "Header (next to heading)"
+        },
+        {
+          "value": "center",
+          "label": "Center (on slider sides)"
+        }
+      ],
+      "default": "header",
+      "label": "Show navigation arrows",
+      "info": "Choose where to display the navigation arrows or hide them"
+    },
+    {
+      "type": "select",
+      "id": "slides_to_scroll",
+      "options": [
+        {
+          "value": "one",
+          "label": "One product per click"
+        },
+        {
+          "value": "all",
+          "label": "All visible columns per click"
+        }
+      ],
+      "default": "one",
+      "label": "Slides to scroll",
+      "info": "Choose how many products to slide when clicking navigation buttons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "default": true,
+      "label": "Show dots navigation",
+      "info": "Show dot indicators at the bottom of the slider"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "default": false,
+      "label": "Autoplay slider",
+      "info": "Automatically advance slides"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 1000,
+      "max": 9500,
+      "step": 500,
+      "default": 3000,
+      "unit": "ms",
+      "label": "Autoplay speed",
+      "info": "Time between slide transitions (in milliseconds)"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.related-products.settings.columns_desktop.label"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "t:sections.related-products.settings.columns_mobile.label",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.related-products.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.related-products.settings.columns_mobile.options__2.label"
+        }
+      ]    
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.related-products.settings.header__2.content"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.related-products.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.related-products.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.related-products.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.related-products.settings.image_ratio.label"
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:sections.all.image_shape.options__1.label"
+        },
+        {
+          "value": "arch",
+          "label": "t:sections.all.image_shape.options__2.label"
+        },
+        {
+          "value": "blob",
+          "label": "t:sections.all.image_shape.options__3.label"
+        },
+        {
+          "value": "chevronleft",
+          "label": "t:sections.all.image_shape.options__4.label"
+        },
+        {
+          "value": "chevronright",
+          "label": "t:sections.all.image_shape.options__5.label"
+        },
+        {
+          "value": "diamond",
+          "label": "t:sections.all.image_shape.options__6.label"
+        },
+        {
+          "value": "parallelogram",
+          "label": "t:sections.all.image_shape.options__7.label"
+        },
+        {
+          "value": "round",
+          "label": "t:sections.all.image_shape.options__8.label"
+        }
+      ],
+      "default": "default",
+      "label": "t:sections.all.image_shape.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "t:sections.related-products.settings.show_secondary_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.related-products.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "t:sections.related-products.settings.show_rating.label",
+      "info": "t:sections.related-products.settings.show_rating.info"
+    },
+    {
+      "type": "select",
+      "id": "quick_add",
+      "default": "none",
+      "label": "t:sections.main-collection-product-grid.settings.quick_add.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_1"
+        },
+        {
+          "value": "standard",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_2"
+        },
+        {
+          "value": "bulk",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

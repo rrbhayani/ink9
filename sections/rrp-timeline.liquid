@@ -1,0 +1,323 @@
+<link href="{{ 'rrp.css' | asset_url }}" rel="stylesheet">
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .rrp-timeline-card-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+    border-color: {{ section.settings.border_color }};
+    padding: {{ section.settings.card_padding }}px;
+  }
+
+  .rrp-timeline-title-{{ section.id }} {
+    color: {{ section.settings.title_color }};
+    font-size: {{ section.settings.title_size }}px;
+  }
+
+  .rrp-timeline-mobile-{{ section.id }} {
+    border-left-color: {{ section.settings.timeline_line_color }};
+  }
+
+  .rrp-timeline-mobile-dot-{{ section.id }}.active {
+    background-color: {{ section.settings.active_dot_color }};
+  }
+
+  .rrp-timeline-mobile-dot-{{ section.id }}.inactive {
+    background-color: {{ section.settings.inactive_dot_color }};
+  }
+
+  .rrp-timeline-mobile-title-{{ section.id }} {
+    color: {{ section.settings.mobile_title_color }};
+  }
+
+  .rrp-timeline-mobile-text-{{ section.id }} {
+    color: {{ section.settings.mobile_text_color }};
+  }
+
+  .rrp-timeline-desktop-line-{{ section.id }} {
+    background-color: {{ section.settings.timeline_line_color }};
+  }
+
+  .rrp-timeline-desktop-number-{{ section.id }}.active {
+    background-color: {{ section.settings.active_dot_color }};
+    color: {{ section.settings.active_number_color }};
+  }
+
+  .rrp-timeline-desktop-number-{{ section.id }}.inactive {
+    background-color: {{ section.settings.inactive_bg_color }};
+    border-color: {{ section.settings.inactive_border_color }};
+    color: {{ section.settings.inactive_number_color }};
+  }
+
+  .rrp-timeline-desktop-title-{{ section.id }} {
+    color: {{ section.settings.desktop_title_color }};
+  }
+
+  .rrp-timeline-desktop-text-{{ section.id }} {
+    color: {{ section.settings.desktop_text_color }};
+  }
+{%- endstyle -%}
+
+<div class="rrp-container">
+<div class="section-{{ section.id }}-padding">
+  <div class="rrp-timeline-card rrp-timeline-card-{{ section.id }}">
+    {% if section.settings.title != blank %}
+      <h2 class="rrp-timeline-title rrp-timeline-title-{{ section.id }}">{{ section.settings.title }}</h2>
+    {% endif %}
+    
+    <div class="rrp-timeline-wrapper">
+      <!-- Mobile Timeline (Vertical) -->
+      <div class="rrp-timeline-mobile rrp-timeline-mobile-{{ section.id }}">
+        {% for block in section.blocks %}
+          <div class="rrp-timeline-mobile-item" {{ block.shopify_attributes }}>
+            <div class="rrp-timeline-mobile-dot rrp-timeline-mobile-dot-{{ section.id }} {{ block.settings.status }}"></div>
+            {% if block.settings.title != blank %}
+              <h4 class="rrp-timeline-mobile-title rrp-timeline-mobile-title-{{ section.id }}">{{ block.settings.title }}</h4>
+            {% endif %}
+            {% if block.settings.description != blank %}
+              <p class="rrp-timeline-mobile-text rrp-timeline-mobile-text-{{ section.id }}">{{ block.settings.description }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      
+      <!-- Desktop Timeline (Horizontal) -->
+      <div class="rrp-timeline-desktop">
+        <div class="rrp-timeline-desktop-line rrp-timeline-desktop-line-{{ section.id }}" style="display:block;"></div>
+        {% for block in section.blocks %}
+          <div class="rrp-timeline-desktop-item" {{ block.shopify_attributes }}>
+            <div class="rrp-timeline-desktop-number rrp-timeline-desktop-number-{{ section.id }} {{ block.settings.status }}">{{ forloop.index }}</div>
+            {% if block.settings.title != blank %}
+              <h4 class="rrp-timeline-desktop-title rrp-timeline-desktop-title-{{ section.id }}">{{ block.settings.title }}</h4>
+            {% endif %}
+            {% if block.settings.description != blank %}
+              <p class="rrp-timeline-desktop-text rrp-timeline-desktop-text-{{ section.id }}">{{ block.settings.description }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "RRP - Refund Timeline",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Refund Timeline"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 18,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#0f172a"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Card Background Color",
+      "default": "rgba(13, 127, 242, 0.05)"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "rgba(13, 127, 242, 0.1)"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 16,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "Card Padding",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "timeline_line_color",
+      "label": "Timeline Line Color",
+      "default": "#e2e8f0"
+    },
+    {
+      "type": "color",
+      "id": "active_dot_color",
+      "label": "Active Dot/Number Color",
+      "default": "#0d7ff2"
+    },
+    {
+      "type": "color",
+      "id": "active_number_color",
+      "label": "Active Number Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "inactive_dot_color",
+      "label": "Inactive Dot Color",
+      "default": "#cbd5e1"
+    },
+    {
+      "type": "color",
+      "id": "inactive_bg_color",
+      "label": "Inactive Number Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "inactive_border_color",
+      "label": "Inactive Number Border",
+      "default": "#cbd5e1"
+    },
+    {
+      "type": "color",
+      "id": "inactive_number_color",
+      "label": "Inactive Number Text Color",
+      "default": "#64748b"
+    },
+    {
+      "type": "color",
+      "id": "mobile_title_color",
+      "label": "Mobile Title Color",
+      "default": "#0f172a"
+    },
+    {
+      "type": "color",
+      "id": "mobile_text_color",
+      "label": "Mobile Text Color",
+      "default": "#64748b"
+    },
+    {
+      "type": "color",
+      "id": "desktop_title_color",
+      "label": "Desktop Title Color",
+      "default": "#0f172a"
+    },
+    {
+      "type": "color",
+      "id": "desktop_text_color",
+      "label": "Desktop Text Color",
+      "default": "#64748b"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "timeline_item",
+      "name": "Timeline Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Item Received"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Package arrives at our facility."
+        },
+        {
+          "type": "select",
+          "id": "status",
+          "label": "Status",
+          "options": [
+            {
+              "value": "active",
+              "label": "Active"
+            },
+            {
+              "value": "inactive",
+              "label": "Inactive"
+            }
+          ],
+          "default": "active"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "RRP - Refund Timeline",
+      "blocks": [
+        {
+          "type": "timeline_item",
+          "settings": {
+            "title": "Item Received",
+            "description": "Package arrives at our facility.",
+            "status": "active"
+          }
+        },
+        {
+          "type": "timeline_item",
+          "settings": {
+            "title": "Inspection",
+            "description": "Within 3 business days of receipt.",
+            "status": "inactive"
+          }
+        },
+        {
+          "type": "timeline_item",
+          "settings": {
+            "title": "Refund Issued",
+            "description": "Within 7 business days after inspection.",
+            "status": "inactive"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,350 @@
+{%- style -%}
+  /* CSS Variables for About Products Section */
+  :root {
+    --primary: #0d7ff2;
+    --text-blue: #49739c;
+    --gray-400: #9ca3af;
+    --gray-200: #e5e7eb;
+    --gray-700: #374151;
+    --text-dark: #0d141c;
+    --background-dark: #101922;
+  }
+
+  /* Dark Mode Variables */
+  .dark {
+    --gray-400: #9ca3af;
+    --gray-700: #374151;
+    --background-dark: #101922;
+  }
+
+  /* Section: What We Sell */
+  .about-section-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about-section-title-{{ section.id }} {
+    color: rgb(var(--color-foreground));
+    font-size: {{ section.settings.section_title_font_size_mobile | default: 24 }}px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    text-align: center;
+    margin: 0;
+  }
+
+  @media (min-width: 640px) {
+    .about-section-title-{{ section.id }} {
+      font-size: {{ section.settings.section_title_font_size_desktop | default: 30 }}px;
+    }
+  }
+
+  .about-products-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .about-products-grid-{{ section.id }} {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .about-product-card-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--gray-200);
+    background-color: white;
+    padding: 1.5rem;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .about-product-card-{{ section.id }} {
+    border-color: var(--gray-700);
+    background-color: var(--background-dark);
+  }
+
+  .about-product-icon-{{ section.id }} {
+    color: var(--primary);
+    font-size: {{ section.settings.icon_size | default: 36 }}px;
+    margin-bottom: 0.5rem;
+  }
+
+  .about-product-content-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .about-product-title-{{ section.id }} {
+    color: rgb(var(--color-foreground));
+    font-size: {{ section.settings.product_title_font_size | default: 18 }}px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .about-product-description-{{ section.id }} {
+    color: rgba(var(--color-foreground), 0.75);
+    font-size: {{ section.settings.product_description_font_size | default: 14 }}px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .about-products-container-{{ section.id }} {
+    margin: 0 auto;
+    padding: {{ section.settings.padding_top | default: 40 }}px 1.5rem {{ section.settings.padding_bottom | default: 40 }}px;
+  }
+
+  {% if section.settings.width_type == 'custom' %}
+    .about-products-container-{{ section.id }} {
+      max-width: {{ section.settings.custom_width | default: 1200 }}px;
+    }
+  {% elsif section.settings.width_type == 'full' %}
+    .about-products-container-{{ section.id }} {
+      max-width: 100%;
+      padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 40 }}px !important;
+    }
+  {% else %}
+    .about-products-container-{{ section.id }} {
+      max-width: var(--page-width);
+    }
+  {% endif %}
+
+  {% unless section.settings.width_type == 'full' %}
+    @media screen and (min-width: 750px) {
+      .about-products-container-{{ section.id }} {
+        padding-left: 5rem;
+        padding-right: 5rem;
+      }
+    }
+  {% endunless %}
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="about-products-container-{{ section.id }}">
+    <section class="about-section-{{ section.id }}">
+      <h2 class="about-section-title-{{ section.id }}">{{ section.settings.title | default: "Everything You Need for Your Printer" }}</h2>
+
+      <div class="about-products-grid-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          <div class="about-product-card-{{ section.id }}" {{ block.shopify_attributes }}>
+            <span class="material-symbols-outlined about-product-icon-{{ section.id }}">
+              {{ block.settings.icon | default: "inventory_2" }}
+            </span>
+            <div class="about-product-content-{{ section.id }}">
+              <h3 class="about-product-title-{{ section.id }}">{{ block.settings.title }}</h3>
+              <p class="about-product-description-{{ section.id }}">{{ block.settings.description }}</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Products",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Everything You Need for Your Printer"
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes"
+    },
+    {
+      "type": "range",
+      "id": "section_title_font_size_mobile",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Section Title Font Size (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "section_title_font_size_desktop",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Section Title Font Size (Desktop)",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "product_title_font_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Product Card Title Font Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "product_description_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Product Card Description Font Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon Size",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width_type",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "page",
+          "label": "Page Width"
+        },
+        {
+          "value": "full",
+          "label": "Full Width"
+        },
+        {
+          "value": "custom",
+          "label": "Custom Width"
+        }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "min": 400,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Custom Max Width",
+      "default": 1200,
+      "info": "Only applies when Custom Width is selected"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Material Icon Name",
+          "default": "inventory_2",
+          "info": "Enter Material Symbols icon name (e.g., ink_pen, print, inventory_2). Browse all icons at: https://fonts.google.com/icons"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Product Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Product description text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Products",
+      "blocks": [
+        {
+          "type": "product_card",
+          "settings": {
+            "icon": "ink_pen",
+            "title": "Ink Cartridges",
+            "description": "High-quality ink for vibrant, long-lasting prints."
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "icon": "print",
+            "title": "Toner Cartridges",
+            "description": "Reliable toner for sharp, professional documents."
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "icon": "inventory_2",
+            "title": "Combo & Value Packs",
+            "description": "Save more with our bundled packs for all your needs."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

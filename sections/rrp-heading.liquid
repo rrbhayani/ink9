@@ -1,0 +1,159 @@
+<link href="{{ 'rrp.css' | asset_url }}" rel="stylesheet">
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .rrp-heading-{{ section.id }} .rrp-title {
+    color: {{ section.settings.title_color }};
+    font-size: {{ section.settings.title_size_mobile }}px;
+  }
+
+  @media (min-width: 768px) {
+    .rrp-heading-{{ section.id }} .rrp-title {
+      font-size: {{ section.settings.title_size_desktop }}px;
+    }
+  }
+
+  .rrp-heading-{{ section.id }} .rrp-updated {
+    color: {{ section.settings.updated_color }};
+  }
+
+  .rrp-heading-{{ section.id }} .rrp-intro {
+    color: {{ section.settings.intro_color }};
+  }
+{%- endstyle -%}
+
+<div class="rrp-container">
+<div class="rrp-heading rrp-heading-{{ section.id }} section-{{ section.id }}-padding">
+  {% if section.settings.title != blank %}
+    <h1 class="rrp-title">{{ section.settings.title }}</h1>
+  {% endif %}
+  
+  <div class="rrp-heading-content">
+    {% if section.settings.show_updated_date and section.settings.updated_date != blank %}
+      <p class="rrp-updated">{{ section.settings.updated_date_label }}: {{ section.settings.updated_date }}</p>
+    {% endif %}
+    
+    {% if section.settings.intro_text != blank %}
+      <p class="rrp-intro">{{ section.settings.intro_text }}</p>
+    {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "RRP - Page Heading",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Return & Refund Policy"
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Size (Mobile)",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 30,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Size (Desktop)",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#0f172a"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_updated_date",
+      "label": "Show Updated Date",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "updated_date_label",
+      "label": "Updated Date Label",
+      "default": "Last updated"
+    },
+    {
+      "type": "text",
+      "id": "updated_date",
+      "label": "Updated Date",
+      "default": "October 26, 2023"
+    },
+    {
+      "type": "color",
+      "id": "updated_color",
+      "label": "Updated Date Color",
+      "default": "#64748b"
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Introduction Text",
+      "default": "We want you to be completely satisfied with your purchase. If you're not happy with your order, we're here to help make it right."
+    },
+    {
+      "type": "color",
+      "id": "intro_color",
+      "label": "Introduction Text Color",
+      "default": "#475569"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "RRP - Page Heading"
+    }
+  ]
+}
+{% endschema %}

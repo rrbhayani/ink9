@@ -1,0 +1,678 @@
+<link href="{{ 'rrp.css' | asset_url }}" rel="stylesheet">
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'defective_card' %}
+        .rrp-policy-card-{{ block.id }} {
+          background-color: {{ block.settings.background_color }};
+          border-color: {{ block.settings.border_color }};
+          padding: {{ block.settings.card_padding_mobile }}px;
+        }
+
+        @media (min-width: 768px) {
+          .rrp-policy-card-{{ block.id }} {
+            padding: {{ block.settings.card_padding_desktop }}px;
+            {% if block.settings.span_full %}grid-column: span 2;{% endif %}
+          }
+        }
+
+        .rrp-policy-icon-wrapper-{{ block.id }} {
+          background-color: {{ block.settings.icon_bg_color }};
+          color: {{ block.settings.icon_color }};
+        }
+
+        .rrp-policy-title-{{ block.id }} {
+          color: {{ block.settings.title_color }};
+          font-size: {{ block.settings.title_size }}px;
+        }
+
+        .rrp-policy-description-{{ block.id }} {
+          color: {{ block.settings.description_color }};
+        }
+
+        .rrp-badge-{{ block.id }} {
+          background-color: {{ block.settings.badge_bg_color }};
+          color: {{ block.settings.badge_text_color }};
+        }
+      {% when 'policy_card' %}
+        .rrp-policy-card-{{ block.id }} {
+          background-color: {{ block.settings.background_color }};
+          border-color: {{ block.settings.border_color }};
+          padding: {{ block.settings.card_padding }}px;
+        }
+
+        @media (min-width: 768px) {
+          .rrp-policy-card-{{ block.id }} {
+            {% if block.settings.span_full %}grid-column: span 2;{% endif %}
+          }
+        }
+
+        .rrp-policy-icon-wrapper-{{ block.id }} {
+          background-color: {{ block.settings.icon_bg_color }};
+        }
+
+        .rrp-policy-icon-{{ block.id }} {
+          color: {{ block.settings.icon_color }};
+        }
+
+        .rrp-policy-title-{{ block.id }} {
+          color: {{ block.settings.title_color }};
+          font-size: {{ block.settings.title_size }}px;
+        }
+
+        .rrp-policy-description-{{ block.id }} {
+          color: {{ block.settings.description_color }};
+        }
+
+        .rrp-policy-list-{{ block.id }} {
+          color: {{ block.settings.list_color }};
+        }
+
+        .rrp-policy-list-icon-{{ block.id }}.warning {
+          color: {{ block.settings.warning_icon_color }};
+        }
+
+        .rrp-policy-list-icon-{{ block.id }}.arrow {
+          color: {{ block.settings.arrow_icon_color }};
+        }
+    {% endcase %}
+  {% endfor %}
+{%- endstyle -%}
+
+<div class="rrp-container">
+  <div class="section-{{ section.id }}-padding">
+    <div class="rrp-policy-grid">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'defective_card' %}
+              <div class="rrp-defective-card rrp-policy-card-{{ block.id }}" {{ block.shopify_attributes }}>
+                <div class="rrp-defective-content">
+                  {% if block.settings.show_icon %}
+                    <div class="rrp-defective-icon-wrapper rrp-policy-icon-wrapper-{{ block.id }}">
+                      <span class="material-symbols-outlined rrp-defective-icon">{{ block.settings.icon_name }}</span>
+                    </div>
+                  {% endif %}
+
+                  <div class="rrp-defective-text">
+                    {% if block.settings.title != blank %}
+                      <h3 class="rrp-defective-title rrp-policy-title-{{ block.id }}">{{ block.settings.title }}</h3>
+                    {% endif %}
+
+                    {% if block.settings.description != blank %}
+                      <div class="rrp-defective-description rrp-policy-description-{{ block.id }}">{{ block.settings.description }}</div>
+                    {% endif %}
+
+                    {% if block.settings.show_badges %}
+                      {% if block.settings.badge_1_text != blank or block.settings.badge_2_text != blank or block.settings.badge_3_text != blank %}
+                      <div class="rrp-defective-badges">
+                        {% if block.settings.badge_1_text != blank %}
+                          <span class="rrp-badge rrp-badge-{{ block.id }}">
+                            {% if block.settings.badge_1_icon != blank %}
+                              <span class="material-symbols-outlined rrp-badge-icon">{{ block.settings.badge_1_icon }}</span>
+                            {% endif %}
+                            {{ block.settings.badge_1_text }}
+                          </span>
+                        {% endif %}
+                        {% if block.settings.badge_2_text != blank %}
+                          <span class="rrp-badge rrp-badge-{{ block.id }}">
+                            {% if block.settings.badge_2_icon != blank %}
+                              <span class="material-symbols-outlined rrp-badge-icon">{{ block.settings.badge_2_icon }}</span>
+                            {% endif %}
+                            {{ block.settings.badge_2_text }}
+                          </span>
+                        {% endif %}
+                        {% if block.settings.badge_3_text != blank %}
+                          <span class="rrp-badge rrp-badge-{{ block.id }}">
+                            {% if block.settings.badge_3_icon != blank %}
+                              <span class="material-symbols-outlined rrp-badge-icon">{{ block.settings.badge_3_icon }}</span>
+                            {% endif %}
+                            {{ block.settings.badge_3_text }}
+                          </span>
+                        {% endif %}
+                      </div>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% when 'policy_card' %}
+              <div class="rrp-policy-card rrp-policy-card-{{ block.id }}" {{ block.shopify_attributes }}>
+                <div class="rrp-policy-card-content">
+                  {% if block.settings.show_icon %}
+                    <div class="rrp-policy-icon-wrapper rrp-policy-icon-wrapper-{{ block.id }}">
+                      <span class="material-symbols-outlined rrp-policy-icon rrp-policy-icon-{{ block.id }}">{{ block.settings.icon_name }}</span>
+                    </div>
+                  {% endif %}
+
+                  <div>
+                    {% if block.settings.title != blank %}
+                      <h3 class="rrp-policy-title rrp-policy-title-{{ block.id }}">{{ block.settings.title }}</h3>
+                    {% endif %}
+
+                    {% if block.settings.description != blank %}
+                      <p class="rrp-policy-description rrp-policy-description-{{ block.id }}">{{ block.settings.description }}</p>
+                    {% endif %}
+
+                    {% if block.settings.list_1_text != blank or block.settings.list_2_text != blank or block.settings.list_3_text != blank %}
+                      <ul class="rrp-policy-list rrp-policy-list-{{ block.id }}">
+                        {% if block.settings.list_1_text != blank %}
+                          <li class="rrp-policy-list-item">
+                            {% if block.settings.list_1_icon != blank %}
+                              <span class="material-symbols-outlined rrp-policy-list-icon rrp-policy-list-icon-{{ block.id }} {{ block.settings.list_1_icon_type }}">{{ block.settings.list_1_icon }}</span>
+                            {% endif %}
+                            <span>{{ block.settings.list_1_text }}</span>
+                          </li>
+                        {% endif %}
+                        {% if block.settings.list_2_text != blank %}
+                          <li class="rrp-policy-list-item">
+                            {% if block.settings.list_2_icon != blank %}
+                              <span class="material-symbols-outlined rrp-policy-list-icon rrp-policy-list-icon-{{ block.id }} {{ block.settings.list_2_icon_type }}">{{ block.settings.list_2_icon }}</span>
+                            {% endif %}
+                            <span>{{ block.settings.list_2_text }}</span>
+                          </li>
+                        {% endif %}
+                        {% if block.settings.list_3_text != blank %}
+                          <li class="rrp-policy-list-item">
+                            {% if block.settings.list_3_icon != blank %}
+                              <span class="material-symbols-outlined rrp-policy-list-icon rrp-policy-list-icon-{{ block.id }} {{ block.settings.list_3_icon_type }}">{{ block.settings.list_3_icon }}</span>
+                            {% endif %}
+                            <span>{{ block.settings.list_3_text }}</span>
+                          </li>
+                        {% endif %}
+                      </ul>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      {% else %}
+        <!-- Fallback content if no blocks are added -->
+        <div class="rrp-defective-card">
+          <div class="rrp-defective-content">
+            <div class="rrp-defective-icon-wrapper">
+              <span class="material-symbols-outlined rrp-defective-icon">report_problem</span>
+            </div>
+            <div class="rrp-defective-text">
+              <h3 class="rrp-defective-title">Defective Items</h3>
+              <div class="rrp-defective-description">If you receive a defective item, we've got you covered. We offer a <strong>full refund</strong> for the entire order if the complete order is returned. If you return only part of a defective order, you will receive a partial refund for the returned items.</div>
+              <div class="rrp-defective-badges">
+                <span class="rrp-badge"><span class="material-symbols-outlined rrp-badge-icon">check_circle</span>No Restocking Fee</span>
+                <span class="rrp-badge"><span class="material-symbols-outlined rrp-badge-icon">local_shipping</span>We Pay Return Shipping</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="rrp-policy-card">
+          <div class="rrp-policy-card-content">
+            <div class="rrp-policy-icon-wrapper">
+              <span class="material-symbols-outlined rrp-policy-icon">package_2</span>
+            </div>
+            <div>
+              <h3 class="rrp-policy-title">Non-Defective (Unopened)</h3>
+              <p class="rrp-policy-description">Changed your mind? Unopened items can be returned within 30 days. You will receive a refund for the <strong>item price only</strong>.</p>
+              <ul class="rrp-policy-list">
+                <li class="rrp-policy-list-item">
+                  <span class="material-symbols-outlined rrp-policy-list-icon warning">warning</span>
+                  <span>30% Restocking Fee Applies</span>
+                </li>
+                <li class="rrp-policy-list-item">
+                  <span class="material-symbols-outlined rrp-policy-list-icon arrow">arrow_circle_left</span>
+                  <span>Customer Pays Return Shipping</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="rrp-policy-card">
+          <div class="rrp-policy-card-content">
+            <div class="rrp-policy-icon-wrapper">
+              <span class="material-symbols-outlined rrp-policy-icon">draft</span>
+            </div>
+            <div>
+              <h3 class="rrp-policy-title">Non-Defective (Opened)</h3>
+              <p class="rrp-policy-description">Opened items may be returned within 30 days if they are in resaleable condition. Refund is for item price minus fees.</p>
+              <ul class="rrp-policy-list">
+                <li class="rrp-policy-list-item">
+                  <span class="material-symbols-outlined rrp-policy-list-icon warning">warning</span>
+                  <span>30% Restocking Fee Applies</span>
+                </li>
+                <li class="rrp-policy-list-item">
+                  <span class="material-symbols-outlined rrp-policy-list-icon arrow">arrow_circle_left</span>
+                  <span>Customer Pays Return Shipping</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "RRP - Policy Sections",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "defective_card",
+      "name": "Defective Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Defective Items"
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 16,
+          "max": 32,
+          "step": 1,
+          "unit": "px",
+          "label": "Title Size",
+          "default": 20
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#0f172a"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>If you receive a defective item, we've got you covered. We offer a <strong>full refund</strong> for the entire order if the complete order is returned. If you return only part of a defective order, you will receive a partial refund for the returned items.</p>"
+        },
+        {
+          "type": "color",
+          "id": "description_color",
+          "label": "Description Color",
+          "default": "#475569"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Show Icon",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "icon_name",
+          "label": "Icon Name",
+          "default": "report_problem",
+          "info": "Material Symbols icon name"
+        },
+        {
+          "type": "color",
+          "id": "icon_bg_color",
+          "label": "Icon Background Color",
+          "default": "#fee2e2"
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Icon Color",
+          "default": "#dc2626"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Card Background Color",
+          "default": "#f8fafc"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border Color",
+          "default": "#e2e8f0"
+        },
+        {
+          "type": "range",
+          "id": "card_padding_mobile",
+          "min": 12,
+          "max": 48,
+          "step": 4,
+          "unit": "px",
+          "label": "Card Padding (Mobile)",
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "card_padding_desktop",
+          "min": 16,
+          "max": 64,
+          "step": 4,
+          "unit": "px",
+          "label": "Card Padding (Desktop)",
+          "default": 32
+        },
+        {
+          "type": "checkbox",
+          "id": "span_full",
+          "label": "Span full width on desktop",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badges",
+          "label": "Show Badges",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "badge_bg_color",
+          "label": "Badge Background Color",
+          "default": "#dcfce7"
+        },
+        {
+          "type": "color",
+          "id": "badge_text_color",
+          "label": "Badge Text Color",
+          "default": "#15803d"
+        },
+        {
+          "type": "text",
+          "id": "badge_1_icon",
+          "label": "Badge 1 Icon",
+          "default": "check_circle",
+          "info": "Material Symbols icon name"
+        },
+        {
+          "type": "text",
+          "id": "badge_1_text",
+          "label": "Badge 1 Text",
+          "default": "No Restocking Fee"
+        },
+        {
+          "type": "text",
+          "id": "badge_2_icon",
+          "label": "Badge 2 Icon",
+          "default": "local_shipping",
+          "info": "Material Symbols icon name"
+        },
+        {
+          "type": "text",
+          "id": "badge_2_text",
+          "label": "Badge 2 Text",
+          "default": "We Pay Return Shipping"
+        },
+        {
+          "type": "text",
+          "id": "badge_3_icon",
+          "label": "Badge 3 Icon",
+          "default": "check_circle",
+          "info": "Optional"
+        },
+        {
+          "type": "text",
+          "id": "badge_3_text",
+          "label": "Badge 3 Text",
+          "default": "Extra badge"
+        }
+      ]
+    },
+    {
+      "type": "policy_card",
+      "name": "Policy Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Non-Defective (Unopened)"
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 14,
+          "max": 28,
+          "step": 1,
+          "unit": "px",
+          "label": "Title Size",
+          "default": 18
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#0f172a"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Changed your mind? Unopened items can be returned within 30 days. You will receive a refund for the item price only."
+        },
+        {
+          "type": "color",
+          "id": "description_color",
+          "label": "Description Color",
+          "default": "#475569"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Show Icon",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "icon_name",
+          "label": "Icon Name",
+          "default": "package_2",
+          "info": "Material Symbols icon name"
+        },
+        {
+          "type": "color",
+          "id": "icon_bg_color",
+          "label": "Icon Background Color",
+          "default": "#f1f5f9"
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Icon Color",
+          "default": "#475569"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Card Background Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border Color",
+          "default": "#e2e8f0"
+        },
+        {
+          "type": "range",
+          "id": "card_padding",
+          "min": 12,
+          "max": 48,
+          "step": 4,
+          "unit": "px",
+          "label": "Card Padding",
+          "default": 24
+        },
+        {
+          "type": "checkbox",
+          "id": "span_full",
+          "label": "Span full width on desktop",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "list_color",
+          "label": "List Text Color",
+          "default": "#64748b"
+        },
+        {
+          "type": "color",
+          "id": "warning_icon_color",
+          "label": "Warning Icon Color",
+          "default": "#f59e0b"
+        },
+        {
+          "type": "color",
+          "id": "arrow_icon_color",
+          "label": "Arrow Icon Color",
+          "default": "#94a3b8"
+        },
+        {
+          "type": "text",
+          "id": "list_1_icon",
+          "label": "List Item 1 Icon",
+          "default": "warning",
+          "info": "Material Symbols icon name"
+        },
+        {
+          "type": "select",
+          "id": "list_1_icon_type",
+          "label": "List Item 1 Icon Type",
+          "options": [
+            { "value": "warning", "label": "Warning" },
+            { "value": "arrow", "label": "Arrow" }
+          ],
+          "default": "warning"
+        },
+        {
+          "type": "text",
+          "id": "list_1_text",
+          "label": "List Item 1 Text",
+          "default": "30% Restocking Fee Applies"
+        },
+        {
+          "type": "text",
+          "id": "list_2_icon",
+          "label": "List Item 2 Icon",
+          "default": "arrow_circle_left",
+          "info": "Material Symbols icon name"
+        },
+        {
+          "type": "select",
+          "id": "list_2_icon_type",
+          "label": "List Item 2 Icon Type",
+          "options": [
+            { "value": "warning", "label": "Warning" },
+            { "value": "arrow", "label": "Arrow" }
+          ],
+          "default": "arrow"
+        },
+        {
+          "type": "text",
+          "id": "list_2_text",
+          "label": "List Item 2 Text",
+          "default": "Customer Pays Return Shipping"
+        },
+        {
+          "type": "text",
+          "id": "list_3_icon",
+          "label": "List Item 3 Icon",
+          "default": "check_circle",
+          "info": "Optional, Material Symbols icon name"
+        },
+        {
+          "type": "select",
+          "id": "list_3_icon_type",
+          "label": "List Item 3 Icon Type",
+          "options": [
+            { "value": "warning", "label": "Warning" },
+            { "value": "arrow", "label": "Arrow" }
+          ],
+          "default": "warning"
+        },
+        {
+          "type": "text",
+          "id": "list_3_text",
+          "label": "List Item 3 Text",
+          "default": "Optional list item"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "RRP - Main Policy Sections",
+      "blocks": [
+        {
+          "type": "defective_card"
+        },
+        {
+          "type": "policy_card",
+          "settings": {
+            "title": "Non-Defective (Unopened)",
+            "description": "Changed your mind? Unopened items can be returned within 30 days. You will receive a refund for the item price only.",
+            "list_1_icon": "warning",
+            "list_1_icon_type": "warning",
+            "list_1_text": "30% Restocking Fee Applies",
+            "list_2_icon": "arrow_circle_left",
+            "list_2_icon_type": "arrow",
+            "list_2_text": "Customer Pays Return Shipping"
+          }
+        },
+        {
+          "type": "policy_card",
+          "settings": {
+            "title": "Non-Defective (Opened)",
+            "description": "Opened items may be returned within 30 days if they are in resaleable condition. Refund is for item price minus fees.",
+            "icon_name": "draft",
+            "list_1_icon": "warning",
+            "list_1_icon_type": "warning",
+            "list_1_text": "30% Restocking Fee Applies",
+            "list_2_icon": "arrow_circle_left",
+            "list_2_icon_type": "arrow",
+            "list_2_text": "Customer Pays Return Shipping"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

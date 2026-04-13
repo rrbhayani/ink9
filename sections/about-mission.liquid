@@ -1,0 +1,217 @@
+{%- style -%}
+  /* CSS Variables for About Mission Section */
+  :root {
+    --text-blue: #49739c;
+    --gray-400: #9ca3af;
+  }
+
+  /* Dark Mode Variables */
+  .dark {
+    --gray-400: #9ca3af;
+  }
+
+  /* Mission Section */
+  .about-mission-section-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .about-section-title-{{ section.id }} {
+    color: rgb(var(--color-foreground));
+    font-size: {{ section.settings.title_font_size_mobile | default: 24 }}px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    text-align: center;
+    margin: 0;
+  }
+
+  @media (min-width: 640px) {
+    .about-section-title-{{ section.id }} {
+      font-size: {{ section.settings.title_font_size_desktop | default: 30 }}px;
+    }
+  }
+
+  .about-mission-text-{{ section.id }} {
+    color: rgba(var(--color-foreground), 0.75);
+    font-size: {{ section.settings.text_font_size | default: 16 }}px;
+    font-weight: 400;
+    line-height: 1.75;
+    max-width: 80rem;
+    margin: 0;
+  }
+
+  .about-mission-container-{{ section.id }} {
+    margin: 0 auto;
+    padding: {{ section.settings.padding_top | default: 40 }}px 1.5rem {{ section.settings.padding_bottom | default: 40 }}px;
+  }
+
+  {% if section.settings.width_type == 'custom' %}
+    .about-mission-container-{{ section.id }} {
+      max-width: {{ section.settings.custom_width | default: 1200 }}px;
+    }
+  {% elsif section.settings.width_type == 'full' %}
+    .about-mission-container-{{ section.id }} {
+      max-width: 100%;
+      padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 40 }}px !important;
+    }
+  {% else %}
+    .about-mission-container-{{ section.id }} {
+      max-width: var(--page-width);
+    }
+  {% endif %}
+
+  {% unless section.settings.width_type == 'full' %}
+    @media screen and (min-width: 750px) {
+      .about-mission-container-{{ section.id }} {
+        padding-left: 5rem;
+        padding-right: 5rem;
+      }
+    }
+  {% endunless %}
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="about-mission-container-{{ section.id }}">
+    <section class="about-mission-section-{{ section.id }}">
+      <h2 class="about-section-title-{{ section.id }}">{{ section.settings.title | default: "Our Mission" }}</h2>
+      <p class="about-mission-text-{{ section.id }}">
+        {{ section.settings.text | default: "Our mission is to empower individuals and businesses by providing a seamless and affordable printing experience. We strive to be the most trusted name in printing supplies through our commitment to quality, value, and exceptional customer service." }}
+      </p>
+    </section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Mission",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Our Mission"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Our mission is to empower individuals and businesses by providing a seamless and affordable printing experience. We strive to be the most trusted name in printing supplies through our commitment to quality, value, and exceptional customer service."
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_mobile",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Font Size (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_desktop",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Font Size (Desktop)",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text Font Size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width_type",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "page",
+          "label": "Page Width"
+        },
+        {
+          "value": "full",
+          "label": "Full Width"
+        },
+        {
+          "value": "custom",
+          "label": "Custom Width"
+        }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "min": 400,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Custom Max Width",
+      "default": 1200,
+      "info": "Only applies when Custom Width is selected"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Mission"
+    }
+  ]
+}
+{% endschema %}
+

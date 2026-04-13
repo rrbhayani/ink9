@@ -1,0 +1,489 @@
+.collection-list {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.collection-list-title {
+  margin: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .collection-list:not(.slider) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .section-collection-list .page-width {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .section-collection-list .collection-list:not(.slider) {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.collection-list__item:only-child {
+  max-width: 100%;
+  width: 100%;
+}
+
+@media screen and (max-width: 749px) {
+  .slider.collection-list--1-items {
+    padding-bottom: 0;
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .slider.collection-list--1-items,
+  .slider.collection-list--2-items,
+  .slider.collection-list--3-items,
+  .slider.collection-list--4-items {
+    padding-bottom: 0;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .collection-list__item a:hover {
+    box-shadow: none;
+  }
+}
+
+/* Bold Ink-Themed Page Load & Hover Animations */
+@media (prefers-reduced-motion: no-preference) {
+  /* Page Load Entrance Animations - Simplified to prevent blank screen */
+
+  /* Section title typewriter effect */
+  .collection-list-title {
+    position: relative;
+    overflow: hidden;
+    animation: typewriter 2s steps(40, end) 0.5s forwards;
+  }
+
+  .collection-list-title::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    /* background: rgb(var(--color-accent)); */
+    animation: blink-caret 0.75s step-end infinite;
+  }
+
+  @keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  @keyframes blink-caret {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Collection items staggered entrance - using transform instead of opacity */
+  .collection-list__item .card-wrapper {
+    transform: translateY(30px);
+    animation: cardEntrance 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation-delay: calc(var(--item-index, 0) * 0.1s + 0.8s);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @keyframes cardEntrance {
+    0% {
+      transform: translateY(30px) scale(0.95);
+    }
+    50% {
+      transform: translateY(-5px) scale(1.02);
+    }
+    100% {
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Staggered animation delays for each item */
+  .collection-list__item:nth-child(1) { --item-index: 1; }
+  .collection-list__item:nth-child(2) { --item-index: 2; }
+  .collection-list__item:nth-child(3) { --item-index: 3; }
+  .collection-list__item:nth-child(4) { --item-index: 4; }
+  .collection-list__item:nth-child(5) { --item-index: 5; }
+  .collection-list__item:nth-child(6) { --item-index: 6; }
+  .collection-list__item:nth-child(7) { --item-index: 7; }
+  .collection-list__item:nth-child(8) { --item-index: 8; }
+  .collection-list__item:nth-child(9) { --item-index: 9; }
+  .collection-list__item:nth-child(10) { --item-index: 10; }
+  .collection-list__item:nth-child(11) { --item-index: 11; }
+  .collection-list__item:nth-child(12) { --item-index: 12; }
+  .collection-list__item:nth-child(13) { --item-index: 13; }
+  .collection-list__item:nth-child(14) { --item-index: 14; }
+  .collection-list__item:nth-child(15) { --item-index: 15; }
+
+  /* View All button slide in from right */
+  .collection-list-view-all {
+    transform: translateX(30px);
+    animation: slideInRight 0.6s ease-out 1.5s forwards;
+  }
+
+  @keyframes slideInRight {
+    from { transform: translateX(30px); }
+    to { transform: translateX(0); }
+  }
+
+  /* Slider buttons fade in */
+  .slider-buttons {
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease-out 2s forwards;
+  }
+
+  @keyframes fadeInUp {
+    from { transform: translateY(20px); opacity: 0.7; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Title wrapper fade in */
+  .title-wrapper-with-link {
+    transform: translateY(-20px);
+    animation: titleSlideDown 0.5s ease-out 0.3s forwards;
+  }
+
+  @keyframes titleSlideDown {
+    from { transform: translateY(-20px); opacity: 0.7; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Simplified hover effects to prevent display issues */
+
+  .collection-list__item .card-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 100%);
+    z-index: 2;
+    transition: left 0.6s ease;
+  }
+
+  .collection-list__item:hover .card-wrapper {
+    transform: translateY(-8px) scale(1.02);
+    /* box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); */
+  }
+  .collection-list__item:hover .card-wrapper::before {
+    left: 100%;
+  }
+
+  /* Simplified arrow animation */
+  .collection-list__item .icon-wrap {
+    transition: transform 0.3s ease;
+  }
+
+  .collection-list__item:hover .icon-wrap {
+    transform: translateX(6px);
+  }
+
+  /* Simplified text hover effects */
+  .collection-list__item .card__heading,
+  .collection-list__item .card__caption {
+    transition: transform 0.3s ease;
+  }
+
+  .collection-list__item:hover .card__heading {
+    transform: translateY(-2px);
+  }
+
+  .collection-list__item:hover .card__caption {
+    transform: translateY(-1px);
+  }
+
+  /* Simplified button animations */
+  .collection-list-view-all .button {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .collection-list-view-all .button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .slider-button {
+    transition: transform 0.3s ease;
+  }
+
+  .slider-button:hover {
+    transform: scale(1.05);
+  }
+
+  /* Simple link animations */
+  .link.underlined-link {
+    transition: transform 0.3s ease;
+  }
+
+  .link.underlined-link:hover {
+    transform: translateX(4px);
+  }
+
+  /* Keep only essential animations */
+}
+
+@media screen and (max-width: 989px) {
+  .collection-list.slider .collection-list__item {
+    max-width: 100%;
+  }
+}
+
+.collection-list-view-all {
+  margin-top: 2rem;
+}
+
+/* Title over image styles */
+.card .card__inner .card__media--title-over {
+  overflow: hidden !important;
+  z-index: 1;
+}
+
+.card__media--title-over .media {
+  z-index: 1;
+}
+
+.card__media--title-over .card__content--over-image {
+  position: absolute !important;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  z-index: 10;
+  pointer-events: none;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+}
+
+.card__media--title-over .card__content--over-image .card__information {
+  padding: 0 !important;
+  width: 100%;
+  pointer-events: auto;
+  display: block !important;
+  grid-row-start: auto !important;
+}
+
+.card__media--title-over .card__content--over-image .card__heading {
+  margin: 0 !important;
+  display: block !important;
+}
+
+.card__media--title-over .card__content--over-image .card__heading a {
+  color: rgb(var(--color-background)) !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7), 0 0 12px rgba(0, 0, 0, 0.5);
+  display: inline-block;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+.card__media--title-over .card__content--over-image .card__caption {
+  color: rgba(var(--color-background), 0.95) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.3);
+  margin-top: 0.5rem;
+  display: block !important;
+}
+
+/* Override any display: none rules that might hide the content */
+.card--card.card--media .card__media--title-over .card__content--over-image,
+.card--standard.card--media .card__media--title-over .card__content--over-image {
+  display: flex !important;
+}
+
+.card--card.card--media .card__media--title-over .card__content--over-image .card__information,
+.card--standard.card--media .card__media--title-over .card__content--over-image .card__information {
+  display: block !important;
+}
+
+@media screen and (min-width: 750px) {
+  .card__media--title-over .card__content--over-image {
+    padding: 2rem;
+  }
+}
+
+/* Infinite Slider Styles */
+.collection-list-slider-wrapper {
+  position: relative;
+}
+
+.collection-list-slider-wrapper.has-slider .collection-list-slider-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Base slider styles - will be overridden by breakpoint-specific classes */
+.collection-list-slider-wrapper.has-slider .collection-list {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+/* Mobile: Show 1 card centered - only if has-mobile-slider */
+@media screen and (max-width: 749px) {
+  .collection-list-slider-wrapper.has-mobile-slider .collection-list {
+    justify-content: flex-start;
+    scroll-padding-left: 0;
+    scroll-padding-right: 0;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .collection-list-slider-wrapper.has-mobile-slider .collection-list__item {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    width: calc(100% - 3rem);
+    min-width: calc(100% - 3rem);
+    max-width: calc(100% - 3rem);
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+  
+  .collection-list-slider-wrapper.has-mobile-slider .collection-list__item:first-child {
+    margin-left: 1.5rem;
+  }
+  
+  .collection-list-slider-wrapper.has-mobile-slider .collection-list__item:last-child {
+    margin-right: 1.5rem;
+  }
+  
+  /* Hide slider buttons if only 1 item on mobile */
+  .collection-list-slider-wrapper.has-mobile-slider[data-total-items="1"] .slider-buttons {
+    display: none !important;
+  }
+}
+
+/* Tablet: Show 2 cards - only if has-tablet-slider (more than 2 items) */
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .collection-list-slider-wrapper.has-tablet-slider .collection-list {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .collection-list-slider-wrapper.has-tablet-slider .collection-list__item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: calc((100% - var(--grid-desktop-horizontal-spacing)) / 2);
+    min-width: calc((100% - var(--grid-desktop-horizontal-spacing)) / 2);
+    margin-right: var(--grid-desktop-horizontal-spacing);
+  }
+  
+  /* Adjust for different column settings on tablet */
+  .collection-list-slider-wrapper.has-tablet-slider .grid--1-col-desktop .collection-list__item {
+    width: 100%;
+    min-width: 100%;
+  }
+  
+  /* Hide slider buttons if 2 or fewer items on tablet */
+  .collection-list-slider-wrapper.has-tablet-slider[data-total-items="1"] .slider-buttons,
+  .collection-list-slider-wrapper.has-tablet-slider[data-total-items="2"] .slider-buttons {
+    display: none !important;
+  }
+}
+
+/* Desktop: Show based on column settings - only if has-desktop-slider (more than 5 items) */
+@media screen and (min-width: 990px) {
+  .collection-list-slider-wrapper.has-desktop-slider .collection-list {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    column-gap: unset !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .collection-list-slider-wrapper.has-desktop-slider .collection-list__item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: calc((100% - var(--grid-desktop-horizontal-spacing) * 2) / 3);
+    min-width: calc((100% - var(--grid-desktop-horizontal-spacing) * 2) / 3);
+    margin-right: var(--grid-desktop-horizontal-spacing);
+  }
+  
+  /* Adjust for different column settings */
+  .collection-list-slider-wrapper.has-desktop-slider .grid--1-col-desktop .collection-list__item {
+    width: 100%;
+    min-width: 100%;
+  }
+  
+  .collection-list-slider-wrapper.has-desktop-slider .grid--2-col-desktop .collection-list__item {
+    width: calc((100% - var(--grid-desktop-horizontal-spacing)) / 2);
+    min-width: calc((100% - var(--grid-desktop-horizontal-spacing)) / 2);
+  }
+  
+  .collection-list-slider-wrapper.has-desktop-slider .grid--4-col-desktop .collection-list__item {
+    width: calc((100% - var(--grid-desktop-horizontal-spacing) * 3) / 4);
+    min-width: calc((100% - var(--grid-desktop-horizontal-spacing) * 3) / 4);
+  }
+  
+  .collection-list-slider-wrapper.has-desktop-slider .grid--5-col-desktop .collection-list__item {
+    width: calc((100% - var(--grid-desktop-horizontal-spacing) * 4) / 5);
+    min-width: calc((100% - var(--grid-desktop-horizontal-spacing) * 4) / 5);
+  }
+  
+  .collection-list-slider-wrapper.has-desktop-slider .grid--6-col-desktop .collection-list__item {
+    width: calc((100% - var(--grid-desktop-horizontal-spacing) * 5) / 6);
+    min-width: calc((100% - var(--grid-desktop-horizontal-spacing) * 5) / 6);
+  }
+  
+  /* Hide slider buttons if 5 or fewer items on desktop - regardless of other slider classes */
+  .collection-list-slider-wrapper[data-total-items="1"] .slider-buttons,
+  .collection-list-slider-wrapper[data-total-items="2"] .slider-buttons,
+  .collection-list-slider-wrapper[data-total-items="3"] .slider-buttons,
+  .collection-list-slider-wrapper[data-total-items="4"] .slider-buttons,
+  .collection-list-slider-wrapper[data-total-items="5"] .slider-buttons {
+    display: none !important;
+  }
+}
+
+/* Hide scrollbar but keep functionality */
+.collection-list-slider-wrapper.has-mobile-slider .collection-list,
+.collection-list-slider-wrapper.has-tablet-slider .collection-list,
+.collection-list-slider-wrapper.has-desktop-slider .collection-list {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.collection-list-slider-wrapper.has-mobile-slider .collection-list::-webkit-scrollbar,
+.collection-list-slider-wrapper.has-tablet-slider .collection-list::-webkit-scrollbar,
+.collection-list-slider-wrapper.has-desktop-slider .collection-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Slider buttons - show only when slider is actually active */
+.collection-list-slider-wrapper.has-mobile-slider .slider-buttons,
+.collection-list-slider-wrapper.has-tablet-slider .slider-buttons,
+.collection-list-slider-wrapper.has-desktop-slider .slider-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* On desktop, hide buttons if not using desktop slider (5 or fewer items) */
+@media screen and (min-width: 990px) {
+  .collection-list-slider-wrapper:not(.has-desktop-slider) .slider-buttons {
+    display: none !important;
+  }
+}

@@ -1,0 +1,322 @@
+{% comment %}
+  Renders an upsell product block
+  
+  Accepts:
+  - block: {Object} Block object
+  - upsell_product: {Object} Product object from metafield
+  - current_product: {Object} Current product object
+  
+  Usage:
+  {% render 'upsell-product-block', block: block, upsell_product: upsell_product, current_product: current_product %}
+{% endcomment %}
+
+{{ 'upsell-product-block.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign section_title = block.settings.section_title | default: "Maximize Your Savings"
+  assign badge_text = block.settings.badge_text | default: "Save 15%"
+  assign button_text = block.settings.button_text | default: "Upgrade Now"
+  
+  assign card_border_color = block.settings.card_border_color | default: "rgba(13, 127, 242, 0.2)"
+  assign card_background_color = block.settings.card_background_color | default: "rgba(13, 127, 242, 0.05)"
+  assign title_icon_color = block.settings.title_icon_color | default: "#0d7ff2"
+  assign badge_background_color = block.settings.badge_background_color | default: "#0d7ff2"
+  assign badge_text_color = block.settings.badge_text_color | default: "#ffffff"
+  assign price_color = block.settings.price_color | default: "#0d7ff2"
+  assign button_text_color = block.settings.button_text_color | default: "#0d7ff2"
+  assign button_background_color = block.settings.button_background_color | default: "#ffffff"
+  assign button_border_color = block.settings.button_border_color | default: "rgba(13, 127, 242, 0.3)"
+  assign button_hover_background = block.settings.button_hover_background | default: "#0d7ff2"
+  assign button_hover_text_color = block.settings.button_hover_text_color | default: "#ffffff"
+-%}
+
+<style>
+  #upsell-block-{{ block.id }} .upsell-product-card {
+    border-color: {{ card_border_color }};
+    background-color: {{ card_background_color }};
+  }
+  
+  #upsell-block-{{ block.id }} .upsell-product-title-icon {
+    color: {{ title_icon_color }};
+  }
+  
+  #upsell-block-{{ block.id }} .upsell-product-badge {
+    background-color: {{ badge_background_color }};
+    color: {{ badge_text_color }};
+  }
+  
+  #upsell-block-{{ block.id }} .upsell-product-price-current {
+    color: {{ price_color }};
+  }
+  
+  #upsell-block-{{ block.id }} .upsell-product-button {
+    color: {{ button_text_color }};
+    background-color: {{ button_background_color }};
+    border-color: {{ button_border_color }};
+  }
+  
+  #upsell-block-{{ block.id }} .upsell-product-button:hover {
+    background-color: {{ button_hover_background }};
+    color: {{ button_hover_text_color }};
+    border-color: {{ button_hover_background }};
+  }
+</style>
+
+<section class="upsell-product-section-block" id="upsell-block-{{ block.id }}" {{ block.shopify_attributes }}>
+  <div class="upsell-product-card">
+    <div class="upsell-product-decorative-circle"></div>
+    <div class="upsell-product-content">
+      <div class="upsell-product-header">
+        <h3 class="upsell-product-title">
+          <span class="material-symbols-outlined upsell-product-title-icon">savings</span>
+          {{ section_title }}
+        </h3>
+        <span class="upsell-product-badge">{{ badge_text }}</span>
+      </div>
+      <div class="upsell-product-row">
+        <a href="{{ upsell_product.url }}" class="upsell-product-image-link">
+          <div class="upsell-product-image-container">
+            {%- if upsell_product.featured_image -%}
+              <img 
+                alt="{{ upsell_product.featured_image.alt | escape }}" 
+                class="upsell-product-image"
+                src="{{ upsell_product.featured_image | image_url: width: 200 }}"
+                loading="lazy"
+                width="80"
+                height="80"
+              />
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'upsell-product-image' }}
+            {%- endif -%}
+          </div>
+        </a>
+        <div class="upsell-product-info">
+          <div>
+            <a href="{{ upsell_product.url }}" class="upsell-product-name-link">
+              <p class="upsell-product-name">{{ upsell_product.title }}</p>
+            </a>
+            {%- if upsell_product.description != blank -%}
+              <div class="upsell-product-description-wrapper">
+                <p class="upsell-product-description">
+                  {{ upsell_product.description | strip_html | truncate: 60 }}
+                </p>
+              </div>
+            {%- endif -%}
+            
+            <div class="upsell-product-price-group">
+              <span class="upsell-product-price-current" id="upsell-price-{{ block.id }}">
+                {{ upsell_product.selected_or_first_available_variant.price | money }}
+              </span>
+              {%- if upsell_product.selected_or_first_available_variant.compare_at_price > upsell_product.selected_or_first_available_variant.price -%}
+                <span class="upsell-product-price-original" id="upsell-compare-price-{{ block.id }}">
+                  {{ upsell_product.selected_or_first_available_variant.compare_at_price | money }}
+                </span>
+              {%- endif -%}
+            </div>
+          </div>
+          
+          <div class="upsell-product-actions">
+            {%- if upsell_product.has_only_default_variant == false -%}
+              <div class="upsell-product-variant-selector">
+                <label for="upsell-variant-{{ block.id }}" class="upsell-variant-label">
+                  {{ upsell_product.options_with_values[0].name }}:
+                </label>
+                <select 
+                  id="upsell-variant-{{ block.id }}" 
+                  class="upsell-variant-select"
+                  data-product-id="{{ upsell_product.id }}"
+                >
+                  {%- for variant in upsell_product.variants -%}
+                    <option 
+                      value="{{ variant.id }}" 
+                      {% if variant.available == false %}disabled{% endif %}
+                      data-price="{{ variant.price }}"
+                      data-compare-price="{{ variant.compare_at_price }}"
+                    >
+                      {{ variant.title }} 
+                      {%- if variant.available == false %} - Sold Out{%- endif -%}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+            
+            <button 
+              type="button" 
+              class="upsell-product-button upsell-add-to-cart" 
+              data-product-id="{{ upsell_product.id }}"
+              data-current-product-id="{{ current_product.id }}"
+              data-block-id="{{ block.id }}"
+              data-has-variants="{{ upsell_product.has_only_default_variant }}"
+              data-default-variant-id="{{ upsell_product.selected_or_first_available_variant.id }}"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              {{ button_text }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    const blockId = '{{ block.id }}';
+    const variantSelect = document.getElementById('upsell-variant-' + blockId);
+    const priceElement = document.getElementById('upsell-price-' + blockId);
+    const comparePriceElement = document.getElementById('upsell-compare-price-' + blockId);
+    const addToCartButton = document.querySelector('[data-block-id="' + blockId + '"].upsell-add-to-cart');
+    
+    // Update price when variant changes
+    if (variantSelect) {
+      variantSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const price = selectedOption.dataset.price;
+        const comparePrice = selectedOption.dataset.comparePrice;
+        
+        // Update price display
+        if (priceElement && price) {
+          fetch('/cart.js')
+            .then(res => res.json())
+            .then(cart => {
+              const formattedPrice = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: cart.currency
+              }).format(price / 100);
+              priceElement.textContent = formattedPrice;
+              
+              // Update compare price
+              if (comparePriceElement && comparePrice && comparePrice > price) {
+                const formattedComparePrice = new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: cart.currency
+                }).format(comparePrice / 100);
+                comparePriceElement.textContent = formattedComparePrice;
+                comparePriceElement.style.display = 'inline';
+              } else if (comparePriceElement) {
+                comparePriceElement.style.display = 'none';
+              }
+            });
+        }
+      });
+    }
+    
+    // Handle add to cart
+    if (addToCartButton) {
+      addToCartButton.addEventListener('click', function() {
+        const hasVariants = addToCartButton.dataset.hasVariants === 'false';
+        const defaultVariantId = addToCartButton.dataset.defaultVariantId;
+        const currentProductId = addToCartButton.dataset.currentProductId;
+        const variantId = variantSelect ? variantSelect.value : defaultVariantId;
+        
+        // Disable button and show loading state
+        addToCartButton.disabled = true;
+        const originalHTML = addToCartButton.innerHTML;
+        addToCartButton.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg> Adding...';
+        
+        // Prepare line item properties
+        const properties = {
+          '_page': 'theme-upsell' + currentProductId
+        };
+        
+        // Add to cart with properties
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: variantId,
+            quantity: 1,
+            properties: properties
+          })
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Success
+          addToCartButton.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Added!';
+          
+          // Fetch updated cart and refresh sections
+          return fetch(window.Shopify.routes.root + 'cart.js')
+            .then(res => res.json())
+            .then(cartData => {
+              // Publish Shopify cart update event if available
+              if (typeof publish !== 'undefined' && typeof PUB_SUB_EVENTS !== 'undefined') {
+                publish(PUB_SUB_EVENTS.cartUpdate, {
+                  source: 'upsell-product',
+                  cartData: cartData
+                });
+              }
+              
+              // Dispatch custom event
+              document.dispatchEvent(new CustomEvent('cart:updated', { detail: cartData }));
+              
+              // Fetch and update cart sections
+              return fetch(`${window.Shopify.routes.root}?sections=cart-drawer,cart-icon-bubble`)
+                .then(response => response.json())
+                .then(sections => {
+                  // Update cart drawer content
+                  if (sections['cart-drawer']) {
+                    const cartDrawer = document.querySelector('cart-drawer');
+                    if (cartDrawer) {
+                      const parser = new DOMParser();
+                      const doc = parser.parseFromString(sections['cart-drawer'], 'text/html');
+                      const newDrawerInner = doc.querySelector('.drawer__inner');
+                      const currentDrawerInner = cartDrawer.querySelector('.drawer__inner');
+                      
+                      if (newDrawerInner && currentDrawerInner) {
+                        currentDrawerInner.innerHTML = newDrawerInner.innerHTML;
+                      }
+                      
+                      // Open the cart drawer
+                      setTimeout(() => {
+                        cartDrawer.open();
+                      }, 100);
+                    }
+                  }
+                  
+                  // Update cart icon bubble (item count)
+                  if (sections['cart-icon-bubble']) {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(sections['cart-icon-bubble'], 'text/html');
+                    const newBubble = doc.querySelector('.shopify-section');
+                    const currentBubble = document.querySelector('#cart-icon-bubble');
+                    
+                    if (newBubble && currentBubble) {
+                      currentBubble.innerHTML = newBubble.innerHTML;
+                    }
+                  }
+                  
+                  // Reset button after delay
+                  setTimeout(() => {
+                    addToCartButton.innerHTML = originalHTML;
+                    addToCartButton.disabled = false;
+                  }, 2000);
+                });
+            });
+        })
+        .catch(error => {
+          console.error('Error adding to cart:', error);
+          addToCartButton.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg> Error';
+          addToCartButton.disabled = false;
+          
+          setTimeout(() => {
+            addToCartButton.innerHTML = originalHTML;
+          }, 2000);
+        });
+      });
+    }
+  })();
+</script>
+
+

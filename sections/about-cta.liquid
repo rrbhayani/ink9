@@ -1,0 +1,258 @@
+{%- style -%}
+  /* CSS Variables for About CTA Section */
+  :root {
+    --primary: #0d7ff2;
+  }
+
+  /* CTA Section */
+  .about-cta-section-{{ section.id }} {
+    text-align: center;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .about-cta-button-{{ section.id }} {
+    {% if section.settings.button_background_color != blank %}
+      background-color: {{ section.settings.button_background_color }};
+    {% else %}
+      background-color: var(--primary);
+    {% endif %}
+    {% if section.settings.button_text_color != blank %}
+      color: {{ section.settings.button_text_color }};
+    {% else %}
+      color: white;
+    {% endif %}
+    font-weight: 700;
+    padding: {{ section.settings.button_padding_vertical | default: 12 }}px {{ section.settings.button_padding_horizontal | default: 32 }}px;
+    border-radius: {{ section.settings.button_border_radius | default: 8 }}px;
+    font-size: {{ section.settings.button_font_size | default: 16 }}px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .about-cta-button-{{ section.id }}:hover {
+    {% if section.settings.button_hover_background_color != blank %}
+      background-color: {{ section.settings.button_hover_background_color }};
+    {% else %}
+      background-color: rgba(13, 127, 242, 0.9);
+    {% endif %}
+    transform: translateY(-1px);
+  }
+
+  .about-cta-button-{{ section.id }}:active {
+    transform: translateY(0);
+  }
+
+  .about-cta-container-{{ section.id }} {
+    margin: 0 auto;
+    padding: {{ section.settings.padding_top | default: 40 }}px 1.5rem {{ section.settings.padding_bottom | default: 40 }}px;
+  }
+
+  {% if section.settings.width_type == 'custom' %}
+    .about-cta-container-{{ section.id }} {
+      max-width: {{ section.settings.custom_width | default: 1200 }}px;
+    }
+  {% elsif section.settings.width_type == 'full' %}
+    .about-cta-container-{{ section.id }} {
+      max-width: 100%;
+      padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 40 }}px !important;
+    }
+  {% else %}
+    .about-cta-container-{{ section.id }} {
+      max-width: var(--page-width);
+    }
+  {% endif %}
+
+  {% unless section.settings.width_type == 'full' %}
+    @media screen and (min-width: 750px) {
+      .about-cta-container-{{ section.id }} {
+        padding-left: 5rem;
+        padding-right: 5rem;
+      }
+    }
+  {% endunless %}
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="about-cta-container-{{ section.id }}">
+    <section class="about-cta-section-{{ section.id }}">
+      {% if section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="about-cta-button-{{ section.id }}">
+          {{ section.settings.button_text | default: "Shop Our Bestsellers" }}
+        </a>
+      {% else %}
+        <button class="about-cta-button-{{ section.id }}">
+          {{ section.settings.button_text | default: "Shop Our Bestsellers" }}
+        </button>
+      {% endif %}
+    </section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About CTA",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Our Bestsellers"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "info": "Leave empty to use as button without link"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button Background Color",
+      "default": "#0d7ff2"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background_color",
+      "label": "Button Hover Background Color",
+      "default": "#0b6dd4",
+      "info": "Leave empty for default hover effect"
+    },
+    {
+      "type": "header",
+      "content": "Button Styling"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Padding (Top/Bottom)",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 16,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "Button Padding (Left/Right)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Border Radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width_type",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "page",
+          "label": "Page Width"
+        },
+        {
+          "value": "full",
+          "label": "Full Width"
+        },
+        {
+          "value": "custom",
+          "label": "Custom Width"
+        }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "min": 400,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Custom Max Width",
+      "default": 1200,
+      "info": "Only applies when Custom Width is selected"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "About CTA"
+    }
+  ]
+}
+{% endschema %}
+

@@ -1,0 +1,345 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "rrp_heading_EK7gnM": {
+      "type": "rrp-heading",
+      "name": "Return & Refund Policy Header",
+      "settings": {
+        "title": "Return & Refund Policy",
+        "title_size_mobile": 30,
+        "title_size_desktop": 48,
+        "title_color": "#0f172a",
+        "show_updated_date": true,
+        "updated_date_label": "Last updated",
+        "updated_date": "October 26, 2023",
+        "updated_color": "#64748b",
+        "intro_text": "We want you to be completely satisfied with your purchase. If you're not happy with your order, we're here to help make it right.",
+        "intro_color": "#475569",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "rrp_stats_3VEqVD": {
+      "type": "rrp-stats",
+      "blocks": {
+        "stat_jhiLGg": {
+          "type": "stat",
+          "settings": {
+            "label": "Return Window",
+            "value": "30 Days",
+            "note": "Optional note"
+          }
+        },
+        "stat_kyXfBj": {
+          "type": "stat",
+          "settings": {
+            "label": "Restocking Fee",
+            "value": "30%",
+            "note": "Non-defective"
+          }
+        },
+        "stat_WFwFea": {
+          "type": "stat",
+          "settings": {
+            "label": "Return Shipping",
+            "value": "Customer Pays",
+            "note": "Optional note"
+          }
+        },
+        "stat_Ybhy7P": {
+          "type": "stat",
+          "settings": {
+            "label": "Processing Time",
+            "value": "~10 Days",
+            "note": "Optional note"
+          }
+        }
+      },
+      "block_order": [
+        "stat_jhiLGg",
+        "stat_kyXfBj",
+        "stat_WFwFea",
+        "stat_Ybhy7P"
+      ],
+      "name": "RRP - Quick Summary Stats",
+      "settings": {
+        "columns_desktop": 4,
+        "border_color": "#e2e8f0",
+        "label_color": "#64748b",
+        "value_color": "#0f172a",
+        "value_size": 18,
+        "note_color": "#64748b",
+        "padding_vertical": 32,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "rrp_main_policy_DJTG9C": {
+      "type": "rrp-main-policy",
+      "blocks": {
+        "defective_card_zhHTzE": {
+          "type": "defective_card",
+          "settings": {
+            "title": "Defective Items",
+            "title_size": 20,
+            "title_color": "#0f172a",
+            "description": "<p>If you receive a defective item, we've got you covered. We offer a <strong>full refund</strong> for the entire order if the complete order is returned. If you return only part of a defective order, you will receive a partial refund for the returned items.</p>",
+            "description_color": "#475569",
+            "show_icon": true,
+            "icon_name": "report_problem",
+            "icon_bg_color": "#fee2e2",
+            "icon_color": "#dc2626",
+            "background_color": "#f8fafc",
+            "border_color": "#e2e8f0",
+            "card_padding_mobile": 24,
+            "card_padding_desktop": 32,
+            "span_full": true,
+            "show_badges": true,
+            "badge_bg_color": "#dcfce7",
+            "badge_text_color": "#15803d",
+            "badge_1_icon": "check_circle",
+            "badge_1_text": "No Restocking Fee",
+            "badge_2_icon": "local_shipping",
+            "badge_2_text": "We Pay Return Shipping",
+            "badge_3_icon": "check_circle",
+            "badge_3_text": "Extra badge"
+          }
+        },
+        "policy_card_bgqD88": {
+          "type": "policy_card",
+          "settings": {
+            "title": "Non-Defective (Unopened)",
+            "title_size": 18,
+            "title_color": "#0f172a",
+            "description": "Changed your mind? Unopened items can be returned within 30 days. You will receive a refund for the item price only.",
+            "description_color": "#475569",
+            "show_icon": true,
+            "icon_name": "package_2",
+            "icon_bg_color": "#f1f5f9",
+            "icon_color": "#475569",
+            "background_color": "#ffffff",
+            "border_color": "#e2e8f0",
+            "card_padding": 24,
+            "span_full": false,
+            "list_color": "#64748b",
+            "warning_icon_color": "#f59e0b",
+            "arrow_icon_color": "#94a3b8",
+            "list_1_icon": "warning",
+            "list_1_icon_type": "warning",
+            "list_1_text": "30% Restocking Fee Applies",
+            "list_2_icon": "arrow_circle_left",
+            "list_2_icon_type": "arrow",
+            "list_2_text": "Customer Pays Return Shipping",
+            "list_3_icon": "check_circle",
+            "list_3_icon_type": "warning",
+            "list_3_text": ""
+          }
+        },
+        "policy_card_qWQT7q": {
+          "type": "policy_card",
+          "settings": {
+            "title": "Non-Defective (Opened)",
+            "title_size": 18,
+            "title_color": "#0f172a",
+            "description": "Opened items may be returned within 30 days if they are in resaleable condition. Refund is for item price minus fees.",
+            "description_color": "#475569",
+            "show_icon": true,
+            "icon_name": "draft",
+            "icon_bg_color": "#f1f5f9",
+            "icon_color": "#475569",
+            "background_color": "#ffffff",
+            "border_color": "#e2e8f0",
+            "card_padding": 24,
+            "span_full": false,
+            "list_color": "#64748b",
+            "warning_icon_color": "#f59e0b",
+            "arrow_icon_color": "#94a3b8",
+            "list_1_icon": "warning",
+            "list_1_icon_type": "warning",
+            "list_1_text": "30% Restocking Fee Applies",
+            "list_2_icon": "arrow_circle_left",
+            "list_2_icon_type": "arrow",
+            "list_2_text": "Customer Pays Return Shipping",
+            "list_3_icon": "check_circle",
+            "list_3_icon_type": "warning",
+            "list_3_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "defective_card_zhHTzE",
+        "policy_card_bgqD88",
+        "policy_card_qWQT7q"
+      ],
+      "name": "RRP - Main Policy Sections",
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "rrp_non_returnable_3ADNF8": {
+      "type": "rrp-non-returnable",
+      "blocks": {
+        "tag_LqwRf4": {
+          "type": "tag",
+          "settings": {
+            "tag_text": "OEM Products"
+          }
+        },
+        "tag_LHBrxV": {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Inkjet Cartridges"
+          }
+        },
+        "tag_RAPTar": {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Bottled Inks"
+          }
+        },
+        "tag_T9GUWk": {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Label Tapes"
+          }
+        },
+        "tag_nhnjGM": {
+          "type": "tag",
+          "settings": {
+            "tag_text": "POS Ribbons"
+          }
+        }
+      },
+      "block_order": [
+        "tag_LqwRf4",
+        "tag_LHBrxV",
+        "tag_RAPTar",
+        "tag_T9GUWk",
+        "tag_nhnjGM"
+      ],
+      "name": "RRP - Non-Returnable",
+      "settings": {
+        "title": "Non-Returnable Items",
+        "title_size": 24,
+        "title_color": "#0f172a",
+        "note_text": "* These items are final sale unless defective upon arrival.",
+        "note_color": "#64748b",
+        "tag_bg_color": "#f1f5f9",
+        "tag_text_color": "#475569",
+        "tag_border_color": "#e2e8f0",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "rrp_timeline_APkCge": {
+      "type": "rrp-timeline",
+      "blocks": {
+        "timeline_item_MhtG6r": {
+          "type": "timeline_item",
+          "settings": {
+            "title": "Item Received",
+            "description": "Package arrives at our facility.",
+            "status": "active"
+          }
+        },
+        "timeline_item_Qj6TdP": {
+          "type": "timeline_item",
+          "settings": {
+            "title": "Inspection",
+            "description": "Within 3 business days of receipt.",
+            "status": "inactive"
+          }
+        },
+        "timeline_item_FP7YHb": {
+          "type": "timeline_item",
+          "settings": {
+            "title": "Refund Issued",
+            "description": "Within 7 business days after inspection.",
+            "status": "inactive"
+          }
+        }
+      },
+      "block_order": [
+        "timeline_item_MhtG6r",
+        "timeline_item_Qj6TdP",
+        "timeline_item_FP7YHb"
+      ],
+      "name": "RRP - Refund Timeline",
+      "settings": {
+        "title": "Refund Timeline",
+        "title_size": 24,
+        "title_color": "#0f172a",
+        "background_color": "rgba(13, 127, 242, 0.05)",
+        "border_color": "rgba(13, 127, 242, 0.1)",
+        "card_padding": 32,
+        "timeline_line_color": "#e2e8f0",
+        "active_dot_color": "#0d7ff2",
+        "active_number_color": "#ffffff",
+        "inactive_dot_color": "#cbd5e1",
+        "inactive_bg_color": "#ffffff",
+        "inactive_border_color": "#cbd5e1",
+        "inactive_number_color": "#64748b",
+        "mobile_title_color": "#0f172a",
+        "mobile_text_color": "#64748b",
+        "desktop_title_color": "#0f172a",
+        "desktop_text_color": "#64748b",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "rrp_footer_8dcVeL": {
+      "type": "rrp-footer",
+      "name": "RRP - Footer Action",
+      "settings": {
+        "show_button": true,
+        "button_text": "Contact Us",
+        "button_url": "shopify://pages/contact",
+        "show_button_icon": true,
+        "button_icon": "arrow_forward",
+        "button_bg_color": "#0d7ff2",
+        "button_hover_bg_color": "#2563eb",
+        "button_text_color": "#ffffff",
+        "button_font_size": 18,
+        "button_padding_vertical": 16,
+        "button_padding_horizontal": 48,
+        "button_shadow": "0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -2px rgba(59, 130, 246, 0.3)",
+        "show_link": true,
+        "link_text": "Have questions? Contact Support",
+        "link_url": "",
+        "link_color": "#64748b",
+        "link_hover_color": "#0d7ff2",
+        "link_font_size": 14,
+        "footer_padding_top": 20,
+        "footer_padding_bottom": 20,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rrp_heading_EK7gnM",
+    "rrp_stats_3VEqVD",
+    "rrp_main_policy_DJTG9C",
+    "rrp_non_returnable_3ADNF8",
+    "rrp_timeline_APkCge",
+    "rrp_footer_8dcVeL"
+  ]
+}

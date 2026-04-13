@@ -1,0 +1,353 @@
+{%- style -%}
+  /* CSS Variables for About Features Section */
+  :root {
+    --primary: #0d7ff2;
+    --text-blue: #49739c;
+    --gray-400: #9ca3af;
+    --gray-200: #e5e7eb;
+    --gray-700: #374151;
+    --text-dark: #0d141c;
+    --background-dark: #101922;
+  }
+
+  /* Dark Mode Variables */
+  .dark {
+    --gray-400: #9ca3af;
+    --gray-700: #374151;
+    --background-dark: #101922;
+  }
+
+  /* Section: Why Choose Us */
+  .about-section-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about-section-title-{{ section.id }} {
+    color: rgb(var(--color-foreground));
+    font-size: {{ section.settings.section_title_font_size_mobile | default: 24 }}px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    text-align: center;
+    margin: 0;
+  }
+
+  @media (min-width: 640px) {
+    .about-section-title-{{ section.id }} {
+      font-size: {{ section.settings.section_title_font_size_desktop | default: 30 }}px;
+    }
+  }
+
+  .about-features-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .about-features-grid-{{ section.id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .about-feature-card-{{ section.id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--gray-200);
+    background-color: white;
+    padding: 1.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .about-feature-card-{{ section.id }} {
+    border-color: var(--gray-700);
+    background-color: var(--background-dark);
+  }
+
+  .about-feature-icon-{{ section.id }} {
+    color: var(--primary);
+    font-size: {{ section.settings.icon_size | default: 30 }}px;
+    margin-top: 0.25rem;
+  }
+
+  .about-feature-content-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .about-feature-content-{{ section.id }} h3 {
+    font-weight: 700;
+    font-size: {{ section.settings.feature_title_font_size | default: 18 }}px;
+    color: rgb(var(--color-foreground));
+    margin: 0;
+  }
+
+  .about-feature-content-{{ section.id }} p {
+    font-size: {{ section.settings.feature_description_font_size | default: 14 }}px;
+    color: rgba(var(--color-foreground), 0.75);
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+  }
+
+  .about-features-container-{{ section.id }} {
+    margin: 0 auto;
+    padding: {{ section.settings.padding_top | default: 40 }}px 1.5rem {{ section.settings.padding_bottom | default: 40 }}px;
+  }
+
+  {% if section.settings.width_type == 'custom' %}
+    .about-features-container-{{ section.id }} {
+      max-width: {{ section.settings.custom_width | default: 1200 }}px;
+    }
+  {% elsif section.settings.width_type == 'full' %}
+    .about-features-container-{{ section.id }} {
+      max-width: 100%;
+      padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 40 }}px !important;
+    }
+  {% else %}
+    .about-features-container-{{ section.id }} {
+      max-width: var(--page-width);
+    }
+  {% endif %}
+
+  {% unless section.settings.width_type == 'full' %}
+    @media screen and (min-width: 750px) {
+      .about-features-container-{{ section.id }} {
+        padding-left: 5rem;
+        padding-right: 5rem;
+      }
+    }
+  {% endunless %}
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="about-features-container-{{ section.id }}">
+    <section class="about-section-{{ section.id }}">
+      <h2 class="about-section-title-{{ section.id }}">{{ section.settings.title | default: "The Clear Choice for Quality & Value" }}</h2>
+
+      <div class="about-features-grid-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          <div class="about-feature-card-{{ section.id }}" {{ block.shopify_attributes }}>
+            <span class="material-symbols-outlined about-feature-icon-{{ section.id }}">
+              {{ block.settings.icon | default: "verified" }}
+            </span>
+            <div class="about-feature-content-{{ section.id }}">
+              <h3>{{ block.settings.title }}</h3>
+              <p>{{ block.settings.description }}</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Features",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "The Clear Choice for Quality & Value"
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes"
+    },
+    {
+      "type": "range",
+      "id": "section_title_font_size_mobile",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Section Title Font Size (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "section_title_font_size_desktop",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Section Title Font Size (Desktop)",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "feature_title_font_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Feature Title Font Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "feature_description_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Feature Description Font Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon Size",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width_type",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "page",
+          "label": "Page Width"
+        },
+        {
+          "value": "full",
+          "label": "Full Width"
+        },
+        {
+          "value": "custom",
+          "label": "Custom Width"
+        }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "min": 400,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Custom Max Width",
+      "default": 1200,
+      "info": "Only applies when Custom Width is selected"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature_card",
+      "name": "Feature Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Material Icon Name",
+          "default": "verified",
+          "info": "Enter Material Symbols icon name (e.g., verified, sell, local_shipping, support_agent). Browse all icons at: https://fonts.google.com/icons"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Feature description text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Features",
+      "blocks": [
+        {
+          "type": "feature_card",
+          "settings": {
+            "icon": "verified",
+            "title": "Quality Guarantee",
+            "description": "Every product is tested to meet or exceed original manufacturer standards."
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "icon": "sell",
+            "title": "Competitive Pricing",
+            "description": "We offer the best prices on the market without compromising on quality."
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "icon": "local_shipping",
+            "title": "Fast Shipping",
+            "description": "Get your order delivered quickly and reliably right to your doorstep."
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "icon": "support_agent",
+            "title": "Expert Support",
+            "description": "Our knowledgeable team is here to help you find the perfect product."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

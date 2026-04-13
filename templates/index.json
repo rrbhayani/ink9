@@ -1,0 +1,535 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>Affordable Toner & shipping supplies for Every Printer</strong>",
+            "heading_size": "h0"
+          }
+        },
+        "text_8A3YaL": {
+          "type": "text",
+          "settings": {
+            "text": "High Quality Compatible & Remanufactured Cartridges",
+            "text_style": "subtitle"
+          }
+        },
+        "button": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop all",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text_8A3YaL",
+        "button"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/hero-image.png",
+        "image_overlay_opacity": 50,
+        "image_height": "medium",
+        "custom_height": 600,
+        "image_behavior": "none",
+        "desktop_content_position": "bottom-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "scheme-2",
+        "stack_images_on_mobile": false,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "slideshow_rGJxy4": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_YzedVa": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/hero-image.png",
+            "image_overlay_opacity": 40,
+            "heading": "High Quality Compatible & Remanufactured Cartridges",
+            "heading_size": "h1",
+            "subheading": "<strong>Affordable Ink & Toner for Every Printer</strong>",
+            "button_label": "Shop All",
+            "link": "shopify://collections/all",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-2"
+          }
+        },
+        "slide_7EpWLX": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_YzedVa",
+        "slide_7EpWLX"
+      ],
+      "disabled": true,
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 3,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "collection_list_gNbzmi": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_gLNPQq": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "ink-cartridges"
+          }
+        },
+        "featured_collection_WCw4xn": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "bottle-ink"
+          }
+        },
+        "featured_collection_DDcW7t": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "toner-cartridges"
+          }
+        },
+        "featured_collection_XHEdE3": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "shipping-labels"
+          }
+        },
+        "featured_collection_QrwQFt": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "drum-cartridges"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_gLNPQq",
+        "featured_collection_WCw4xn",
+        "featured_collection_DDcW7t",
+        "featured_collection_XHEdE3",
+        "featured_collection_QrwQFt"
+      ],
+      "custom_css": [
+        ".title-wrapper-with-link {justify-content: center;}"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "title": "<strong>Shop by Collection</strong>",
+        "heading_size": "h1",
+        "image_ratio": "adapt",
+        "title_position": "over_image",
+        "columns_desktop": 5,
+        "color_scheme": "scheme-1",
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "drum-cartridges",
+        "products_to_show": 25,
+        "title": "<strong>Best Seller</strong>",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": true,
+        "description_style": "body",
+        "use_slider": true,
+        "show_arrows": "center",
+        "slides_to_scroll": "one",
+        "show_dots": false,
+        "autoplay": false,
+        "autoplay_speed": 3000,
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": false,
+        "view_all_style": "outline",
+        "color_scheme": "scheme-14eab090-83a7-400b-9c1f-c01d5308cb90",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "padding_left": 0,
+        "padding_right": 0
+      }
+    },
+    "collection_list_grid_7LmXMp": {
+      "type": "collection-list-grid",
+      "blocks": {
+        "collection_aGN66f": {
+          "type": "collection",
+          "settings": {
+            "collection": "lexmark"
+          }
+        },
+        "collection_PqHmhk": {
+          "type": "collection",
+          "settings": {
+            "collection": "pantum"
+          }
+        },
+        "collection_8Hgx4c": {
+          "type": "collection",
+          "settings": {
+            "collection": "ricoh"
+          }
+        },
+        "collection_dCKFzj": {
+          "type": "collection",
+          "settings": {
+            "collection": "samsung"
+          }
+        },
+        "collection_tNTDMC": {
+          "type": "collection",
+          "settings": {
+            "collection": "xerox"
+          }
+        },
+        "collection_jtgzMz": {
+          "type": "collection",
+          "settings": {
+            "collection": "kodak"
+          }
+        },
+        "collection_7ndJdt": {
+          "type": "collection",
+          "settings": {
+            "collection": "kyocera"
+          }
+        },
+        "collection_trVJhQ": {
+          "type": "collection",
+          "settings": {
+            "collection": "knica-minolta"
+          }
+        },
+        "collection_k73eaK": {
+          "type": "collection",
+          "settings": {
+            "collection": "dymo"
+          }
+        },
+        "collection_EtK3gd": {
+          "type": "collection",
+          "settings": {
+            "collection": "epson"
+          }
+        },
+        "collection_UnUWDK": {
+          "type": "collection",
+          "settings": {
+            "collection": "hp"
+          }
+        },
+        "collection_jhL9YC": {
+          "type": "collection",
+          "settings": {
+            "collection": "brady"
+          }
+        },
+        "collection_cnLtxC": {
+          "type": "collection",
+          "settings": {
+            "collection": "brother"
+          }
+        },
+        "collection_z4QzG9": {
+          "type": "collection",
+          "settings": {
+            "collection": "canon-ink"
+          }
+        },
+        "collection_ifxLVw": {
+          "type": "collection",
+          "settings": {
+            "collection": "casio"
+          }
+        },
+        "collection_GiEiLb": {
+          "type": "collection",
+          "settings": {
+            "collection": "dell"
+          }
+        },
+        "collection_TCfxbG": {
+          "type": "collection",
+          "settings": {
+            "collection": "star"
+          }
+        }
+      },
+      "block_order": [
+        "collection_aGN66f",
+        "collection_PqHmhk",
+        "collection_8Hgx4c",
+        "collection_dCKFzj",
+        "collection_tNTDMC",
+        "collection_jtgzMz",
+        "collection_7ndJdt",
+        "collection_trVJhQ",
+        "collection_k73eaK",
+        "collection_EtK3gd",
+        "collection_UnUWDK",
+        "collection_jhL9YC",
+        "collection_cnLtxC",
+        "collection_z4QzG9",
+        "collection_ifxLVw",
+        "collection_GiEiLb",
+        "collection_TCfxbG"
+      ],
+      "name": "Collection List Grid",
+      "settings": {
+        "title": "Shop by Brand",
+        "columns_desktop": 4,
+        "primary_color": "#0d7ff2",
+        "text_color": "#0f172a",
+        "card_bg_color": "#ffffff",
+        "card_radius": 12
+      }
+    },
+    "why_choose_us_JFbWWA": {
+      "type": "why-choose-us",
+      "blocks": {
+        "feature_MtjwtY": {
+          "type": "feature",
+          "settings": {
+            "icon": "verified",
+            "title": "High Quality Prints",
+            "description": "Our cartridges deliver sharp, vibrant, and reliable prints every time."
+          }
+        },
+        "feature_4tTUge": {
+          "type": "feature",
+          "settings": {
+            "icon": "savings",
+            "title": "Save Up to 70%",
+            "description": "Enjoy premium quality without the premium price tag. Big savings guaranteed."
+          }
+        },
+        "feature_gyBDMx": {
+          "type": "feature",
+          "settings": {
+            "icon": "local_shipping",
+            "title": "Fast Shipping",
+            "description": "Get your ink and toner delivered to your doorstep quickly and reliably."
+          }
+        },
+        "feature_jpcNdi": {
+          "type": "feature",
+          "settings": {
+            "icon": "eco",
+            "title": "Eco-Friendly Products",
+            "description": "Our remanufactured cartridges help reduce waste and protect the environment."
+          }
+        }
+      },
+      "block_order": [
+        "feature_MtjwtY",
+        "feature_4tTUge",
+        "feature_gyBDMx",
+        "feature_jpcNdi"
+      ],
+      "name": "Why choose us",
+      "settings": {
+        "heading": "Why Choose Us?",
+        "heading_font_size": 30,
+        "subheading_font_size": 18,
+        "feature_title_font_size": 18,
+        "feature_description_font_size": 16,
+        "icon_font_size": 22,
+        "subheading": "Our cartridges deliver sharp, vibrant, and reliable prints every time.",
+        "enable_dark_mode": false,
+        "padding_top": 16,
+        "padding_bottom": 64,
+        "color_scheme": "",
+        "primary_color": "#0d7ff2",
+        "icon_background_opacity": 20,
+        "background_light": "#ffffff",
+        "background_dark": "#1f2937",
+        "text_color": "#111827",
+        "muted_text": "#4b5563",
+        "muted_text_dark": "#9ca3af",
+        "show_promo": false,
+        "promo_title": "Save up to 70% on every cartridge",
+        "promo_copy": "Enjoy premium quality without the premium price tag. Big savings guaranteed.",
+        "promo_button_label": "Shop now",
+        "promo_button_link": "",
+        "promo_background": "#111827",
+        "promo_text": "#ffffff",
+        "promo_muted": "#d1d5db",
+        "promo_button": "#0d7ff2",
+        "promo_button_text": "#ffffff"
+      }
+    },
+    "image_banner_PitpxR": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_7jfDQR": {
+          "type": "heading",
+          "settings": {
+            "heading": "Up to 50% Off Compatible Ink",
+            "heading_size": "h1"
+          }
+        },
+        "text_NKCzen": {
+          "type": "text",
+          "settings": {
+            "text": "Stock up and save big on our best-selling compatible ink cartridges. Limited time offer!",
+            "text_style": "body"
+          }
+        },
+        "buttons_qairT3": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop Deals",
+            "button_link_1": "",
+            "button_style_secondary_1": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_7jfDQR",
+        "text_NKCzen",
+        "buttons_qairT3"
+      ],
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/photo-1497215728101-856f4ea42174.jpg",
+        "image_overlay_opacity": 70,
+        "image_height": "custom",
+        "custom_height": 300,
+        "image_behavior": "fixed",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "scheme-2",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "image_with_text_eTNbVA": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_nnkr4w": {
+          "type": "heading",
+          "settings": {
+            "heading": "Quality You Can Trust",
+            "heading_size": "h1"
+          }
+        },
+        "text_rrbEHK": {
+          "type": "text",
+          "settings": {
+            "text": "<p>At Ink & Toner Store, we're dedicated to providing our customers with the highest quality ink and toner cartridges at unbeatable prices. Each product undergoes rigorous testing to ensure it meets or exceeds OEM standards for performance and reliability.<br/></p>",
+            "text_style": "body"
+          }
+        },
+        "button_aN6Ax6": {
+          "type": "button",
+          "settings": {
+            "button_label": "About us",
+            "button_link": "shopify://pages/about",
+            "button_style_secondary": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_nnkr4w",
+        "text_rrbEHK",
+        "button_aN6Ax6"
+      ],
+      "custom_css": [
+        ".image-with-text__content {padding-left: 30px !important;}",
+        ".image-with-text__media.image-with-text__media--adapt.global-media-settings.background-transparent.media {border-radius: 7px;}",
+        ".image-with-text__text-item.grid__item {margin: auto;}"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/unnamed_7.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "scheme-14eab090-83a7-400b-9c1f-c01d5308cb90",
+        "color_scheme": "scheme-14eab090-83a7-400b-9c1f-c01d5308cb90",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "image_banner",
+    "slideshow_rGJxy4",
+    "collection_list_gNbzmi",
+    "featured_collection",
+    "collection_list_grid_7LmXMp",
+    "why_choose_us_JFbWWA",
+    "image_banner_PitpxR",
+    "image_with_text_eTNbVA"
+  ]
+}

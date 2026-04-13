@@ -1,0 +1,224 @@
+{% comment %}
+  Collection List Grid Section
+  Displays collections in a grid layout without images
+{% endcomment %}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  .collection-list-section-{{ section.id }} {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 4rem 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .collection-list-section-{{ section.id }} {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .collection-list-section-{{ section.id }} {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  .collection-list-title-{{ section.id }} {
+    text-align: center;
+    font-size: clamp(1.75rem, 2vw + 1rem, 2.25rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 2.5rem;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .collection-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .collection-grid-{{ section.id }} {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .collection-grid-{{ section.id }} {
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+    }
+  }
+
+  .collection-card-{{ section.id }} {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.75rem;
+    background: {{ section.settings.card_bg_color }};
+    border-radius: {{ section.settings.card_radius }}px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.3s ease, border-color 0.25s ease;
+  }
+
+  .collection-card-{{ section.id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px {{ section.settings.primary_color }}2e;
+    border-color: {{ section.settings.primary_color }};
+  }
+
+  .collection-card-{{ section.id }} h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: {{ section.settings.text_color }};
+    transition: color 0.25s ease;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .collection-card-{{ section.id }}:hover h3 {
+    color: {{ section.settings.primary_color }};
+  }
+
+  /* Staggered animation delays for collection cards */
+  {%- if settings.animations_reveal_on_scroll -%}
+    .collection-card-{{ section.id }}[data-cascade] {
+      transition-delay: calc(var(--animation-order) * 0.1s);
+    }
+  {%- endif -%}
+</style>
+
+<div class="collection-list-section-{{ section.id }}">
+  {% if section.settings.title != blank %}
+    <h2 class="collection-list-title-{{ section.id }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">{{ section.settings.title }}</h2>
+  {% endif %}
+  
+  <div class="collection-grid-{{ section.id }}">
+    {% for block in section.blocks %}
+      {% assign collection = block.settings.collection %}
+
+      {% if collection != blank %}
+        <a
+          class="collection-card-{{ section.id }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+            style="--animation-order: {{ forloop.index }};"
+          {% endif %}
+          href="{{ collection.url }}"
+          {{ block.shopify_attributes }}
+        >
+          <h3>{{ collection.title }}</h3>
+        </a>
+      {% else %}
+        {%- comment -%} Placeholder for theme editor {%- endcomment -%}
+        <div class="collection-card-{{ section.id }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {{ block.shopify_attributes }}>
+          <h3>Select a Collection</h3>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection List Grid",
+  "tag": "section",
+  "class": "collection-list-grid-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Shop by Brand"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 5,
+      "label": "Number of columns on desktop"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "primary_color",
+      "label": "Primary Color",
+      "default": "#0d7ff2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#0f172a"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Card Settings"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 12,
+      "label": "Card Border Radius",
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection List Grid",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

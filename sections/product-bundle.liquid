@@ -1,0 +1,565 @@
+{{ 'section-product-bundle.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign bundle_products = blank
+  assign use_meta_field = false
+  assign is_product_page = false
+  
+  if product != blank
+    assign is_product_page = true
+  endif
+  
+  if section.settings.product_source == 'meta_field'
+    if product.metafields.custom.bundle.value != blank
+      assign bundle_products = product.metafields.custom.bundle.value
+      assign use_meta_field = true
+    endif
+  elsif section.settings.product_source == 'selected'
+    assign bundle_products = section.blocks | where: 'type', 'bundle_product'
+  endif
+  
+  assign bundle_products_count = 0
+  if bundle_products != blank
+    if use_meta_field
+      assign bundle_products_count = bundle_products.size
+    else
+      assign bundle_products_count = bundle_products.size
+    endif
+  endif
+  
+  assign show_section = false
+  assign main_product = blank
+  
+  if request.design_mode
+    assign show_section = true
+    if section.settings.product_source == 'meta_field' and product != blank
+      assign main_product = product
+    elsif section.settings.main_product != blank
+      assign main_product = section.settings.main_product
+    endif
+  elsif section.settings.product_source == 'meta_field'
+    if is_product_page and bundle_products_count >= 2
+      assign main_product = product
+      assign show_section = true
+    endif
+  elsif section.settings.product_source == 'selected'
+    unless is_product_page
+      if bundle_products_count >= 2
+        assign show_section = true
+        if section.settings.main_product != blank
+          assign main_product = section.settings.main_product
+        endif
+      endif
+    endunless
+  endif
+-%}
+
+{%- style -%}
+  .bundle-section-{{ section.id }} .bundle-title {
+    font-size: {{ section.settings.title_font_size }}rem;
+  }
+  
+  .bundle-section-{{ section.id }} .bundle-item-price {
+    font-size: {{ section.settings.price_font_size }}rem;
+  }
+  
+  .bundle-section-{{ section.id }} .bundle-summary-price-current {
+    font-size: {{ section.settings.bundle_price_font_size }}rem;
+  }
+  
+  .bundle-section-{{ section.id }} .bundle-summary-price-original {
+    font-size: {{ section.settings.bundle_original_price_font_size }}rem;
+  }
+  
+  .bundle-section-{{ section.id }} .bundle-item:hover .bundle-item-name {
+    color: {{ section.settings.hover_text_color }};
+  }
+   
+  
+  .bundle-section-{{ section.id }} .bundle-title {
+    color: {{ section.settings.text_color }};
+  }
+  
+  .bundle-section-{{ section.id }} .bundle-item-label {
+    color: {{ section.settings.text_color }};
+  }
+  
+  .bundle-section-{{ section.id }} .bundle-item-price {
+    color: {{ section.settings.text_color }};
+  }
+  
+  .bundle-section-{{ section.id }} .bundle-summary-price-current {
+    color: {{ section.settings.text_color }};
+  }
+  
+  .bundle-section-{{ section.id }} .bundle-card.color-{{ section.settings.color_scheme }} {
+    background-color: rgb(var(--color-background));
+  }
+{%- endstyle -%}
+
+{%- if show_section -%}
+  {%- liquid
+    assign total_price = 0
+    assign original_total_price = 0
+    assign main_variant = blank
+    
+    if main_product != blank and section.settings.include_main_product
+      assign main_variant = main_product.selected_or_first_available_variant
+      assign total_price = total_price | plus: main_variant.price
+      if main_variant.compare_at_price > main_variant.price
+        assign original_total_price = original_total_price | plus: main_variant.compare_at_price
+      else
+        assign original_total_price = original_total_price | plus: main_variant.price
+      endif
+    endif
+    
+    assign bundle_items = ''
+    assign bundle_variants = ''
+    
+    if use_meta_field
+      for bundle_product in bundle_products limit: 3
+        assign bundle_variant = bundle_product.selected_or_first_available_variant
+        assign total_price = total_price | plus: bundle_variant.price
+        if bundle_variant.compare_at_price > bundle_variant.price
+          assign original_total_price = original_total_price | plus: bundle_variant.compare_at_price
+        else
+          assign original_total_price = original_total_price | plus: bundle_variant.price
+        endif
+        if bundle_items != ''
+          assign bundle_items = bundle_items | append: ','
+          assign bundle_variants = bundle_variants | append: ','
+        endif
+        assign bundle_items = bundle_items | append: bundle_product.id
+        assign bundle_variants = bundle_variants | append: bundle_variant.id
+      endfor
+    else
+      for block in bundle_products limit: 3
+        if block.settings.product != blank
+          assign bundle_product = block.settings.product
+          assign bundle_variant = bundle_product.selected_or_first_available_variant
+          assign total_price = total_price | plus: bundle_variant.price
+          if bundle_variant.compare_at_price > bundle_variant.price
+            assign original_total_price = original_total_price | plus: bundle_variant.compare_at_price
+          else
+            assign original_total_price = original_total_price | plus: bundle_variant.price
+          endif
+          if bundle_items != ''
+            assign bundle_items = bundle_items | append: ','
+            assign bundle_variants = bundle_variants | append: ','
+          endif
+          assign bundle_items = bundle_items | append: bundle_product.id
+          assign bundle_variants = bundle_variants | append: bundle_variant.id
+        endif
+      endfor
+    endif
+    
+    assign savings = original_total_price | minus: total_price
+    assign savings_percentage = savings | times: 100.0 | divided_by: original_total_price | round
+  -%}
+
+  <section class="bundle-section bundle-section-{{ section.id }}">
+    <div class="page-width">
+      <h2 class="bundle-title">{{ section.settings.title | default: 'Frequently Bought Together' }}</h2>
+      <div class="bundle-container">
+      <div class="bundle-card color-{{ section.settings.color_scheme }}">
+        <div class="bundle-content">
+          <div class="bundle-images">
+            {%- if main_product != blank and section.settings.include_main_product -%}
+              <div class="bundle-image-wrapper">
+                <img 
+                  alt="{{ main_product.title | escape }}" 
+                  class="bundle-image"
+                  src="{{ main_product.featured_image | image_url: width: 300 }}"
+                  width="300"
+                  height="300"
+                  loading="lazy"
+                />
+              </div>
+            {%- endif -%}
+            
+            {%- if use_meta_field -%}
+              {%- for bundle_product in bundle_products limit: 3 -%}
+                {%- if main_product != blank and section.settings.include_main_product and forloop.first -%}
+                  <span class="material-symbols-outlined bundle-add-icon">add</span>
+                {%- elsif forloop.first == false -%}
+                  <span class="material-symbols-outlined bundle-add-icon">add</span>
+                {%- endif -%}
+                <div class="bundle-image-wrapper">
+                  <img 
+                    alt="{{ bundle_product.title | escape }}" 
+                    class="bundle-image"
+                    src="{{ bundle_product.featured_image | image_url: width: 300 }}"
+                    width="300"
+                    height="300"
+                    loading="lazy"
+                  />
+                </div>
+              {%- endfor -%}
+            {%- else -%}
+              {%- for block in bundle_products limit: 3 -%}
+                {%- if block.settings.product != blank -%}
+                  {%- assign bundle_product = block.settings.product -%}
+                  {%- if main_product != blank and section.settings.include_main_product and forloop.first -%}
+                    <span class="material-symbols-outlined bundle-add-icon">add</span>
+                  {%- elsif forloop.first == false -%}
+                    <span class="material-symbols-outlined bundle-add-icon">add</span>
+                  {%- endif -%}
+                  <div class="bundle-image-wrapper">
+                    <img 
+                      alt="{{ bundle_product.title | escape }}" 
+                      class="bundle-image"
+                      src="{{ bundle_product.featured_image | image_url: width: 300 }}"
+                      width="300"
+                      height="300"
+                      loading="lazy"
+                    />
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+          
+          <div class="bundle-details">
+            <div class="bundle-items">
+              {%- if main_product != blank and section.settings.include_main_product -%}
+                {%- assign main_variant = main_product.selected_or_first_available_variant -%}
+                <div class="bundle-item-wrapper">
+                  <label class="bundle-item">
+                    <input 
+                      checked 
+                      class="bundle-item-checkbox bundle-checkbox" 
+                      type="checkbox"
+                      data-variant-id="{{ main_variant.id }}"
+                      data-product-id="{{ main_product.id }}"
+                    />
+                    <span class="bundle-item-text">
+                      {%- if section.settings.product_source == 'meta_field' -%}
+                        <span class="bundle-item-label">This item:</span>
+                      {%- endif -%}
+                      <span class="bundle-item-name">{{ main_product.title }}</span>
+                      <span class="bundle-item-price" data-price="{{ main_variant.price }}" data-product-id="{{ main_product.id }}">{{ main_variant.price | money }}</span>
+                    </span>
+                  </label>
+                  {%- unless main_product.has_only_default_variant -%}
+                    <div class="bundle-variant-select">
+                      <select 
+                        class="bundle-variant-dropdown" 
+                        data-product-id="{{ main_product.id }}"
+                        data-bundle-item="main"
+                      >
+                        {%- for variant in main_product.variants -%}
+                          <option 
+                            value="{{ variant.id }}"
+                            data-price="{{ variant.price }}"
+                            {% if variant == main_variant %}selected{% endif %}
+                            {% unless variant.available %}disabled{% endunless %}
+                          >
+                            {{ variant.title }}{% unless variant.available %} - {{ 'products.product.sold_out' | t }}{% endunless %}
+                          </option>
+                        {%- endfor -%}
+                      </select>
+                    </div>
+                  {%- endunless -%}
+                </div>
+              {%- endif -%}
+              
+              {%- if use_meta_field -%}
+                {%- for bundle_product in bundle_products limit: 3 -%}
+                  {%- assign bundle_variant = bundle_product.selected_or_first_available_variant -%}
+                  <div class="bundle-item-wrapper">
+                    <label class="bundle-item">
+                      <input 
+                        checked 
+                        class="bundle-item-checkbox bundle-checkbox" 
+                        type="checkbox"
+                        data-variant-id="{{ bundle_variant.id }}"
+                        data-product-id="{{ bundle_product.id }}"
+                      />
+                      <span class="bundle-item-text">
+                        <span class="bundle-item-name">{{ bundle_product.title }}</span>
+                        <span class="bundle-item-price" data-price="{{ bundle_variant.price }}" data-product-id="{{ bundle_product.id }}">{{ bundle_variant.price | money }}</span>
+                      </span>
+                    </label>
+                    {%- unless bundle_product.has_only_default_variant -%}
+                      <div class="bundle-variant-select">
+                        <select 
+                          class="bundle-variant-dropdown" 
+                          data-product-id="{{ bundle_product.id }}"
+                          data-bundle-item="{{ forloop.index }}"
+                        >
+                          {%- for variant in bundle_product.variants -%}
+                            <option 
+                              value="{{ variant.id }}"
+                              data-price="{{ variant.price }}"
+                              {% if variant == bundle_variant %}selected{% endif %}
+                              {% unless variant.available %}disabled{% endunless %}
+                            >
+                              {{ variant.title }}{% unless variant.available %} - {{ 'products.product.sold_out' | t }}{% endunless %}
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                      </div>
+                    {%- endunless -%}
+                  </div>
+                {%- endfor -%}
+              {%- else -%}
+                {%- for block in bundle_products limit: 3 -%}
+                  {%- if block.settings.product != blank -%}
+                    {%- assign bundle_product = block.settings.product -%}
+                    {%- assign bundle_variant = bundle_product.selected_or_first_available_variant -%}
+                    <div class="bundle-item-wrapper">
+                      <label class="bundle-item">
+                        <input 
+                          checked 
+                          class="bundle-item-checkbox bundle-checkbox" 
+                          type="checkbox"
+                          data-variant-id="{{ bundle_variant.id }}"
+                          data-product-id="{{ bundle_product.id }}"
+                        />
+                        <span class="bundle-item-text">
+                          <span class="bundle-item-name">{{ bundle_product.title }}</span>
+                          <span class="bundle-item-price" data-price="{{ bundle_variant.price }}" data-product-id="{{ bundle_product.id }}">{{ bundle_variant.price | money }}</span>
+                        </span>
+                      </label>
+                      {%- unless bundle_product.has_only_default_variant -%}
+                        <div class="bundle-variant-select">
+                          <select 
+                            class="bundle-variant-dropdown" 
+                            data-product-id="{{ bundle_product.id }}"
+                            data-bundle-item="{{ forloop.index }}"
+                          >
+                            {%- for variant in bundle_product.variants -%}
+                              <option 
+                                value="{{ variant.id }}"
+                                data-price="{{ variant.price }}"
+                                {% if variant == bundle_variant %}selected{% endif %}
+                                {% unless variant.available %}disabled{% endunless %}
+                              >
+                                {{ variant.title }}{% unless variant.available %} - {{ 'products.product.sold_out' | t }}{% endunless %}
+                              </option>
+                            {%- endfor -%}
+                          </select>
+                        </div>
+                      {%- endunless -%}
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+            </div>
+            
+            <div class="bundle-summary">
+              <div class="bundle-summary-content">
+                <div class="bundle-summary-header">
+                  <span class="bundle-summary-label">Bundle Total:</span>
+                  <div class="bundle-summary-price-group">
+                    <span class="bundle-summary-price-current" data-bundle-total>{{ total_price | money }}</span>
+                    {%- if original_total_price > total_price -%}
+                      <span class="bundle-summary-price-original">{{ original_total_price | money }}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+              <button 
+                type="button"
+                class="bundle-button"
+                data-section-id="{{ section.id }}"
+                data-bundle-items="{{ bundle_items }}"
+                data-bundle-variants="{{ bundle_variants }}"
+                {% if main_product != blank and section.settings.include_main_product %}data-main-product-id="{{ main_product.id }}"{% endif %}
+                {% if main_variant != blank and section.settings.include_main_product %}data-main-variant-id="{{ main_variant.id }}"{% endif %}
+                data-include-main-product="{{ section.settings.include_main_product }}"
+              >
+                <span class="material-symbols-outlined bundle-button-icon">add_shopping_cart</span>
+                {{ section.settings.button_text | default: 'Add Bundle to Cart' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="{{ 'product-bundle.js' | asset_url }}" defer="defer"></script>
+{%- else -%}
+  {%- comment -%} Show placeholder in theme editor {%- endcomment -%}
+  {%- if request.design_mode -%}
+    <section class="bundle-section bundle-section-{{ section.id }}">
+      <div class="page-width">
+        <h2 class="bundle-title">{{ section.settings.title | default: 'Frequently Bought Together' }}</h2>
+        <div class="bundle-container">
+        <div class="bundle-card color-{{ section.settings.color_scheme }}">
+          <div class="bundle-content">
+            <p style="padding: 2rem; text-align: center; color: #666;">
+              {%- if section.settings.product_source == 'meta_field' -%}
+                {%- if product == blank -%}
+                  Please add this section to a product page with a "Bundle" meta field containing 2-3 products.
+                {%- elsif product.metafields.custom.bundle.value == blank -%}
+                  ⚠️ This product page does not have a "Bundle" meta field. The section will be hidden on the frontend. Please add a "Bundle" meta field with 2-3 products to show this section.
+                {%- else -%}
+                  Product has bundle meta field with {{ product.metafields.custom.bundle.value.size }} product(s). At least 2 products are required.
+                {%- endif -%}
+              {%- else -%}
+                Please add at least 2 bundle products using the section blocks. Note: "Select Products" should only be used on home page, not product pages.
+              {%- endif -%}
+            </p>
+        </div>
+      </div>
+      </div>
+    </section>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product Bundle",
+  "tag": "section",
+  "class": "section section-product-bundle",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Frequently Bought Together"
+    },
+    {
+      "type": "select",
+      "id": "product_source",
+      "label": "Product Source",
+      "options": [
+        {
+          "value": "meta_field",
+          "label": "Product Meta Field"
+        },
+        {
+          "value": "selected",
+          "label": "Select Products"
+        }
+      ],
+      "default": "meta_field",
+      "info": "⚠️ REQUIRED: Use 'Product Meta Field' on product pages (section will be hidden if meta field has no products). Use 'Select Products' only on home page."
+    },
+    {
+      "type": "product",
+      "id": "main_product",
+      "label": "Main Product",
+      "info": "Required when using 'Select Products' source. Leave blank when using meta field on product pages."
+    },
+    {
+      "type": "checkbox",
+      "id": "include_main_product",
+      "label": "Include Current Product in Bundle",
+      "default": true,
+      "info": "When enabled, the current product will be included in the bundle with a checkbox. When disabled, only bundle products will be shown."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Add Bundle to Cart"
+    },
+    {
+      "type": "header",
+      "content": "Design Settings"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#0f172a"
+    },
+    {
+      "type": "color",
+      "id": "hover_text_color",
+      "label": "Hover Text Color",
+      "default": "#0d7ff2",
+      "info": "Color for product name on hover (--color-hover-text)"
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 1.5,
+      "max": 4,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Product Title Font Size",
+      "default": 2.4
+    },
+    {
+      "type": "range",
+      "id": "price_font_size",
+      "min": 0.9,
+      "max": 2,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Item Price Font Size",
+      "default": 1.4
+    },
+    {
+      "type": "range",
+      "id": "bundle_price_font_size",
+      "min": 1.5,
+      "max": 4,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Bundle Total Price Font Size",
+      "default": 2.4
+    },
+    {
+      "type": "range",
+      "id": "bundle_original_price_font_size",
+      "min": 0.9,
+      "max": 2,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Bundle Original Price Font Size",
+      "default": 1.4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bundle_product",
+      "name": "Bundle Product",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Bundle",
+      "blocks": [
+        {
+          "type": "bundle_product"
+        },
+        {
+          "type": "bundle_product"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

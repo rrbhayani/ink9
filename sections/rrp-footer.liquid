@@ -1,0 +1,254 @@
+<link href="{{ 'rrp.css' | asset_url }}" rel="stylesheet">
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .rrp-footer-{{ section.id }} {
+    padding-top: {{ section.settings.footer_padding_top }}px;
+    padding-bottom: {{ section.settings.footer_padding_bottom }}px;
+  }
+
+  .rrp-footer-button-{{ section.id }} {
+    background-color: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+    font-size: {{ section.settings.button_font_size }}px;
+    padding: {{ section.settings.button_padding_vertical }}px {{ section.settings.button_padding_horizontal }}px;
+    box-shadow: {{ section.settings.button_shadow }};
+  }
+
+  .rrp-footer-button-{{ section.id }}:hover {
+    background-color: {{ section.settings.button_hover_bg_color }};
+  }
+
+  .rrp-footer-link-{{ section.id }} {
+    color: {{ section.settings.link_color }};
+    font-size: {{ section.settings.link_font_size }}px;
+  }
+
+  .rrp-footer-link-{{ section.id }}:hover {
+    color: {{ section.settings.link_hover_color }};
+  }
+{%- endstyle -%}
+
+<div class="rrp-container">
+<div class="rrp-footer rrp-footer-{{ section.id }} section-{{ section.id }}-padding">
+  {% if section.settings.show_button and section.settings.button_text != blank %}
+    {% if section.settings.button_url != blank %}
+      <a href="{{ section.settings.button_url }}" class="rrp-footer-button rrp-footer-button-{{ section.id }}">
+        {{ section.settings.button_text }}
+        {% if section.settings.show_button_icon %}
+          <span class="material-symbols-outlined">{{ section.settings.button_icon }}</span>
+        {% endif %}
+      </a>
+    {% else %}
+      <button class="rrp-footer-button rrp-footer-button-{{ section.id }}">
+        {{ section.settings.button_text }}
+        {% if section.settings.show_button_icon %}
+          <span class="material-symbols-outlined">{{ section.settings.button_icon }}</span>
+        {% endif %}
+      </button>
+    {% endif %}
+  {% endif %}
+  
+  {% if section.settings.show_link and section.settings.link_text != blank %}
+    {% if section.settings.link_url != blank %}
+      <a href="{{ section.settings.link_url }}" class="rrp-footer-link rrp-footer-link-{{ section.id }}">{{ section.settings.link_text }}</a>
+    {% else %}
+      <a href="#" class="rrp-footer-link rrp-footer-link-{{ section.id }}">{{ section.settings.link_text }}</a>
+    {% endif %}
+  {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "RRP - Footer Action",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Start a Return"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL",
+      "info": "Leave empty to use button element instead of link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button_icon",
+      "label": "Show Button Icon",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_icon",
+      "label": "Button Icon",
+      "default": "arrow_forward",
+      "info": "Material Symbols icon name"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#0d7ff2"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Button Hover Background Color",
+      "default": "#2563eb"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Padding Vertical",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 16,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "Button Padding Horizontal",
+      "default": 48
+    },
+    {
+      "type": "text",
+      "id": "button_shadow",
+      "label": "Button Shadow",
+      "default": "0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -2px rgba(59, 130, 246, 0.3)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_link",
+      "label": "Show Link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text",
+      "default": "Have questions? Contact Support"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#64748b"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link Hover Color",
+      "default": "#0d7ff2"
+    },
+    {
+      "type": "range",
+      "id": "link_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Link Font Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "footer_padding_top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Footer Padding Top",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "footer_padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Footer Padding Bottom",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "RRP - Footer Action"
+    }
+  ]
+}
+{% endschema %}

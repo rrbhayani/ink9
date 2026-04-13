@@ -1,0 +1,346 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .contact-faq-container-{{ section.id }} {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+
+  {% if section.settings.width_type == 'custom' %}
+    .contact-faq-container-{{ section.id }} {
+      max-width: {{ section.settings.custom_width | default: 768 }}px;
+    }
+  {% elsif section.settings.width_type == 'full' %}
+    .contact-faq-container-{{ section.id }} {
+      max-width: 100%;
+    }
+  {% endif %}
+{%- endstyle -%}
+
+<style>
+  /* FAQ Section */
+  .contact-faq-section-{{ section.id }} {
+    margin-top: 0;
+  }
+
+  .contact-faq-header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-faq-title-{{ section.id }} {
+    font-size: 1.875rem;
+    font-weight: 900;
+    color: #0f172a;
+  }
+
+  @media (min-width: 768px) {
+    .contact-faq-title-{{ section.id }} {
+      font-size: 2.25rem;
+    }
+  }
+
+  .dark .contact-faq-title-{{ section.id }} {
+    color: white;
+  }
+
+  .contact-faq-container-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-faq-item-{{ section.id }} {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .contact-faq-item-{{ section.id }}:hover {
+    border-color: #cbd5e1;
+  }
+
+  .contact-faq-item-{{ section.id }}[open] {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .contact-faq-item-{{ section.id }} {
+    background-color: rgba(15, 23, 42, 0.5);
+    border-color: #1e293b;
+  }
+
+  .dark .contact-faq-item-{{ section.id }}:hover {
+    border-color: #334155;
+  }
+
+  .contact-faq-summary-{{ section.id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .contact-faq-summary-{{ section.id }}::-webkit-details-marker {
+    display: none;
+  }
+
+  .contact-faq-question-{{ section.id }} {
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  .dark .contact-faq-question-{{ section.id }} {
+    color: #e2e8f0;
+  }
+
+  .contact-faq-icon-wrapper-{{ section.id }} {
+    color: #0d7ff2;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
+
+  .contact-faq-item-{{ section.id }}[open] .contact-faq-icon-wrapper-{{ section.id }} {
+    transform: rotate(45deg);
+  }
+
+  .contact-faq-icon-{{ section.id }} {
+    font-size: 1.25rem;
+  }
+
+  .contact-faq-answer-{{ section.id }} {
+    margin-top: 1rem;
+    color: #475569;
+  }
+
+  .dark .contact-faq-answer-{{ section.id }} {
+    color: #94a3b8;
+  }
+</style>
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="contact-faq-section-{{ section.id }} section-{{ section.id }}-padding">
+    {%- if section.settings.title != blank -%}
+      <div class="contact-faq-header-{{ section.id }}">
+        <h2 class="contact-faq-title-{{ section.id }}">{{ section.settings.title }}</h2>
+      </div>
+    {%- endif -%}
+    
+    {%- if section.blocks.size > 0 -%}
+      <div class="contact-faq-container-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          <details class="contact-faq-item-{{ section.id }}" {{ block.shopify_attributes }}>
+            <summary class="contact-faq-summary-{{ section.id }}">
+              <span class="contact-faq-question-{{ section.id }}">{{ block.settings.question }}</span>
+              <span class="contact-faq-icon-wrapper-{{ section.id }}">
+                <span class="material-symbols-outlined contact-faq-icon-{{ section.id }}">add</span>
+              </span>
+            </summary>
+            <div class="contact-faq-answer-{{ section.id }}">
+              {{ block.settings.answer }}
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="contact-faq-container-{{ section.id }}">
+        <details class="contact-faq-item-{{ section.id }}">
+          <summary class="contact-faq-summary-{{ section.id }}">
+            <span class="contact-faq-question-{{ section.id }}">How do I track my order?</span>
+            <span class="contact-faq-icon-wrapper-{{ section.id }}">
+              <span class="material-symbols-outlined contact-faq-icon-{{ section.id }}">add</span>
+            </span>
+          </summary>
+          <div class="contact-faq-answer-{{ section.id }}">
+            <p>Once your order has shipped, you will receive a shipping confirmation email that includes a tracking number. You can use this number on the carrier's website to track your package's progress.</p>
+          </div>
+        </details>
+        <details class="contact-faq-item-{{ section.id }}">
+          <summary class="contact-faq-summary-{{ section.id }}">
+            <span class="contact-faq-question-{{ section.id }}">What is your return policy?</span>
+            <span class="contact-faq-icon-wrapper-{{ section.id }}">
+              <span class="material-symbols-outlined contact-faq-icon-{{ section.id }}">add</span>
+            </span>
+          </summary>
+          <div class="contact-faq-answer-{{ section.id }}">
+            <p>We offer a 30-day return policy for unopened and unused products. Please visit our Returns page for detailed instructions on how to process a return and to see if your item is eligible.</p>
+          </div>
+        </details>
+        <details class="contact-faq-item-{{ section.id }}">
+          <summary class="contact-faq-summary-{{ section.id }}">
+            <span class="contact-faq-question-{{ section.id }}">Do you ship internationally?</span>
+            <span class="contact-faq-icon-wrapper-{{ section.id }}">
+              <span class="material-symbols-outlined contact-faq-icon-{{ section.id }}">add</span>
+            </span>
+          </summary>
+          <div class="contact-faq-answer-{{ section.id }}">
+            <p>Currently, we only ship within the United States and Canada. We are working on expanding our shipping options to more countries in the future. Stay tuned for updates!</p>
+          </div>
+        </details>
+        <details class="contact-faq-item-{{ section.id }}">
+          <summary class="contact-faq-summary-{{ section.id }}">
+            <span class="contact-faq-question-{{ section.id }}">How can I find the right cartridge for my printer?</span>
+            <span class="contact-faq-icon-wrapper-{{ section.id }}">
+              <span class="material-symbols-outlined contact-faq-icon-{{ section.id }}">add</span>
+            </span>
+          </summary>
+          <div class="contact-faq-answer-{{ section.id }}">
+            <p>You can use the search bar at the top of our site to search for your printer model number. This will show you all compatible ink and toner cartridges. If you need further assistance, please don't hesitate to contact us.</p>
+          </div>
+        </details>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "FAQ Section",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width_type",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default (48rem)"
+        },
+        {
+          "value": "custom",
+          "label": "Custom Width"
+        },
+        {
+          "value": "full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "min": 400,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Custom Max Width",
+      "default": 750,
+      "info": "Only applies when Custom Width is selected"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How do I track my order?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Once your order has shipped, you will receive a shipping confirmation email that includes a tracking number. You can use this number on the carrier's website to track your package's progress.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Section",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I track my order?",
+            "answer": "<p>Once your order has shipped, you will receive a shipping confirmation email that includes a tracking number. You can use this number on the carrier's website to track your package's progress.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>We offer a 30-day return policy for unopened and unused products. Please visit our Returns page for detailed instructions on how to process a return and to see if your item is eligible.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>Currently, we only ship within the United States and Canada. We are working on expanding our shipping options to more countries in the future. Stay tuned for updates!</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How can I find the right cartridge for my printer?",
+            "answer": "<p>You can use the search bar at the top of our site to search for your printer model number. This will show you all compatible ink and toner cartridges. If you need further assistance, please don't hesitate to contact us.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

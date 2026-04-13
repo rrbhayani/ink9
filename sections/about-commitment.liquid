@@ -1,0 +1,359 @@
+{%- style -%}
+  /* CSS Variables for About Commitment Section */
+  :root {
+    --primary: #0d7ff2;
+    --text-blue: #49739c;
+    --gray-400: #9ca3af;
+    --gray-300: #d1d5db;
+    --text-dark: #0d141c;
+  }
+
+  /* Dark Mode Variables */
+  .dark {
+    --gray-400: #9ca3af;
+    --gray-300: #d1d5db;
+  }
+
+  /* Commitment Section */
+  .about-commitment-section-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+    {% if section.settings.background_color != blank %}
+      position: relative;
+      padding: 2rem;
+      border-radius: 0.75rem;
+    {% endif %}
+  }
+
+  {% if section.settings.background_color != blank %}
+    .about-commitment-section-{{ section.id }}::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: {{ section.settings.background_color }};
+      opacity: {{ section.settings.background_opacity | default: 100 | divided_by: 100.0 }};
+      border-radius: 0.75rem;
+      z-index: -1;
+    }
+    .about-commitment-section-{{ section.id }} > * {
+      position: relative;
+      z-index: 1;
+    }
+  {% endif %}
+
+  .about-section-title-{{ section.id }} {
+    color: rgb(var(--color-foreground));
+    font-size: {{ section.settings.section_title_font_size_mobile | default: 24 }}px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    text-align: center;
+    margin: 0;
+  }
+
+  @media (min-width: 640px) {
+    .about-section-title-{{ section.id }} {
+      font-size: {{ section.settings.section_title_font_size_desktop | default: 30 }}px;
+    }
+  }
+
+  .about-commitment-list-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  @media (min-width: 640px) {
+    .about-commitment-list-{{ section.id }} {
+      flex-direction: row;
+      gap: 3rem;
+    }
+  }
+
+  .about-commitment-item-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .about-commitment-icon-{{ section.id }} {
+    {% if section.settings.icon_color != blank %}
+      color: {{ section.settings.icon_color }};
+    {% else %}
+      color: var(--primary);
+    {% endif %}
+    font-size: {{ section.settings.icon_size | default: 24 }}px;
+  }
+
+  .about-commitment-text-{{ section.id }} {
+    {% if section.settings.text_color != blank %}
+      color: {{ section.settings.text_color }};
+    {% else %}
+      color: rgb(var(--color-foreground));
+    {% endif %}
+    font-size: {{ section.settings.text_font_size | default: 16 }}px;
+  }
+
+  .about-commitment-container-{{ section.id }} {
+    margin: 0 auto;
+    padding: {{ section.settings.padding_top | default: 40 }}px 1.5rem {{ section.settings.padding_bottom | default: 40 }}px;
+  }
+
+  {% if section.settings.width_type == 'custom' %}
+    .about-commitment-container-{{ section.id }} {
+      max-width: {{ section.settings.custom_width | default: 1200 }}px;
+    }
+  {% elsif section.settings.width_type == 'full' %}
+    .about-commitment-container-{{ section.id }} {
+      max-width: 100%;
+      padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 40 }}px !important;
+    }
+  {% else %}
+    .about-commitment-container-{{ section.id }} {
+      max-width: var(--page-width);
+    }
+  {% endif %}
+
+  {% unless section.settings.width_type == 'full' %}
+    @media screen and (min-width: 750px) {
+      .about-commitment-container-{{ section.id }} {
+        padding-left: 5rem;
+        padding-right: 5rem;
+      }
+    }
+  {% endunless %}
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="about-commitment-container-{{ section.id }}">
+    <section class="about-commitment-section-{{ section.id }}">
+      <h2 class="about-section-title-{{ section.id }}">{{ section.settings.title | default: "Our Commitment to You" }}</h2>
+
+      <div class="about-commitment-list-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          <div class="about-commitment-item-{{ section.id }}" {{ block.shopify_attributes }}>
+            <span class="material-symbols-outlined about-commitment-icon-{{ section.id }}">
+              {{ block.settings.icon | default: "check_circle" }}
+            </span>
+            <span class="about-commitment-text-{{ section.id }}">{{ block.settings.text }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    </section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Commitment",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Our Commitment to You"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "info": "Leave empty for no background"
+    },
+    {
+      "type": "range",
+      "id": "background_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Background Opacity",
+      "default": 100,
+      "info": "Opacity percentage for the background color"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Color",
+      "default": "#0d7ff2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Font Sizes"
+    },
+    {
+      "type": "range",
+      "id": "section_title_font_size_mobile",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Section Title Font Size (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "section_title_font_size_desktop",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Section Title Font Size (Desktop)",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Commitment Text Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon Size",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width_type",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "page",
+          "label": "Page Width"
+        },
+        {
+          "value": "full",
+          "label": "Full Width"
+        },
+        {
+          "value": "custom",
+          "label": "Custom Width"
+        }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "min": 400,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Custom Max Width",
+      "default": 1200,
+      "info": "Only applies when Custom Width is selected"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "commitment_item",
+      "name": "Commitment Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Material Icon Name",
+          "default": "check_circle",
+          "info": "Enter Material Symbols icon name. Browse all icons at: https://fonts.google.com/icons"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Commitment Item"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Commitment",
+      "blocks": [
+        {
+          "type": "commitment_item",
+          "settings": {
+            "icon": "check_circle",
+            "text": "Sustainable Practices"
+          }
+        },
+        {
+          "type": "commitment_item",
+          "settings": {
+            "icon": "check_circle",
+            "text": "Customer Service Excellence"
+          }
+        },
+        {
+          "type": "commitment_item",
+          "settings": {
+            "icon": "check_circle",
+            "text": "Continuous Innovation"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

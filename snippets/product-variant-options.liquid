@@ -1,0 +1,215 @@
+{% comment %}
+  Renders product variant options
+
+  Accepts:
+  - product: {Object} product object.
+  - option: {Object} current product_option object.
+  - block: {Object} block object.
+  - picker_type: {String} type of picker to dispay
+
+
+  Usage:
+  {% render 'product-variant-options',
+    product: product,
+    option: option,
+    block: block
+    picker_type: picker_type
+  %}
+{% endcomment %}
+{%- liquid
+  assign product_form_id = 'product-form-' | append: section.id
+-%}
+
+{%- for value in option.values -%}
+  {%- liquid
+    assign swatch_focal_point = null
+    if value.swatch.image
+      assign image_url = value.swatch.image | image_url: width: 50
+      assign swatch_value = 'url(' | append: image_url | append: ')'
+      assign swatch_focal_point = value.swatch.image.presentation.focal_point
+    elsif value.swatch.color
+      assign swatch_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+    else
+      assign swatch_value = null
+    endif
+
+    assign option_disabled = true
+    if value.available
+      assign option_disabled = false
+    endif
+  -%}
+
+  {%- capture input_id -%}
+    {{ section.id }}-{{ option.position }}-{{ forloop.index0 -}}
+  {%- endcapture -%}
+
+  {%- capture input_name -%}
+    {{ option.name }}-{{ option.position }}
+  {%- endcapture -%}
+
+  {%- capture input_dataset -%}
+    data-product-url="{{ value.product_url }}"
+    data-option-value-id="{{ value.id }}"
+  {%- endcapture -%}
+
+  {%- capture label_unavailable -%}
+    <span class="visually-hidden label-unavailable">
+      {{- 'products.product.variant_sold_out_or_unavailable' | t -}}
+    </span>
+  {%- endcapture -%}
+
+  {% assign escaped_value = value | escape %}
+
+  {%- if picker_type == 'swatch' -%}
+    {%- liquid
+      # Check if value contains ~ separator for subtitle (for swatch too)
+      assign value_parts = value | split: '~'
+      assign main_value = value_parts[0] | strip
+    -%}
+    
+    {%- capture help_text -%}
+      <span class="visually-hidden">{{ main_value }}</span>
+      {{ label_unavailable }}
+    {%- endcapture -%}
+
+    {%
+      render 'swatch-input',
+      id: input_id,
+      name: input_name,
+      value: escaped_value,
+      swatch: value.swatch,
+      product_form_id: product_form_id,
+      checked: value.selected,
+      visually_disabled: option_disabled,
+      shape: block.settings.swatch_shape,
+      help_text: help_text,
+      additional_props: input_dataset
+    %}
+  {%- elsif picker_type == 'button' -%}
+    {%- liquid
+      assign variant_for_value = null
+      assign variant_subtitle = ''
+      
+      # Check if value contains ~ separator for subtitle
+      assign value_parts = value | split: '~'
+      assign main_value = value_parts[0] | strip
+      if value_parts.size > 1
+        assign variant_subtitle = value_parts[1] | strip
+      endif
+      
+      if show_variant_price
+        # For single option products, directly map value to variant
+        if product.options.size == 1
+          for variant in product.variants
+            if variant.option1 == value
+              assign variant_for_value = variant
+              break
+            endif
+          endfor
+        else
+          # For multi-option products, find first available variant with this option value
+          for variant in product.variants
+            assign option_index = option.position
+            assign matches_this_option = false
+            
+            if option_index == 1 and variant.option1 == value
+              assign matches_this_option = true
+            elsif option_index == 2 and variant.option2 == value
+              assign matches_this_option = true
+            elsif option_index == 3 and variant.option3 == value
+              assign matches_this_option = true
+            endif
+            
+            if matches_this_option and variant.available
+              assign variant_for_value = variant
+              break
+            endif
+          endfor
+          
+          # If no available variant found, use first variant with this option (even if unavailable)
+          unless variant_for_value
+            for variant in product.variants
+              assign option_index = option.position
+              
+              if option_index == 1 and variant.option1 == value
+                assign variant_for_value = variant
+                break
+              elsif option_index == 2 and variant.option2 == value
+                assign variant_for_value = variant
+                break
+              elsif option_index == 3 and variant.option3 == value
+                assign variant_for_value = variant
+                break
+              endif
+            endfor
+          endunless
+        endif
+      endif
+    -%}
+    <input
+      type="radio"
+      id="{{ input_id }}"
+      name="{{ input_name | escape }}"
+      value="{{ escaped_value }}"
+      form="{{ product_form_id }}"
+      {% if value.selected %}
+        checked
+      {% endif %}
+      {% if option_disabled %}
+        class="disabled"
+      {% endif %}
+      {{ input_dataset }}
+    >
+    <label for="{{ input_id }}"{% if show_variant_price %} class="variant-option-with-price"{% endif %}>
+      {%- if show_variant_price -%}
+        <span class="variant-option-content">
+          <span class="variant-option-label">
+            {{ main_value -}}
+            {{ label_unavailable }}
+          </span>
+          {%- if variant_subtitle != blank -%}
+            <span class="variant-option-subtitle">
+              ~{{ variant_subtitle }}
+            </span>
+          {%- endif -%}
+        </span>
+        {%- if variant_for_value -%}
+          <span class="variant-option-price">
+            {{ variant_for_value.price | money }}
+          </span>
+        {%- endif -%}
+      {%- else -%}
+        <span class="variant-option-label">
+          {{ main_value -}}
+      {{ label_unavailable }}
+        </span>
+        {%- if variant_subtitle != blank -%}
+          <span class="variant-option-subtitle">
+            ~{{ variant_subtitle }}
+          </span>
+        {%- endif -%}
+      {%- endif -%}
+    </label>
+  {%- elsif picker_type == 'dropdown' or picker_type == 'swatch_dropdown' -%}
+    <option
+      id="{{ input_id }}"
+      value="{{ escaped_value }}"
+      {% if value.selected %}
+        selected="selected"
+      {% endif %}
+      {% if swatch_value and picker_type == 'swatch_dropdown' %}
+        data-option-swatch-value="{{ swatch_value }}"
+        {% if swatch_focal_point %}
+          data-option-swatch-focal-point="{{ swatch_focal_point }}"
+        {% endif %}
+      {% endif %}
+      {{ input_dataset }}
+    >
+      {% if option_disabled -%}
+        {{- 'products.product.value_unavailable' | t: option_value: value -}}
+      {%- else -%}
+        {{- value -}}
+      {%- endif %}
+    </option>
+  {%- endif -%}
+{%- endfor -%}

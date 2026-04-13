@@ -1,0 +1,576 @@
+{{ 'shipping-policy.css' | asset_url | stylesheet_tag }}
+
+{% assign option_rows = section.blocks | where: 'type', 'shipping_option_row' %}
+
+<div class="shipping-wrapper" id="shipping-policy-{{ section.id }}">
+  <main class="shipping-main">
+    <div class="shipping-main-container">
+      <div class="shipping-content-wrapper">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'heading' %}
+              <section class="shipping-title-wrapper" style="padding-top: {{ block.settings.padding_top | default: 0 }}rem; padding-bottom: {{ block.settings.padding_bottom | default: 0 }}rem;" {{ block.shopify_attributes }}>
+                <h1 class="shipping-title">{{ block.settings.heading_title }}</h1>
+              </section>
+
+            {% when 'intro' %}
+              {% if block.settings.intro_text != blank %}
+              <section class="shipping-intro-card" style="padding-top: {{ block.settings.padding_top | default: 0 }}rem; padding-bottom: {{ block.settings.padding_bottom | default: 0 }}rem;" {{ block.shopify_attributes }}>
+                <div class="shipping-intro-text">
+                  {{ block.settings.intro_text }}
+                </div>
+              </section>
+              {% endif %}
+
+            {% when 'free_shipping' %}
+              <section class="shipping-feature-card" style="padding-top: {{ block.settings.padding_top | default: 0 }}rem; padding-bottom: {{ block.settings.padding_bottom | default: 0 }}rem;" {{ block.shopify_attributes }}>
+                <h3 class="shipping-feature-title">
+                  <span class="material-symbols-outlined">local_shipping</span>
+                  {{ block.settings.free_shipping_title }}
+                </h3>
+                {% if block.settings.free_shipping_text != blank %}
+                <p class="shipping-feature-text">{{ block.settings.free_shipping_text }}</p>
+                {% endif %}
+                {% if block.settings.free_shipping_note != blank %}
+                <p class="shipping-feature-note">{{ block.settings.free_shipping_note }}</p>
+                {% endif %}
+              </section>
+
+            {% when 'processing' %}
+              <section class="shipping-section-card" style="padding-top: {{ block.settings.padding_top | default: 0 }}rem; padding-bottom: {{ block.settings.padding_bottom | default: 0 }}rem;" {{ block.shopify_attributes }}>
+                <h2 class="shipping-section-title">{{ block.settings.processing_heading }}</h2>
+                {% if block.settings.processing_description != blank %}
+                <div class="shipping-section-text shipping-section-text-margin">
+                  {{ block.settings.processing_description }}
+                </div>
+                {% endif %}
+                <ul class="shipping-section-list">
+                  {% if block.settings.processing_time_detail != blank %}
+                  <li><strong>{{ block.settings.processing_time_label }}</strong> {{ block.settings.processing_time_detail }}</li>
+                  {% endif %}
+                  {% if block.settings.delivery_detail != blank %}
+                  <li><strong>{{ block.settings.delivery_label }}</strong> {{ block.settings.delivery_detail }}</li>
+                  {% endif %}
+                </ul>
+              </section>
+
+            {% when 'shipping_options' %}
+              <section class="shipping-section-card" style="padding-top: {{ block.settings.padding_top | default: 0 }}rem; padding-bottom: {{ block.settings.padding_bottom | default: 0 }}rem;" {{ block.shopify_attributes }}>
+                <h2 class="shipping-section-title">{{ block.settings.options_heading }}</h2>
+                {% if block.settings.options_description != blank %}
+                <p class="shipping-section-text shipping-section-text-margin">{{ block.settings.options_description }}</p>
+                {% endif %}
+                {% if option_rows.size > 0 %}
+                <div class="shipping-table-wrapper">
+                  <table class="shipping-table">
+                    <thead class="shipping-table-head">
+                      <tr>
+                        <th class="shipping-table-header" scope="col">{{ block.settings.option_column_title }}</th>
+                        <th class="shipping-table-header" scope="col">{{ block.settings.delivery_column_title }}</th>
+                        <th class="shipping-table-header" scope="col">{{ block.settings.price_column_title }}</th>
+                      </tr>
+                    </thead>
+                    <tbody class="shipping-table-body">
+                      {% for row in option_rows %}
+                      <tr class="shipping-table-row" {{ row.shopify_attributes }}>
+                        <td class="shipping-table-cell">{{ row.settings.name }}</td>
+                        <td class="shipping-table-cell">{{ row.settings.delivery_time }}</td>
+                        <td class="shipping-table-cell">{{ row.settings.price }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                {% endif %}
+              </section>
+
+            {% when 'carrier' %}
+              <section class="shipping-section-card" style="padding-top: {{ block.settings.padding_top | default: 0 }}rem; padding-bottom: {{ block.settings.padding_bottom | default: 0 }}rem;" {{ block.shopify_attributes }}>
+                <h3 class="shipping-section-subtitle">{{ block.settings.carrier_heading }}</h3>
+                {% if block.settings.carrier_description != blank %}
+                <p class="shipping-section-text shipping-section-text-margin-bottom">{{ block.settings.carrier_description }}</p>
+                {% endif %}
+                {% if block.settings.lost_package_detail != blank %}
+                <p class="shipping-section-text">
+                  <strong>{{ block.settings.lost_package_label }}</strong> {{ block.settings.lost_package_detail }}
+                </p>
+                {% endif %}
+              </section>
+
+            {% when 'returns_tracking' %}
+              <div style="padding-top: {{ block.settings.padding_top | default: 0 }}rem; padding-bottom: {{ block.settings.padding_bottom | default: 0 }}rem;" {{ block.shopify_attributes }}>
+                <section class="shipping-title-wrapper">
+                  <h2 class="shipping-section-title">{{ block.settings.returns_section_title }}</h2>
+                </section>
+                <section class="shipping-grid">
+                  <div class="shipping-section-card">
+                    <h3 class="shipping-section-subtitle">{{ block.settings.order_tracking_heading }}</h3>
+                    {% if block.settings.order_tracking_text != blank %}
+                    <p class="shipping-section-text">{{ block.settings.order_tracking_text }}</p>
+                    {% endif %}
+                  </div>
+                  <div class="shipping-section-card">
+                    <h3 class="shipping-section-subtitle">{{ block.settings.returns_heading }}</h3>
+                    {% if block.settings.returns_text != blank %}
+                    <p class="shipping-section-text">
+                      {{ block.settings.returns_text }}
+                      {% if block.settings.returns_email != blank %}
+                      <a class="shipping-section-link" href="mailto:{{ block.settings.returns_email }}">{{ block.settings.returns_email }}</a>
+                      {% endif %}
+                    </p>
+                    {% endif %}
+                  </div>
+                </section>
+              </div>
+
+            {% when 'questions' %}
+              <section class="shipping-section-card" style="padding-top: {{ block.settings.padding_top | default: 0 }}rem; padding-bottom: {{ block.settings.padding_bottom | default: 0 }}rem;" {{ block.shopify_attributes }}>
+                <h2 class="shipping-section-title">{{ block.settings.questions_heading }}</h2>
+                {% if block.settings.questions_text != blank %}
+                <p class="shipping-section-text shipping-section-text-margin-bottom">{{ block.settings.questions_text }}</p>
+                {% endif %}
+                {% if block.settings.questions_cta_label != blank %}
+                <a class="shipping-cta-button" href="{{ block.settings.questions_cta_link }}">{{ block.settings.questions_cta_label }}</a>
+                {% endif %}
+              </section>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  </main>
+</div>
+
+{% schema %}
+{
+  "name": "Shipping policy",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading_title",
+          "label": "Heading",
+          "default": "Shipping Policy"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "label": "Padding top (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "label": "Padding bottom (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "intro",
+      "name": "Intro",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "intro_text",
+          "label": "Intro text",
+          "default": "<p>At Ink & Toner Store, we are committed to providing you with fast, reliable, and affordable shipping. This policy outlines our shipping procedures and timelines to ensure you know exactly when to expect your order. We want to make your experience as smooth as possible, from checkout to delivery.</p>"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "label": "Padding top (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "label": "Padding bottom (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "free_shipping",
+      "name": "Free shipping",
+      "settings": [
+        {
+          "type": "text",
+          "id": "free_shipping_title",
+          "label": "Title",
+          "default": "Free Shipping on Orders Over $99*"
+        },
+        {
+          "type": "textarea",
+          "id": "free_shipping_text",
+          "label": "Text",
+          "default": "We offer free standard shipping on all qualifying orders with a subtotal of $99 or more. This offer is automatically applied at checkout for eligible items."
+        },
+        {
+          "type": "text",
+          "id": "free_shipping_note",
+          "label": "Note",
+          "default": "*Excludes shipments to Canada, oversized items, and specific remote locations."
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "label": "Padding top (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "label": "Padding bottom (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "processing",
+      "name": "Processing & delivery",
+      "settings": [
+        {
+          "type": "text",
+          "id": "processing_heading",
+          "label": "Heading",
+          "default": "Processing and Delivery Times"
+        },
+        {
+          "type": "textarea",
+          "id": "processing_description",
+          "label": "Description",
+          "default": "All in-stock orders are processed for shipment the next business day. You will receive a shipping confirmation email with tracking details once your package has been dispatched."
+        },
+        {
+          "type": "text",
+          "id": "processing_time_label",
+          "label": "Processing time label",
+          "default": "Processing Time:"
+        },
+        {
+          "type": "text",
+          "id": "processing_time_detail",
+          "label": "Processing time detail",
+          "default": "Next business day shipping for orders placed before 5 PM EST."
+        },
+        {
+          "type": "text",
+          "id": "delivery_label",
+          "label": "Estimated delivery label",
+          "default": "Estimated Delivery:"
+        },
+        {
+          "type": "text",
+          "id": "delivery_detail",
+          "label": "Estimated delivery detail",
+          "default": "Typically 3-7 business days, depending on your location."
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "label": "Padding top (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "label": "Padding bottom (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "shipping_options",
+      "name": "Options & fees",
+      "settings": [
+        {
+          "type": "text",
+          "id": "options_heading",
+          "label": "Heading",
+          "default": "Shipping Options and Fees"
+        },
+        {
+          "type": "textarea",
+          "id": "options_description",
+          "label": "Description",
+          "default": "Shipping costs are determined based on the shipping method selected and the destination of the order."
+        },
+        {
+          "type": "text",
+          "id": "option_column_title",
+          "label": "Option column title",
+          "default": "Shipping Option"
+        },
+        {
+          "type": "text",
+          "id": "delivery_column_title",
+          "label": "Delivery column title",
+          "default": "Estimated Delivery Time"
+        },
+        {
+          "type": "text",
+          "id": "price_column_title",
+          "label": "Price column title",
+          "default": "Price"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "label": "Padding top (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "label": "Padding bottom (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "shipping_option_row",
+      "name": "Option row",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Option name",
+          "default": "Standard Shipping"
+        },
+        {
+          "type": "text",
+          "id": "delivery_time",
+          "label": "Estimated delivery",
+          "default": "3-7 Business Days"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "$8.49 Flat Rate"
+        }
+      ]
+    },
+    {
+      "type": "carrier",
+      "name": "Carrier & delays",
+      "settings": [
+        {
+          "type": "text",
+          "id": "carrier_heading",
+          "label": "Heading",
+          "default": "Carrier Responsibility and Delays"
+        },
+        {
+          "type": "textarea",
+          "id": "carrier_description",
+          "label": "Description",
+          "default": "Once a package has been handed over to the shipping carrier, liability for delays or damage transfers to the carrier. While we will assist in resolving any issues, we are not responsible for delays caused by weather, carrier operational issues, or incorrect addresses provided at checkout."
+        },
+        {
+          "type": "text",
+          "id": "lost_package_label",
+          "label": "Lost package label",
+          "default": "Lost Packages:"
+        },
+        {
+          "type": "text",
+          "id": "lost_package_detail",
+          "label": "Lost package detail",
+          "default": "A package is not considered lost until 12 business days have passed since the estimated delivery date."
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "label": "Padding top (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "label": "Padding bottom (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "returns_tracking",
+      "name": "Returns & tracking",
+      "settings": [
+        {
+          "type": "text",
+          "id": "returns_section_title",
+          "label": "Section heading",
+          "default": "Returns & Exchanges - Order Tracking"
+        },
+        {
+          "type": "text",
+          "id": "order_tracking_heading",
+          "label": "Order tracking heading",
+          "default": "Order Tracking"
+        },
+        {
+          "type": "textarea",
+          "id": "order_tracking_text",
+          "label": "Order tracking text",
+          "default": "Once your order has shipped, you will receive an email with a tracking number. Please allow 24-48 hours for the tracking information to become available in the carrier's system."
+        },
+        {
+          "type": "text",
+          "id": "returns_heading",
+          "label": "Returns heading",
+          "default": "Returns & Exchanges"
+        },
+        {
+          "type": "textarea",
+          "id": "returns_text",
+          "label": "Returns text",
+          "default": "For queries regarding returns or exchanges on items damaged during shipping, please contact us directly at"
+        },
+        {
+          "type": "text",
+          "id": "returns_email",
+          "label": "Returns email",
+          "default": "returns@inkandtonerstore.com"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "label": "Padding top (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "label": "Padding bottom (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "questions",
+      "name": "Questions",
+      "settings": [
+        {
+          "type": "text",
+          "id": "questions_heading",
+          "label": "Heading",
+          "default": "Questions?"
+        },
+        {
+          "type": "textarea",
+          "id": "questions_text",
+          "label": "Text",
+          "default": "If you have any further questions or concerns about your order's shipping, please don't hesitate to contact our customer support team."
+        },
+        {
+          "type": "url",
+          "id": "questions_cta_link",
+          "label": "Button link",
+          "default": "/"
+        },
+        {
+          "type": "text",
+          "id": "questions_cta_label",
+          "label": "Button label",
+          "default": "Contact Support"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "label": "Padding top (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "label": "Padding bottom (rem)",
+          "min": 0,
+          "max": 8,
+          "step": 0.5,
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shipping policy",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "intro" },
+        { "type": "free_shipping" },
+        { "type": "processing" },
+        { "type": "shipping_options" },
+        {
+          "type": "shipping_option_row"
+        },
+        {
+          "type": "shipping_option_row",
+          "settings": {
+            "name": "Expedited Shipping",
+            "delivery_time": "1-3 Business Days",
+            "price": "Calculated at Checkout"
+          }
+        },
+        { "type": "carrier" },
+        { "type": "returns_tracking" },
+        { "type": "questions" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

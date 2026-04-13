@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "brand_information_nBK4TJ": {
+          "type": "brand_information",
+          "settings": {
+            "show_social": true,
+            "show_newsletter": false
+          }
+        },
+        "link_list_rmaf4y": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Collecton",
+            "menu": "footer"
+          }
+        },
+        "link_list_xVM4Mx": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Quick links",
+            "menu": "policies"
+          }
+        },
+        "text_JLrCHr": {
+          "type": "text",
+          "settings": {
+            "heading": "Contact Us",
+            "subtext": "<p><strong>E-mail:</strong> support@inktonerstore.com<br/><strong>contact</strong>: +1 (555) 123-4567<br/><strong>Address: </strong>123 Printer Lane, Techville, CA 90210, USA</p>"
+          }
+        }
+      },
+      "block_order": [
+        "brand_information_nBK4TJ",
+        "link_list_rmaf4y",
+        "link_list_xVM4Mx",
+        "text_JLrCHr"
+      ],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "newsletter_enable": true,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

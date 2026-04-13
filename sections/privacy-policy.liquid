@@ -1,0 +1,456 @@
+<!-- Load fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+{%- style -%}
+  .privacy-{{ section.id }} *,
+  .privacy-{{ section.id }} *::before,
+  .privacy-{{ section.id }} *::after {
+    box-sizing: border-box;
+  }
+
+  .privacy-{{ section.id }} {
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f7f8;
+    color: #0d141c;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+  }
+
+  .privacy-{{ section.id }} .privacy-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 40px 16px 48px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 640px) {
+    .privacy-{{ section.id }} .privacy-container {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .privacy-{{ section.id }} .privacy-container {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+  }
+
+  .privacy-{{ section.id }} .privacy-card {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: 1px solid #e7edf4;
+  }
+
+  @media (min-width: 640px) {
+    .privacy-{{ section.id }} .privacy-card {
+      padding: 40px;
+    }
+  }
+
+  .privacy-{{ section.id }} .privacy-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .privacy-{{ section.id }} .privacy-hero-title {
+    color: {{ section.settings.title_color }};
+    font-size: {{ section.settings.hero_title_size_mobile }}px;
+    font-weight: 900;
+    line-height: 1.25;
+    letter-spacing: -0.033em;
+    margin: 0;
+  }
+
+  @media (min-width: 640px) {
+    .privacy-{{ section.id }} .privacy-hero-title {
+      font-size: {{ section.settings.hero_title_size_desktop }}px;
+    }
+  }
+
+  .privacy-{{ section.id }} .privacy-hero-date {
+    color: {{ section.settings.date_color }};
+    font-size: {{ section.settings.date_size }}px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .privacy-{{ section.id }} .privacy-content {
+
+    color: {{ section.settings.body_color }};
+    display: flex;
+    flex-direction: column;
+    gap: {{ section.settings.block_gap }}px;
+  }
+
+  .privacy-{{ section.id }} .privacy-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: {{ section.settings.block_padding }}px;
+    padding-bottom: {{ section.settings.block_padding }}px;
+  }
+
+  .privacy-{{ section.id }} .privacy-section-title {
+    color: {{ section.settings.heading_color }};
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+  .privacy-{{ section.id }} .privacy-section-text p {
+    margin: unset !important;
+  }
+
+  .privacy-{{ section.id }} .privacy-section-text {
+    font-size: {{ section.settings.body_size }}px;
+    color: {{ section.settings.body_color }};
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .privacy-{{ section.id }} .privacy-section-list {
+    list-style-type: disc;
+    list-style-position: inside;
+    margin: 0;
+    padding-left: 0;
+    color: {{ section.settings.list_color }};
+    font-size: {{ section.settings.list_size }}px;
+    line-height: 1.65;
+  }
+
+  .privacy-{{ section.id }} .privacy-section-list li {
+    margin-bottom: 8px;
+  }
+
+  .privacy-{{ section.id }} a {
+    color: {{ section.settings.link_color }};
+    text-decoration: none;
+  }
+
+  .privacy-{{ section.id }} a:hover {
+    text-decoration: underline;
+  }
+{%- endstyle -%}
+
+<div class="privacy-{{ section.id }}">
+  <div class="privacy-container">
+    <div class="privacy-card">
+      <div class="privacy-hero">
+        {% if section.settings.title != blank %}
+          <p class="privacy-hero-title">{{ section.settings.title }}</p>
+        {% endif %}
+        {% if section.settings.updated_label != blank or section.settings.updated_value != blank %}
+          <p class="privacy-hero-date">
+            {% if section.settings.updated_label != blank %}{{ section.settings.updated_label }}{% endif %}{% if section.settings.updated_label != blank and section.settings.updated_value != blank %}: {% endif %}{{ section.settings.updated_value }}
+          </p>
+        {% endif %}
+      </div>
+
+      <div class="privacy-content">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'text_block' %}
+              <div class="privacy-section" {{ block.shopify_attributes }}>
+                {% if block.settings.heading != blank %}
+                  <h3 class="privacy-section-title">{{ block.settings.heading }}</h3>
+                {% endif %}
+                {% if block.settings.body != blank %}
+                  <div class="privacy-section-text">{{ block.settings.body }}</div>
+                {% endif %}
+              </div>
+            {% when 'list_block' %}
+              <div class="privacy-section" {{ block.shopify_attributes }}>
+                {% if block.settings.heading != blank %}
+                  <h3 class="privacy-section-title">{{ block.settings.heading }}</h3>
+                {% endif %}
+                {% if block.settings.intro != blank %}
+                  <div class="privacy-section-text">{{ block.settings.intro }}</div>
+                {% endif %}
+                {% if block.settings.items != blank %}
+                  <ul class="privacy-section-list">
+                    {% assign lines = block.settings.items | split: '\n' %}
+                    {% for item in lines %}
+                      {% if item != blank %}
+                        <li>{{ item }}</li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Privacy Policy",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Privacy Policy"
+    },
+    {
+      "type": "text",
+      "id": "updated_label",
+      "label": "Updated label",
+      "default": "Last updated"
+    },
+    {
+      "type": "text",
+      "id": "updated_value",
+      "label": "Updated value",
+      "default": "October 26, 2023"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#0d141c"
+    },
+    {
+      "type": "color",
+      "id": "date_color",
+      "label": "Date color",
+      "default": "#49739c"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Section heading color",
+      "default": "#0d141c"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body text color",
+      "default": "#49739c"
+    },
+    {
+      "type": "color",
+      "id": "list_color",
+      "label": "List text color",
+      "default": "#49739c"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link color",
+      "default": "#0d7ff2"
+    },
+    {
+      "type": "header",
+      "content": "Font sizes"
+    },
+    {
+      "type": "range",
+      "id": "hero_title_size_mobile",
+      "min": 24,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "label": "Hero title size (mobile)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "hero_title_size_desktop",
+      "min": 32,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "label": "Hero title size (desktop)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "date_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Date font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Section heading size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Body text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "list_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "List text size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Block spacing"
+    },
+    {
+      "type": "range",
+      "id": "block_gap",
+      "min": 8,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between blocks",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "block_padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top/bottom per block",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Text section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Introduction"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body",
+          "default": "<p>Welcome to Ink & Toner Store. We are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner.</p>"
+        }
+      ]
+    },
+    {
+      "type": "list_block",
+      "name": "List section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Collection and Use of Personal Information"
+        },
+        {
+          "type": "richtext",
+          "id": "intro",
+          "label": "Intro",
+          "default": "<p>We collect several types of personal information to provide and improve our services to you. These categories include:</p>"
+        },
+        {
+          "type": "textarea",
+          "id": "items",
+          "label": "List items (one per line)",
+          "default": "Contact Information: name, email, mailing address, phone number\nBilling Information: credit card details and billing address\nAccount Information: username and password for your account\nPreference Information: wish lists, order history, marketing preferences"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Privacy Policy",
+      "blocks": [
+        {
+          "type": "text_block",
+          "settings": {
+            "heading": "Introduction",
+            "body": "<p>Welcome to Ink & Toner Store. We are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. This Privacy Policy outlines how we collect, use, and disclose your personal information when you visit our website and purchase our products.</p>"
+          }
+        },
+        {
+          "type": "list_block",
+          "settings": {
+            "heading": "Collection and Use of Personal Information",
+            "intro": "<p>We collect several types of personal information to provide and improve our services to you. These categories include:</p>",
+            "items": "Contact Information: We collect your name, email address, mailing address, and phone number to communicate with you about your orders and inquiries.\nBilling Information: To process your transactions securely, we collect your credit card details and billing address.\nAccount Information: If you create an account with us, we store your username and password to manage your preferences and access.\nPreference Information: We maintain information regarding your product wish lists, order history, and marketing preferences to tailor your shopping experience."
+          }
+        },
+        {
+          "type": "text_block",
+          "settings": {
+            "heading": "How We Use Your Information",
+            "body": "<p>Your information is used to fulfill and manage orders, communicate about orders and support, screen for fraud, and provide information or advertising consistent with your preferences.</p>"
+          }
+        },
+        {
+          "type": "text_block",
+          "settings": {
+            "heading": "Sharing Your Information",
+            "body": "<p>We share your personal information with third parties to help us use it as described above (e.g., Shopify, payment processors, shipping partners). We do not sell your personal information.</p>"
+          }
+        },
+        {
+          "type": "text_block",
+          "settings": {
+            "heading": "Your Rights",
+            "body": "<p>If you are a European resident, you have the right to access personal information we hold about you and to ask that it be corrected, updated, or deleted.</p>"
+          }
+        },
+        {
+          "type": "text_block",
+          "settings": {
+            "heading": "Changes to This Policy",
+            "body": "<p>We may update this policy to reflect changes to our practices or for legal reasons. The \"Last updated\" date shows when it was last revised.</p>"
+          }
+        },
+        {
+          "type": "text_block",
+          "settings": {
+            "heading": "Contact Us",
+            "body": "<p>Contact us at privacy@inkandtonerstore.com or by mail at 123 Printer Lane, Tech City, TX 12345, United States.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

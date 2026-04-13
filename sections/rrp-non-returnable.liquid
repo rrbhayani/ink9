@@ -1,0 +1,189 @@
+<link href="{{ 'rrp.css' | asset_url }}" rel="stylesheet">
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .rrp-non-returnable-{{ section.id }} .rrp-non-returnable-title {
+    color: {{ section.settings.title_color }};
+    font-size: {{ section.settings.title_size }}px;
+  }
+
+  .rrp-tag-{{ section.id }} {
+    background-color: {{ section.settings.tag_bg_color }};
+    color: {{ section.settings.tag_text_color }};
+    border-color: {{ section.settings.tag_border_color }};
+  }
+
+  .rrp-non-returnable-note-{{ section.id }} {
+    color: {{ section.settings.note_color }};
+  }
+{%- endstyle -%}
+
+<div class="rrp-container">
+<div class="rrp-non-returnable rrp-non-returnable-{{ section.id }} section-{{ section.id }}-padding">
+  {% if section.settings.title != blank %}
+    <h2 class="rrp-non-returnable-title">{{ section.settings.title }}</h2>
+  {% endif %}
+  
+  {% if section.blocks.size > 0 %}
+    <div class="rrp-non-returnable-tags">
+      {% for block in section.blocks %}
+        {% if block.settings.tag_text != blank %}
+          <span class="rrp-tag rrp-tag-{{ section.id }}" {{ block.shopify_attributes }}>{{ block.settings.tag_text }}</span>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  {% if section.settings.note_text != blank %}
+    <p class="rrp-non-returnable-note rrp-non-returnable-note-{{ section.id }}">{{ section.settings.note_text }}</p>
+  {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "RRP - Non-Returnable",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Non-Returnable Items"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 18,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#0f172a"
+    },
+    {
+      "type": "text",
+      "id": "note_text",
+      "label": "Note Text",
+      "default": "* These items are final sale unless defective upon arrival."
+    },
+    {
+      "type": "color",
+      "id": "note_color",
+      "label": "Note Color",
+      "default": "#64748b"
+    },
+    {
+      "type": "color",
+      "id": "tag_bg_color",
+      "label": "Tag Background Color",
+      "default": "#f1f5f9"
+    },
+    {
+      "type": "color",
+      "id": "tag_text_color",
+      "label": "Tag Text Color",
+      "default": "#475569"
+    },
+    {
+      "type": "color",
+      "id": "tag_border_color",
+      "label": "Tag Border Color",
+      "default": "#e2e8f0"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tag",
+      "name": "Tag",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tag_text",
+          "label": "Tag Text",
+          "default": "OEM Products"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "RRP - Non-Returnable",
+      "blocks": [
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "OEM Products"
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Inkjet Cartridges"
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Bottled Inks"
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Label Tapes"
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "POS Ribbons"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

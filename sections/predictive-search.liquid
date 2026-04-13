@@ -1,0 +1,445 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{%- if predictive_search.performed -%}
+  {% assign first_column_results_size = predictive_search.resources.queries.size
+    | plus: predictive_search.resources.collections.size
+    | plus: predictive_search.resources.pages.size
+    | plus: predictive_search.resources.articles.size
+  %}
+  <div id="predictive-search-results" role="listbox">
+    {%- if first_column_results_size > 0 or predictive_search.resources.products.size > 0 -%}
+      <div
+        id="predictive-search-results-groups-wrapper"
+        class="predictive-search__results-groups-wrapper{% unless predictive_search.resources.products.size > 0 %} predictive-search__results-groups-wrapper--no-products{% endunless %}{% unless predictive_search.resources.queries.size > 0 or predictive_search.resources.collections.size > 0 %} predictive-search__results-groups-wrapper--no-suggestions{% endunless %}"
+      >
+    {%- endif -%}
+    {%- if first_column_results_size > 0 -%}
+      <div class="predictive-search__result-group">
+    {%- endif -%}
+    {%- if predictive_search.resources.queries.size > 0 or predictive_search.resources.collections.size > 0 -%}
+      <div>
+        <h2 id="predictive-search-queries" class="predictive-search__heading text-body caption-with-letter-spacing">
+          {{- 'templates.search.suggestions' | t -}}
+        </h2>
+        <ul
+          id="predictive-search-results-queries-list"
+          class="predictive-search__results-list list-unstyled"
+          role="group"
+          aria-labelledby="predictive-search-queries"
+        >
+          {%- for query in predictive_search.resources.queries -%}
+            <li
+              id="predictive-search-option-query-{{ forloop.index }}"
+              class="predictive-search__list-item"
+              role="option"
+              aria-selected="false"
+            >
+              <a href="{{ query.url }}" class="predictive-search__item link link--text" tabindex="-1">
+                <div class="predictive-search__item-content predictive-search__item-content--centered">
+                  <p
+                    class="predictive-search__item-heading predictive-search__item-query-result h5"
+                    aria-label="{{ query.text }}"
+                  >
+                    {{ query.styled_text }}
+                  </p>
+                </div>
+              </a>
+            </li>
+          {%- endfor -%}
+          {%- for collection in predictive_search.resources.collections -%}
+            <li
+              id="predictive-search-option-collection-{{ forloop.index }}"
+              class="predictive-search__list-item"
+              role="option"
+              aria-selected="false"
+            >
+              <a href="{{ collection.url }}" class="predictive-search__item link link--text" tabindex="-1">
+                <div class="predictive-search__item-content predictive-search__item-content--centered">
+                  <p class="predictive-search__item-heading h5">{{ collection.title | escape }}</p>
+                </div>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+    {%- if predictive_search.resources.articles.size > 0 or predictive_search.resources.pages.size > 0 -%}
+      <div class="predictive-search__pages-wrapper">
+        <h2
+          id="predictive-search-pages-desktop"
+          class="predictive-search__heading text-body caption-with-letter-spacing"
+        >
+          {{- 'templates.search.pages' | t -}}
+        </h2>
+        <ul
+          id="predictive-search-results-pages-list-desktop"
+          class="predictive-search__results-list list-unstyled"
+          role="group"
+          aria-labelledby="predictive-search-pages-desktop"
+        >
+          {%- for page in predictive_search.resources.pages -%}
+            <li
+              id="predictive-search-option-page-desktop-{{ forloop.index }}"
+              class="predictive-search__list-item"
+              role="option"
+              aria-selected="false"
+            >
+              <a href="{{ page.url }}" class="predictive-search__item link link--text" tabindex="-1">
+                <div class="predictive-search__item-content predictive-search__item-content--centered">
+                  <p class="predictive-search__item-heading h5">{{ page.title | escape }}</p>
+                </div>
+              </a>
+            </li>
+          {%- endfor -%}
+          {%- for article in predictive_search.resources.articles -%}
+            <li
+              id="predictive-search-option-article-desktop-{{ forloop.index }}"
+              class="predictive-search__list-item"
+              role="option"
+              aria-selected="false"
+            >
+              <a href="{{ article.url }}" class="predictive-search__item link link--text" tabindex="-1">
+                <div class="predictive-search__item-content predictive-search__item-content--centered">
+                  <p class="predictive-search__item-heading h5">{{ article.title | escape }}</p>
+                </div>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+    {%- if first_column_results_size > 0 -%}
+      </div>
+    {%- endif -%}
+    {%- if predictive_search.resources.products.size > 0
+      or predictive_search.resources.articles.size > 0
+      or predictive_search.resources.pages.size > 0
+    -%}
+      <div class="predictive-search__result-group">
+        {%- if predictive_search.resources.products.size > 0 -%}
+          <div>
+            <h2
+              id="predictive-search-products"
+              class="predictive-search__heading text-body caption-with-letter-spacing"
+            >
+              {{- 'templates.search.products' | t -}}
+            </h2>
+            <ul
+              id="predictive-search-results-products-list"
+              class="predictive-search__results-list list-unstyled"
+              role="group"
+              aria-labelledby="predictive-search-products"
+            >
+              {%- for product in predictive_search.resources.products -%}
+                {%- assign matching_variant = null -%}
+                {%- assign matching_variant_name = '' -%}
+                {%- assign search_lower = predictive_search.terms | downcase | strip -%}
+                {%- if search_lower != blank -%}
+                  {%- assign search_words = search_lower | split: ' ' -%}
+                  {%- for variant in product.variants -%}
+                    {%- assign variant_title_lower = variant.title | downcase -%}
+                    {%- assign variant_name_lower = variant.name | downcase -%}
+                    {%- assign variant_full_text = variant_title_lower | append: ' ' | append: variant_name_lower -%}
+                    {%- if variant.option1 -%}
+                      {%- assign variant_full_text = variant_full_text | append: ' ' | append: variant.option1 | downcase -%}
+                    {%- endif -%}
+                    {%- if variant.option2 -%}
+                      {%- assign variant_full_text = variant_full_text | append: ' ' | append: variant.option2 | downcase -%}
+                    {%- endif -%}
+                    {%- if variant.option3 -%}
+                      {%- assign variant_full_text = variant_full_text | append: ' ' | append: variant.option3 | downcase -%}
+                    {%- endif -%}
+                    {%- for search_word in search_words -%}
+                      {%- assign search_word_stripped = search_word | strip -%}
+                      {%- if search_word_stripped != blank -%}
+                        {%- if variant_full_text contains search_word_stripped -%}
+                          {%- assign matching_variant = variant -%}
+                          {%- comment -%} Find which option matched to show the variant name {%- endcomment -%}
+                          {%- if variant.option1 -%}
+                            {%- assign option1_lower = variant.option1 | downcase -%}
+                            {%- if option1_lower contains search_word_stripped -%}
+                              {%- assign matching_variant_name = variant.option1 -%}
+                            {%- endif -%}
+                          {%- endif -%}
+                          {%- if matching_variant_name == blank and variant.option2 -%}
+                            {%- assign option2_lower = variant.option2 | downcase -%}
+                            {%- if option2_lower contains search_word_stripped -%}
+                              {%- assign matching_variant_name = variant.option2 -%}
+                            {%- endif -%}
+                          {%- endif -%}
+                          {%- if matching_variant_name == blank and variant.option3 -%}
+                            {%- assign option3_lower = variant.option3 | downcase -%}
+                            {%- if option3_lower contains search_word_stripped -%}
+                              {%- assign matching_variant_name = variant.option3 -%}
+                            {%- endif -%}
+                          {%- endif -%}
+                          {%- if matching_variant_name == blank -%}
+                            {%- assign matching_variant_name = variant.title -%}
+                          {%- endif -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- if matching_variant -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+                <li
+                  id="predictive-search-option-product-{{ forloop.index }}"
+                  class="predictive-search__list-item"
+                  role="option"
+                  aria-selected="false"
+                >
+                  <a
+                    href="{{ product.url }}{% if matching_variant %}?variant={{ matching_variant.id }}{% endif %}"
+                    class="predictive-search__item predictive-search__item--link-with-thumbnail link link--text"
+                    tabindex="-1"
+                  >
+                    {%- if product.featured_media != blank -%}
+                      <img
+                        class="predictive-search__image"
+                        src="{{ product.featured_media | image_url: width: 150 }}"
+                        alt="{{ product.featured_media.alt | escape }}"
+                        width="50"
+                        height="{{ 50 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+                      >
+                    {%- endif -%}
+                    <div class="predictive-search__item-content{% unless settings.predictive_search_show_vendor or settings.predictive_search_show_price %} predictive-search__item-content--centered{% endunless %}">
+                      {%- if settings.predictive_search_show_vendor -%}
+                        <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+                        <div class="predictive-search__item-vendor caption-with-letter-spacing">
+                          {{ product.vendor }}
+                        </div>
+                      {%- endif -%}
+                      <p class="predictive-search__item-heading h5">
+                        {{ product.title | escape }}{% if matching_variant_name != blank %} - {{ matching_variant_name | escape }}{% endif %}
+                      </p>
+                      {%- if settings.predictive_search_show_price -%}
+                        {% render 'price', product: product, use_variant: true, show_badges: false %}
+                      {%- endif -%}
+                    </div>
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+        {%- if predictive_search.resources.articles.size > 0 or predictive_search.resources.pages.size > 0 -%}
+          <div class="predictive-search__pages-wrapper">
+            <h2
+              id="predictive-search-pages-mobile"
+              class="predictive-search__heading text-body caption-with-letter-spacing"
+            >
+              {{- 'templates.search.pages' | t -}}
+            </h2>
+            <ul
+              id="predictive-search-results-pages-list-mobile"
+              class="predictive-search__results-list list-unstyled"
+              role="group"
+              aria-labelledby="predictive-search-pages-mobile"
+            >
+              {%- for page in predictive_search.resources.pages -%}
+                <li
+                  id="predictive-search-option-page-mobile-{{ forloop.index }}"
+                  class="predictive-search__list-item"
+                  role="option"
+                  aria-selected="false"
+                >
+                  <a href="{{ page.url }}" class="predictive-search__item link link--text" tabindex="-1">
+                    <div class="predictive-search__item-content predictive-search__item-content--centered">
+                      <p class="predictive-search__item-heading h5">{{ page.title | escape }}</p>
+                    </div>
+                  </a>
+                </li>
+              {%- endfor -%}
+              {%- for article in predictive_search.resources.articles -%}
+                <li
+                  id="predictive-search-option-article-mobile-{{ forloop.index }}"
+                  class="predictive-search__list-item"
+                  role="option"
+                  aria-selected="false"
+                >
+                  <a href="{{ article.url }}" class="predictive-search__item link link--text" tabindex="-1">
+                    <div class="predictive-search__item-content predictive-search__item-content--centered">
+                      <p class="predictive-search__item-heading h5">{{ article.title | escape }}</p>
+                    </div>
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if first_column_results_size > 0 or predictive_search.resources.products.size > 0 -%}
+      </div>
+    {%- endif -%}
+<!-- Enhanced Description Search Results -->
+  <!-- Enhanced Description Search Results -->
+    {%- assign description_products = '' -%}
+    {%- assign found_in_description = false -%}
+    {%- assign search_lower = predictive_search.terms | downcase -%}
+
+    {%- paginate collections.all.products by 1000 -%}
+      {%- for product in collections.all.products -%}
+        {%- assign desc_lower = product.description | downcase -%}
+        {%- if desc_lower contains search_lower -%}
+          {%- assign found_in_description = true -%}
+          {%- assign description_products = description_products | append: product.handle | append: '|' -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endpaginate -%}
+
+    {%- if found_in_description -%}
+      {%- assign desc_product_handles = description_products | split: '|' | compact -%}
+      {%- assign existing_handles = '' -%}
+
+      {%- for existing_product in predictive_search.resources.products -%}
+        {%- assign existing_handles = existing_handles | append: existing_product.handle | append: '|' -%}
+      {%- endfor -%}
+
+      {%- assign filtered_products = '' -%}
+      {%- for handle in desc_product_handles -%}
+        {%- unless existing_handles contains handle -%}
+          {%- assign filtered_products = filtered_products | append: handle | append: '|' -%}
+        {%- endunless -%}
+      {%- endfor -%}
+
+      {%- assign final_products = filtered_products | split: '|' | compact -%}
+      {%- if final_products.size > 0 -%}
+        <div class="predictive-search__result-group">
+          <h2 class="predictive-search__heading text-body caption-with-letter-spacing">
+            Found in descriptions:
+          </h2>
+          <ul class="predictive-search__results-list list-unstyled" role="group">
+            {%- for handle in final_products limit: 3 -%}
+              {%- assign product = all_products[handle] -%}
+              {%- if product -%}
+                {%- assign matching_variant = null -%}
+                {%- assign matching_variant_name = '' -%}
+                {%- assign search_lower = predictive_search.terms | downcase | strip -%}
+                {%- if search_lower != blank -%}
+                  {%- assign search_words = search_lower | split: ' ' -%}
+                  {%- for variant in product.variants -%}
+                    {%- assign variant_title_lower = variant.title | downcase -%}
+                    {%- assign variant_name_lower = variant.name | downcase -%}
+                    {%- assign variant_full_text = variant_title_lower | append: ' ' | append: variant_name_lower -%}
+                    {%- if variant.option1 -%}
+                      {%- assign variant_full_text = variant_full_text | append: ' ' | append: variant.option1 | downcase -%}
+                    {%- endif -%}
+                    {%- if variant.option2 -%}
+                      {%- assign variant_full_text = variant_full_text | append: ' ' | append: variant.option2 | downcase -%}
+                    {%- endif -%}
+                    {%- if variant.option3 -%}
+                      {%- assign variant_full_text = variant_full_text | append: ' ' | append: variant.option3 | downcase -%}
+                    {%- endif -%}
+                    {%- for search_word in search_words -%}
+                      {%- assign search_word_stripped = search_word | strip -%}
+                      {%- if search_word_stripped != blank -%}
+                        {%- if variant_full_text contains search_word_stripped -%}
+                          {%- assign matching_variant = variant -%}
+                          {%- comment -%} Find which option matched to show the variant name {%- endcomment -%}
+                          {%- if variant.option1 -%}
+                            {%- assign option1_lower = variant.option1 | downcase -%}
+                            {%- if option1_lower contains search_word_stripped -%}
+                              {%- assign matching_variant_name = variant.option1 -%}
+                            {%- endif -%}
+                          {%- endif -%}
+                          {%- if matching_variant_name == blank and variant.option2 -%}
+                            {%- assign option2_lower = variant.option2 | downcase -%}
+                            {%- if option2_lower contains search_word_stripped -%}
+                              {%- assign matching_variant_name = variant.option2 -%}
+                            {%- endif -%}
+                          {%- endif -%}
+                          {%- if matching_variant_name == blank and variant.option3 -%}
+                            {%- assign option3_lower = variant.option3 | downcase -%}
+                            {%- if option3_lower contains search_word_stripped -%}
+                              {%- assign matching_variant_name = variant.option3 -%}
+                            {%- endif -%}
+                          {%- endif -%}
+                          {%- if matching_variant_name == blank -%}
+                            {%- assign matching_variant_name = variant.title -%}
+                          {%- endif -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- if matching_variant -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+                <li
+                  id="predictive-search-option-description-{{ forloop.index }}"
+                  class="predictive-search__list-item"
+                  role="option"
+                  aria-selected="false"
+                >
+                  <a href="{{ product.url }}{% if matching_variant %}?variant={{ matching_variant.id }}{% endif %}" class="predictive-search__item predictive-search__item--link-with-thumbnail link link--text" tabindex="-1">
+                    {%- if product.featured_media != blank -%}
+                      <img
+                        class="predictive-search__image"
+                        src="{{ product.featured_media | image_url: width: 150 }}"
+                        alt="{{ product.featured_media.alt | escape }}"
+                        width="50"
+                        height="{{ 50 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+                      >
+                    {%- endif -%}
+                    <div class="predictive-search__item-content predictive-search__item-content--centered">
+                      <p class="predictive-search__item-heading h5">
+                        {{ product.title | escape }}{% if matching_variant_name != blank %} - {{ matching_variant_name | escape }}{% endif %}
+                      </p>
+                      <p class="predictive-search__item-subheading caption">
+                        {%- assign desc_snippet = product.description | strip_html | truncate: 50 -%}
+                        {{ desc_snippet }}
+                      </p>
+                    </div>
+                  </a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+    {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+
+    <div id="predictive-search-option-search-keywords" class="predictive-search__search-for-button">
+      <button
+        class="predictive-search__item predictive-search__item--term link link--text h5 animate-arrow"
+        tabindex="-1"
+        role="option"
+        aria-selected="false"
+      >
+        <span data-predictive-search-search-for-text>
+          {{- 'templates.search.search_for' | t: terms: predictive_search.terms -}}
+        </span>
+        <span class="svg-wrapper">
+          {{- 'icon-arrow.svg' | inline_asset_content -}}
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <span class="hidden" data-predictive-search-live-region-count-value>
+    {% liquid
+      assign total_results = predictive_search.resources.products.size | plus: first_column_results_size
+      if total_results == 0
+        echo 'templates.search.no_results' | t: terms: predictive_search.terms
+      else
+        echo 'templates.search.results_with_count' | t: count: total_results | append: ': '
+        if predictive_search.resources.queries.size > 0
+          assign count = predictive_search.resources.queries.size | plus: predictive_search.resources.collections.size
+          echo 'templates.search.results_suggestions_with_count' | t: count: count | append: ', '
+        endif
+        if predictive_search.resources.pages.size > 0
+          assign count = predictive_search.resources.pages.size | plus: predictive_search.resources.articles.size
+          echo 'templates.search.results_pages_with_count' | t: count: count | append: ', '
+        endif
+        if predictive_search.resources.products.size > 0
+          echo 'templates.search.results_products_with_count' | t: count: predictive_search.resources.products.size
+        endif
+      endif
+    %}
+  </span>
+{%- endif -%}
