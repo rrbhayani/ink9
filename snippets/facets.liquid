@@ -1049,12 +1049,16 @@
   }
 
   function openDrop(wrap) {
+    if (wrap._closeTimer) { clearTimeout(wrap._closeTimer); wrap._closeTimer = null; }
     wrap.querySelector('.custom-select-trigger').setAttribute('aria-expanded', 'true');
     wrap.querySelector('.custom-select-list').classList.add('is-open');
   }
   function closeDrop(wrap) {
     wrap.querySelector('.custom-select-trigger').setAttribute('aria-expanded', 'false');
     wrap.querySelector('.custom-select-list').classList.remove('is-open');
+  }
+  function scheduledClose(wrap) {
+    wrap._closeTimer = setTimeout(function () { closeDrop(wrap); }, 120);
   }
   function isOpen(wrap) {
     var list = wrap.querySelector('.custom-select-list');
@@ -1086,14 +1090,14 @@
     });
   });
 
-  // Hover: open on mouseenter, close on mouseleave
+  // Hover: open immediately, close with a short delay so mouse can reach the list
   document.addEventListener('mouseover', function (e) {
     var wrap = e.target.closest('.custom-select-wrap[data-open-type="hover"]');
-    if (wrap && !isOpen(wrap)) openDrop(wrap);
+    if (wrap) openDrop(wrap); // openDrop cancels any pending close timer
   });
   document.addEventListener('mouseout', function (e) {
     var wrap = e.target.closest('.custom-select-wrap[data-open-type="hover"]');
-    if (wrap && !wrap.contains(e.relatedTarget)) closeDrop(wrap);
+    if (wrap && !wrap.contains(e.relatedTarget)) scheduledClose(wrap);
   });
 
   function selectOption(wrap, option) {

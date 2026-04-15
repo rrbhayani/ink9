@@ -1399,7 +1399,7 @@ input.mobile-facets__checkbox {
 .custom-select-list {
   display: none;
   position: absolute;
-  top: calc(100% + 0.5rem);
+  top: 100%;          /* no gap — gap is handled by padding-top so mouse stays inside wrap */
   left: 0;
   min-width: 100%;
   background: rgb(var(--color-background));
@@ -1409,7 +1409,7 @@ input.mobile-facets__checkbox {
   z-index: 300;
   list-style: none;
   margin: 0;
-  padding: 0.4rem 0;
+  padding: 0.6rem 0 0.4rem; /* top padding creates visual separation without a DOM gap */
   overflow: hidden;
 }
 
