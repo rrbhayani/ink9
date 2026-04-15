@@ -78,6 +78,9 @@
 
 /* custom css start: Ravi Bhayani */
 /* Fix product description tables */
+.collection-hero.color-scheme-14eab090-83a7-400b-9c1f-c01d5308cb90 {
+  display: none;
+}
 .product__description table,
 .rte table {
   width: 100%;

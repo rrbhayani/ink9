@@ -36,6 +36,26 @@ class HeaderMenu extends DetailsDisclosure {
   constructor() {
     super();
     this.header = document.querySelector('.header-wrapper');
+
+    // On desktop: open/close on hover instead of click
+    this.addEventListener('mouseenter', this.openOnHover.bind(this));
+    this.addEventListener('mouseleave', this.closeOnHover.bind(this));
+
+    // Prevent click from toggling the dropdown on desktop (hover handles it)
+    this.mainDetailsToggle.querySelector('summary').addEventListener('click', (event) => {
+      if (window.innerWidth >= 990) event.preventDefault();
+    });
+  }
+
+  openOnHover() {
+    if (window.innerWidth < 990) return;
+    this.mainDetailsToggle.setAttribute('open', '');
+    this.mainDetailsToggle.querySelector('summary').setAttribute('aria-expanded', 'true');
+  }
+
+  closeOnHover() {
+    if (window.innerWidth < 990) return;
+    this.close();
   }
 
   onToggle() {

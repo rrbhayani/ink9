@@ -34,6 +34,7 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
 {%- endstyle -%}
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
@@ -195,6 +196,7 @@
   {%- endif -%}
 </div>
 
+
 {% schema %}
 {
   "name": "t:sections.main-collection-product-grid.name",
@@ -204,10 +206,11 @@
       "type": "range",
       "id": "products_per_page",
       "min": 8,
-      "max": 36,
+      "max": 72,
       "step": 4,
       "default": 16,
-      "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+      "label": "t:sections.main-collection-product-grid.settings.products_per_page.label",
+      "info": "Default products per page (users can change via Display dropdown)"
     },
     {
       "type": "range",
@@ -380,6 +383,74 @@
       "id": "enable_sorting",
       "default": true,
       "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_display",
+      "default": true,
+      "label": "Enable display per page dropdown",
+      "info": "Shows a 'Display' dropdown beside Sort by so customers can choose how many products appear per page"
+    },
+    {
+      "type": "select",
+      "id": "dropdown_open_type",
+      "label": "Dropdown open behaviour",
+      "options": [
+        { "value": "hover", "label": "Open on hover" },
+        { "value": "click", "label": "Open on click" }
+      ],
+      "default": "hover",
+      "info": "Controls both the Sort by and Display dropdowns"
+    },
+    {
+      "type": "header",
+      "content": "Display per page options"
+    },
+    {
+      "type": "paragraph",
+      "content": "Tick each value you want customers to be able to select. At least one should be enabled."
+    },
+    {
+      "type": "checkbox",
+      "id": "display_option_8",
+      "default": false,
+      "label": "Show '8 per page' option"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_option_16",
+      "default": true,
+      "label": "Show '16 per page' option"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_option_24",
+      "default": true,
+      "label": "Show '24 per page' option"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_option_32",
+      "default": false,
+      "label": "Show '32 per page' option"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_option_48",
+      "default": true,
+      "label": "Show '48 per page' option"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_option_64",
+      "default": false,
+      "label": "Show '64 per page' option"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_option_72",
+      "default": true,
+      "label": "Show '72 per page' option"
     },
     {
       "type": "header",

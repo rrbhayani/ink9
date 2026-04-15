@@ -417,6 +417,8 @@
               </div>
             </div>
           {%- endif -%}
+
+
           <div class="product-count light" role="status">
             <h2 class="product-count__text text-body">
               <span id="ProductCountDesktop">
@@ -752,6 +754,45 @@
                 </div>
               {%- endif -%}
 
+              {%- if section.settings.enable_display -%}
+                <div class="mobile-facets__details js-filter{% if filter_type == 'drawer' %} medium-hide large-up-hide{% endif %}">
+                  <div class="mobile-facets__summary">
+                    <div class="mobile-facets__sort">
+                      {%- assign current_per_page = section.settings.products_per_page -%}
+                      <label for="PerPageSelect-mobile">Display:</label>
+                      <div class="select">
+                        <select class="select__select" id="PerPageSelect-mobile" aria-label="Products per page">
+                          {%- if section.settings.display_option_8 -%}
+                            <option value="8"{% if current_per_page == 8 %} selected="selected"{% endif %}>8 per page</option>
+                          {%- endif -%}
+                          {%- if section.settings.display_option_16 -%}
+                            <option value="16"{% if current_per_page == 16 %} selected="selected"{% endif %}>16 per page</option>
+                          {%- endif -%}
+                          {%- if section.settings.display_option_24 -%}
+                            <option value="24"{% if current_per_page == 24 %} selected="selected"{% endif %}>24 per page</option>
+                          {%- endif -%}
+                          {%- if section.settings.display_option_32 -%}
+                            <option value="32"{% if current_per_page == 32 %} selected="selected"{% endif %}>32 per page</option>
+                          {%- endif -%}
+                          {%- if section.settings.display_option_48 -%}
+                            <option value="48"{% if current_per_page == 48 %} selected="selected"{% endif %}>48 per page</option>
+                          {%- endif -%}
+                          {%- if section.settings.display_option_64 -%}
+                            <option value="64"{% if current_per_page == 64 %} selected="selected"{% endif %}>64 per page</option>
+                          {%- endif -%}
+                          {%- if section.settings.display_option_72 -%}
+                            <option value="72"{% if current_per_page == 72 %} selected="selected"{% endif %}>72 per page</option>
+                          {%- endif -%}
+                        </select>
+                        <span class="svg-wrapper">
+                          {{- 'icon-caret.svg' | inline_asset_content -}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+
               <div class="mobile-facets__footer">
                 <facet-remove class="mobile-facets__clear-wrapper">
                   <a href="{{ results_url }}" class="mobile-facets__clear underlined-link">
@@ -824,35 +865,40 @@
   </div>
   {% comment %} Sort, product count and filter pills at the end when filter is type of Drawer for the correct tabbing order {% endcomment %}
   {%- if enable_sorting and filter_type == 'drawer' -%}
+    {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
+    {%- assign current_sort_label = '' -%}
+    {%- for option in results.sort_options -%}
+      {%- if option.value == sort_by -%}{%- assign current_sort_label = option.name -%}{%- endif -%}
+    {%- endfor -%}
     <facet-filters-form class="facets small-hide">
       <form id="FacetSortDrawerForm" class="facets__form">
         <div class="facet-filters sorting caption small-hide">
           <div class="facet-filters__field">
             <h2 class="facet-filters__label caption-large text-body">
-              <label for="SortBy">{{ 'products.facets.sort_by_label' | t }}</label>
+              <label>{{ 'products.facets.sort_by_label' | t }}</label>
             </h2>
-            <div class="select">
-              {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
-              <select
-                name="sort_by"
-                class="facet-filters__sort select__select caption-large"
-                id="SortBy"
-                aria-describedby="a11y-refresh-page-message"
-              >
+            <div class="custom-select-wrap" data-open-type="{{ section.settings.dropdown_open_type | default: 'click' }}">
+              <button type="button" class="custom-select-trigger" aria-haspopup="listbox" aria-expanded="false">
+                <span class="custom-select-current">{{ current_sort_label }}</span>
+                <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+              </button>
+              <ul class="custom-select-list" role="listbox">
                 {%- for option in results.sort_options -%}
-                  <option
-                    value="{{ option.value | escape }}"
-                    {% if option.value == sort_by %}
-                      selected="selected"
-                    {% endif %}
-                  >
+                  {%- if option.value == sort_by -%}
+                    <li class="custom-select-option is-selected" role="option" aria-selected="true" data-value="{{ option.value | escape }}">{{ option.name | escape }}</li>
+                  {%- else -%}
+                    <li class="custom-select-option" role="option" aria-selected="false" data-value="{{ option.value | escape }}">{{ option.name | escape }}</li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+              <select name="sort_by" id="SortBy" aria-hidden="true" tabindex="-1"
+                      aria-describedby="a11y-refresh-page-message" style="display:none">
+                {%- for option in results.sort_options -%}
+                  <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected="selected"{% endif %}>
                     {{ option.name | escape }}
                   </option>
                 {%- endfor -%}
               </select>
-              <span class="svg-wrapper">
-                {{- 'icon-caret.svg' | inline_asset_content -}}
-              </span>
             </div>
           </div>
         </div>
@@ -868,6 +914,54 @@
       </form>
     </facet-filters-form>
   {%- endif -%}
+
+  {%- if filter_type == 'drawer' and section.settings.enable_display -%}
+    {%- assign current_per_page = section.settings.products_per_page -%}
+    <div class="facet-filters sorting caption small-hide">
+      <div class="facet-filters__field">
+        <h2 class="facet-filters__label caption-large text-body">
+          <label>Display:</label>
+        </h2>
+        <div class="custom-select-wrap" data-open-type="{{ section.settings.dropdown_open_type | default: 'click' }}" data-display-select>
+          <button type="button" class="custom-select-trigger" aria-haspopup="listbox" aria-expanded="false">
+            <span class="custom-select-current">{{ current_per_page }} per page</span>
+            <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+          </button>
+          <ul class="custom-select-list" role="listbox">
+            {%- if section.settings.display_option_8 -%}
+              {%- if current_per_page == 8 -%}<li class="custom-select-option is-selected" role="option" aria-selected="true" data-value="8">8 per page</li>
+              {%- else -%}<li class="custom-select-option" role="option" aria-selected="false" data-value="8">8 per page</li>{%- endif -%}
+            {%- endif -%}
+            {%- if section.settings.display_option_16 -%}
+              {%- if current_per_page == 16 -%}<li class="custom-select-option is-selected" role="option" aria-selected="true" data-value="16">16 per page</li>
+              {%- else -%}<li class="custom-select-option" role="option" aria-selected="false" data-value="16">16 per page</li>{%- endif -%}
+            {%- endif -%}
+            {%- if section.settings.display_option_24 -%}
+              {%- if current_per_page == 24 -%}<li class="custom-select-option is-selected" role="option" aria-selected="true" data-value="24">24 per page</li>
+              {%- else -%}<li class="custom-select-option" role="option" aria-selected="false" data-value="24">24 per page</li>{%- endif -%}
+            {%- endif -%}
+            {%- if section.settings.display_option_32 -%}
+              {%- if current_per_page == 32 -%}<li class="custom-select-option is-selected" role="option" aria-selected="true" data-value="32">32 per page</li>
+              {%- else -%}<li class="custom-select-option" role="option" aria-selected="false" data-value="32">32 per page</li>{%- endif -%}
+            {%- endif -%}
+            {%- if section.settings.display_option_48 -%}
+              {%- if current_per_page == 48 -%}<li class="custom-select-option is-selected" role="option" aria-selected="true" data-value="48">48 per page</li>
+              {%- else -%}<li class="custom-select-option" role="option" aria-selected="false" data-value="48">48 per page</li>{%- endif -%}
+            {%- endif -%}
+            {%- if section.settings.display_option_64 -%}
+              {%- if current_per_page == 64 -%}<li class="custom-select-option is-selected" role="option" aria-selected="true" data-value="64">64 per page</li>
+              {%- else -%}<li class="custom-select-option" role="option" aria-selected="false" data-value="64">64 per page</li>{%- endif -%}
+            {%- endif -%}
+            {%- if section.settings.display_option_72 -%}
+              {%- if current_per_page == 72 -%}<li class="custom-select-option is-selected" role="option" aria-selected="true" data-value="72">72 per page</li>
+              {%- else -%}<li class="custom-select-option" role="option" aria-selected="false" data-value="72">72 per page</li>{%- endif -%}
+            {%- endif -%}
+          </ul>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
   <div
     class="product-count light{% if filter_type == 'vertical' or filter_type == 'horizontal' %} medium-hide large-up-hide{% endif %}"
     role="status"
@@ -935,3 +1029,97 @@
     </facet-filters-form>
   {%- endif -%}
 </div>
+
+<script>
+(function () {
+  // Shared navigation for both desktop custom dropdown and mobile native select
+  function navigateToView(value) {
+    var params = new URLSearchParams(window.location.search);
+    if (value === '16') { params.delete('view'); } else { params.set('view', value); }
+    params.delete('page');
+    window.location.href = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+  }
+
+  // Mobile native select handler
+  var mobileSelect = document.getElementById('PerPageSelect-mobile');
+  if (mobileSelect) {
+    mobileSelect.addEventListener('change', function () {
+      navigateToView(this.value);
+    });
+  }
+
+  function openDrop(wrap) {
+    wrap.querySelector('.custom-select-trigger').setAttribute('aria-expanded', 'true');
+    wrap.querySelector('.custom-select-list').classList.add('is-open');
+  }
+  function closeDrop(wrap) {
+    wrap.querySelector('.custom-select-trigger').setAttribute('aria-expanded', 'false');
+    wrap.querySelector('.custom-select-list').classList.remove('is-open');
+  }
+  function isOpen(wrap) {
+    var list = wrap.querySelector('.custom-select-list');
+    return list && list.classList.contains('is-open');
+  }
+
+  // Click: toggle on trigger click, close on outside click
+  document.addEventListener('click', function (e) {
+    var trigger = e.target.closest('.custom-select-trigger');
+    var option  = e.target.closest('.custom-select-option');
+
+    if (trigger) {
+      var wrap = trigger.closest('.custom-select-wrap');
+      if (wrap && wrap.dataset.openType !== 'hover') {
+        isOpen(wrap) ? closeDrop(wrap) : openDrop(wrap);
+      }
+      return;
+    }
+
+    if (option) {
+      var wrap = option.closest('.custom-select-wrap');
+      if (wrap) selectOption(wrap, option);
+      return;
+    }
+
+    // Click outside — close all
+    document.querySelectorAll('.custom-select-list.is-open').forEach(function (list) {
+      closeDrop(list.closest('.custom-select-wrap'));
+    });
+  });
+
+  // Hover: open on mouseenter, close on mouseleave
+  document.addEventListener('mouseover', function (e) {
+    var wrap = e.target.closest('.custom-select-wrap[data-open-type="hover"]');
+    if (wrap && !isOpen(wrap)) openDrop(wrap);
+  });
+  document.addEventListener('mouseout', function (e) {
+    var wrap = e.target.closest('.custom-select-wrap[data-open-type="hover"]');
+    if (wrap && !wrap.contains(e.relatedTarget)) closeDrop(wrap);
+  });
+
+  function selectOption(wrap, option) {
+    var value = option.dataset.value;
+
+    // Update selected state
+    wrap.querySelectorAll('.custom-select-option').forEach(function (o) {
+      o.classList.toggle('is-selected', o === option);
+      o.setAttribute('aria-selected', o === option ? 'true' : 'false');
+    });
+    // Update trigger label
+    var current = wrap.querySelector('.custom-select-current');
+    if (current) current.textContent = option.textContent.trim();
+
+    closeDrop(wrap);
+
+    if (wrap.hasAttribute('data-display-select')) {
+      navigateToView(value);
+    } else {
+      // Update hidden native select → triggers FacetFiltersForm AJAX
+      var select = wrap.querySelector('select');
+      if (select) {
+        select.value = value;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+  }
+})();
+</script>

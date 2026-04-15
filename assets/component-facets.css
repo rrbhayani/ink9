@@ -1223,7 +1223,7 @@ input.mobile-facets__checkbox {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-    column-gap: 0;
+    column-gap: 1rem;
   }
 
   .facets-container-drawer .mobile-facets__wrapper {
@@ -1254,4 +1254,192 @@ input.mobile-facets__checkbox {
   .facets-vertical .active-facets__button-remove {
     padding: 0 1rem 1rem;
   }
+}
+
+/* ============================================================
+   Improved Sort by & Display dropdown styling (drawer toolbar)
+   ============================================================ */
+
+/* Remove default left padding from the outer sorting wrapper in the drawer toolbar */
+.facets-container-drawer .facet-filters.sorting {
+  padding-left: 0;
+  align-items: center;
+}
+
+/* Wrapper pill around label + select */
+.facets-container-drawer .facet-filters.sorting .facet-filters__field {
+  display: inline-flex;
+  align-items: center;
+  border: 0.15rem solid rgba(var(--color-foreground), 0.18);
+  border-radius: 0.6rem;
+  background: rgb(var(--color-background));
+  padding: 0;
+  overflow: visible;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  gap: 0;
+}
+
+.facets-container-drawer .facet-filters.sorting .facet-filters__field:hover {
+  border-color: rgba(var(--color-foreground), 0.4);
+  box-shadow: 0 0.2rem 0.8rem rgba(var(--color-foreground), 0.07);
+}
+
+/* Label section (left side of pill) */
+.facets-container-drawer .facet-filters.sorting .facet-filters__label {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0.7rem 1rem 0.7rem 1.2rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: rgba(var(--color-foreground), 0.55);
+  white-space: nowrap;
+  background: rgba(var(--color-foreground), 0.035);
+  border-right: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+/* Focus ring on the pill when trigger is focused */
+.facets-container-drawer .facet-filters.sorting .facet-filters__field:focus-within {
+  border-color: rgba(var(--color-foreground), 0.55);
+  box-shadow: 0 0 0 0.3rem rgba(var(--color-foreground), 0.08);
+}
+
+/* Select wrapper sizing */
+.facets-container-drawer .facet-filters.sorting .select {
+  width: auto;
+}
+
+/* Product count — align it nicely with the pills */
+.facets-container-drawer .product-count {
+  margin-left: 1.5rem;
+}
+
+.facets-container-drawer .product-count .product-count__text {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: rgba(var(--color-foreground), 0.6);
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Custom dropdown (replaces native <select> for hover support)
+   ============================================================ */
+
+.custom-select-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* ---- Trigger button ---- */
+/* Hard reset against Dawn's button tag styles */
+.custom-select-trigger {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.8rem !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0.75rem 1.2rem !important;
+  margin: 0 !important;
+  font-family: var(--font-body-family) !important;
+  font-size: 1.3rem !important;
+  font-weight: 600 !important;
+  color: rgb(var(--color-foreground)) !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  line-height: 1.2 !important;
+  box-shadow: none !important;
+  min-height: unset !important;
+  min-width: unset !important;
+  width: 100% !important;
+  text-align: left !important;
+  position: static !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  outline: none;
+}
+
+.custom-select-trigger:hover,
+.custom-select-trigger:focus {
+  color: rgb(var(--color-foreground)) !important;
+  box-shadow: none !important;
+  filter: none !important;
+  background: transparent !important;
+}
+
+/* Caret — plain flex child, no absolute positioning needed */
+.custom-select-trigger .svg-wrapper {
+  display: inline-flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+  position: static !important;
+  transform: none !important;
+  color: rgba(var(--color-foreground), 0.5) !important;
+  transition: transform 0.2s ease !important;
+  pointer-events: none;
+  width: 1rem;
+  height: 1rem;
+}
+
+.custom-select-trigger .svg-wrapper .icon-caret {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.custom-select-trigger[aria-expanded="true"] .svg-wrapper {
+  transform: rotate(180deg) !important;
+}
+
+/* ---- Dropdown list ---- */
+.custom-select-list {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  min-width: 100%;
+  background: rgb(var(--color-background));
+  border: 0.1rem solid rgba(var(--color-foreground), 0.18);
+  border-radius: 0.6rem;
+  box-shadow: 0 0.6rem 2rem rgba(var(--color-foreground), 0.12);
+  z-index: 300;
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0;
+  overflow: hidden;
+}
+
+.custom-select-list.is-open {
+  display: block;
+}
+
+/* ---- Individual options ---- */
+.custom-select-option {
+  padding: 0.85rem 1.6rem;
+  font-size: 1.3rem;
+  font-family: var(--font-body-family);
+  color: rgb(var(--color-foreground));
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s ease;
+  list-style: none;
+  line-height: 1.4;
+}
+
+.custom-select-option:hover {
+  background: rgba(var(--color-foreground), 0.06);
+}
+
+.custom-select-option.is-selected {
+  font-weight: 700;
+  background: rgba(var(--color-foreground), 0.08);
+}
+
+.custom-select-option.is-selected::before {
+  content: '✓  ';
+  font-size: 1rem;
 }

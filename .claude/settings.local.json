@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l /d/ink9/ink9live/sections/*.liquid)",
+      "Bash(grep -r \"class\\\\|function\" /d/ink9/ink9live/assets/*.js)",
+      "Bash(ls /d/ink9/ink9live/assets/*.js)",
+      "Bash(ls /d/ink9/ink9live/assets/*.css)",
+      "Bash(ls /d/ink9/ink9live/assets/*.svg)",
+      "Bash(ls /d/ink9/ink9live/templates/*.json)",
+      "Bash(ls /d/ink9/ink9live/locales/*.json)",
+      "Bash(git checkout:*)"
+    ]
+  }
+}
